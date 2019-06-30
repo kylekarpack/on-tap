@@ -1,6 +1,7 @@
-import Flatstick from "./src/connectors/flatstick";
+//import Flatstick from "./src/connectors/flatstick";
+import ConnectorBase from "./src/connector-base";
 
-const test = new Flatstick();
+const test = new ConnectorBase();
 
 (async function() {
 
