@@ -1,0 +1,9 @@
+{
+  "name": "on-tap",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/kylekarpack/on-tap.git",
+  "author": "Kyle Karpack <kylekarpack@gmail.com>",
+  "license": "MIT",
+  "private": false
+}
