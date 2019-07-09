@@ -1,10 +1,10 @@
-import { xray } from "x-ray";
-//import Beer from "./models/Beer";
+import xray from "x-ray";
+import Beer from "./models/Beer";
 
 export default class ConnectorBase {
 
 	constructor() {
-		this.xray = new xray();
+		this.xray = xray();
 	}
 
 	async read() {
@@ -18,11 +18,9 @@ export default class ConnectorBase {
 
 	async execute() {
 		const pageData = await this.read();
-		return this.process(pageData);
-	}
+		const processed = this.process(pageData);
+		return processed.map(beer => new Beer(beer));
 
-	createBeer(data) {
-		//return new Beer(data);
 	}
 
 }

@@ -2,14 +2,20 @@ import ConnectorBase from "../connector-base";
 
 export default class Flatstick extends ConnectorBase {
 
-	url = "https://flatstickpub.com/kirkland/";
-	selector = ".tap-list .item";
-	selectors = [{
-		beer: '.beverage',
-		brewery: '.brewer',
-		style: ".style",
-		amount: ".amount@style"
-	}];
+	constructor() {
+		super();
+		this.url = "https://flatstickpub.com/kirkland/";
+		this.selector = ".tap-list .item";
+		this.selectors = [{
+			beer: '.beverage',
+			brewery: '.brewer',
+			style: ".style",
+			amount: ".amount@style",
+			location: ".details .location",
+			abv: ".details .abv",
+			ibu: ".details .ibu"
+		}];
+	}
 
 	process(data) {
 		for (let beer of data) {
@@ -18,8 +24,7 @@ export default class Flatstick extends ConnectorBase {
 				beer.amount = beer.amount[0];
 			}
 		}
-
-		return this.createBeer(data);;
+		return data;
 	}
 	
 }
