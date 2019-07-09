@@ -1,6 +1,6 @@
-import Flatstick from "./src/connectors/flatstick";
+import Chucks from "./src/connectors/chucks";
 
-const test = new Flatstick();
+const test = new Chucks();
 
 (async function() {
 

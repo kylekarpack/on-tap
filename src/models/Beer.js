@@ -7,6 +7,7 @@ export default class Beer {
 		this.abv = parseFloat(beer.abv) || null;
 		this.ibu = parseFloat(beer.ibu) || null;
 		this.amount = parseFloat(beer.amount) || null;
+		this.price = parseFloat(beer.price) || null;
 		this.rating = beer.rating || null;
 	}
 
