@@ -1,13 +1,15 @@
-import { xray } from "x-ray";
+
+const xray = require("x-ray");
 //import Beer from "./models/Beer";
 
-export default class ConnectorBase {
+class ConnectorBase {
 
 	constructor() {
-		this.xray = new xray();
+		this.xray = xray();
 	}
 
 	async read() {
+		console.log(this.url);
 		return this.xray(this.url, this.selector, this.selectors);
 	}
 
@@ -18,6 +20,7 @@ export default class ConnectorBase {
 
 	async execute() {
 		const pageData = await this.read();
+		console.warn(pageData);
 		return this.process(pageData);
 	}
 
@@ -26,3 +29,5 @@ export default class ConnectorBase {
 	}
 
 }
+
+module.exports = ConnectorBase;

@@ -1,15 +1,18 @@
-import ConnectorBase from "../connector-base";
+const ConnectorBase = require("../connector-base");
 
-export default class Flatstick extends ConnectorBase {
+class Flatstick extends ConnectorBase {
 
-	url = "https://flatstickpub.com/kirkland/";
-	selector = ".tap-list .item";
-	selectors = [{
-		beer: '.beverage',
-		brewery: '.brewer',
-		style: ".style",
-		amount: ".amount@style"
-	}];
+	constructor() {
+		super();
+		this.url = "https://flatstickpub.com/pioneer-square/";
+		this.selector = ".tap-list .item";
+		this.selectors = [{
+			beer: '.beverage',
+			brewery: '.brewer',
+			style: ".style",
+			amount: ".amount@style"
+		}];
+	}
 
 	process(data) {
 		for (let beer of data) {
@@ -23,3 +26,5 @@ export default class Flatstick extends ConnectorBase {
 	}
 	
 }
+
+module.exports = Flatstick;

@@ -1,4 +1,4 @@
-export default class Beer {
+class Beer {
 	
 	beer;
 	brewery;
@@ -17,3 +17,5 @@ export default class Beer {
 	}
 	
 };
+
+module.exports = Beer;

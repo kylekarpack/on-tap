@@ -1,7 +1,7 @@
 //import Flatstick from "./src/connectors/flatstick";
-import ConnectorBase from "./src/connector-base";
+const Flatstick = require("./src/connectors/flatstick");
 
-const test = new ConnectorBase();
+const test = new Flatstick();
 
 (async function() {
 
