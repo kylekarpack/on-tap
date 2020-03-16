@@ -5,10 +5,6 @@ const port = process.env.PORT || 3000;
 
 class Server {
 
-	constructor() {
-		this.init();
-	}
-
 	init() {
 		app.get('/', (req, res) => {
 			res.send('Hello World')

@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "node -r esm index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "axios": "^0.19.2",
