@@ -11,7 +11,10 @@ class Flatstick extends ConnectorBase {
 			beer: '.beverage',
 			brewery: '.brewer',
 			style: ".style",
-			amount: ".amount@style"
+			amount: ".amount@style",
+			location: ".details .location",
+			abv: ".details .abv",
+			ibu: ".details .ibu"
 		}];
 	}
 
