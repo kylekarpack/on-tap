@@ -4,6 +4,7 @@ class Flatstick extends ConnectorBase {
 
 	constructor() {
 		super();
+		this.key = "flatstick";
 		this.url = "https://flatstickpub.com/pioneer-square/";
 		this.selector = ".tap-list .item";
 		this.selectors = [{
@@ -21,8 +22,7 @@ class Flatstick extends ConnectorBase {
 				beer.amount = beer.amount[0];
 			}
 		}
-
-		return this.createBeer(data);;
+		return data;
 	}
 	
 }
