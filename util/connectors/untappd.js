@@ -1,9 +1,8 @@
 
 require('dotenv').config();
-const xray = require("x-ray");
-const axios = require("axios");
+import xray from "x-ray";
 
-class UntappdClient {
+export default class UntappdClient {
 
 	constructor() {
 		this.xray = xray();
@@ -30,5 +29,3 @@ class UntappdClient {
 	}
 
 }
-
-module.exports = UntappdClient;

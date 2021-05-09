@@ -1,4 +1,4 @@
-import ConnectorBase from "../connector-base";
+import ConnectorBase from "./connector-base";
 
 export default class Chucks extends ConnectorBase {
 

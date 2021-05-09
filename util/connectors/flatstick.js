@@ -1,21 +1,22 @@
-const ConnectorBase = require("../connector-base");
+import ConnectorBase from "./connector-base";
 
-class Flatstick extends ConnectorBase {
-
+export default class Flatstick extends ConnectorBase {
 	constructor() {
 		super();
 		this.key = "flatstick";
 		this.url = "https://flatstickpub.com/pioneer-square/";
 		this.selector = ".tap-list .item";
-		this.selectors = [{
-			beer: '.beverage',
-			brewery: '.brewer',
-			style: ".style",
-			amount: ".amount@style",
-			location: ".details .location",
-			abv: ".details .abv",
-			ibu: ".details .ibu"
-		}];
+		this.selectors = [
+			{
+				beer: ".beverage",
+				brewery: ".brewer",
+				style: ".style",
+				amount: ".amount@style",
+				location: ".details .location",
+				abv: ".details .abv",
+				ibu: ".details .ibu",
+			},
+		];
 	}
 
 	process(data) {
@@ -27,7 +28,4 @@ class Flatstick extends ConnectorBase {
 		}
 		return data;
 	}
-	
 }
-
-module.exports = Flatstick;

@@ -1,6 +1,6 @@
 
-const xray = require("x-ray");
-const UntappdApi = require("./api/untappd");
+import xray from "x-ray";
+import UntappdApi from "./untappd";
 //import Beer from "./models/Beer";
 
 class ConnectorBase {
@@ -46,4 +46,4 @@ class ConnectorBase {
 
 }
 
-module.exports = ConnectorBase;
+export default ConnectorBase;
