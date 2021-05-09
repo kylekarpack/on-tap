@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -54,7 +53,6 @@ export default function Home() {
 					{data.map((el) => (
 						<tr>
 							<td>{el.rating}</td>
-
 							<td>{el.beer}</td>
 							<td>{el.brewery}</td>
 							<td>{el.location}</td>
