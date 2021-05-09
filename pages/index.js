@@ -16,7 +16,7 @@ export default function Home() {
 				.then((d) => {
 					d.json().then((beers) => setData(beers));
 				})
-				.finally(setLoading(false));
+				.finally(() => setLoading(false));
 		}
 	}, [venue]);
 
@@ -32,8 +32,6 @@ export default function Home() {
 			<h2 className="subtitle">Flatstick</h2>
 			<Table
 				height={500}
-				sortColumn="rating"
-				sortType="desc"
 				loading={loading}
 				data={data}
 				onRowClick={(data) => {
@@ -42,6 +40,10 @@ export default function Home() {
 				<Column flexGrow={1} fixed>
 					<HeaderCell>Rating</HeaderCell>
 					<Cell dataKey="rating" />
+				</Column>
+				<Column flexGrow={1} fixed>
+					<HeaderCell># Ratings</HeaderCell>
+					<Cell dataKey="ratings" />
 				</Column>
 				<Column flexGrow={2} fixed>
 					<HeaderCell>Beer</HeaderCell>

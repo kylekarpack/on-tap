@@ -16,7 +16,8 @@ export default class UntappdClient {
 			beer: ".name a",
 			brewery: ".brewery a",
 			style: ".style",
-			rating: ".rating .num"
+			rating: ".rating .num",
+			ratings: ".ibu"
 		}]);
 
 		const result = results[0];
