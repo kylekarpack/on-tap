@@ -1,5 +1,8 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { Table } from "rsuite";
+
+const { Column, HeaderCell, Cell, Pagination } = Table;
 
 export default function Home() {
 	const [venue, setVenue] = useState("flatstick");
@@ -22,49 +25,59 @@ export default function Home() {
 			<Head>
 				<title>On Tap Seattle</title>
 			</Head>
+
 			<h1 className="title">On Tap Seattle</h1>
 			<br />
 			<br />
 			<h2 className="subtitle">Flatstick</h2>
-			<table className="table is-bordered is-striped is-fullwidth flatstick">
-				<thead>
-					<tr title="Click to sort!">
-						<th>Rating</th>
-						<th>Beer</th>
-						<th>Brewery</th>
-						<th>Location</th>
-						<th>Style</th>
-						<th>ABV</th>
-						<th>IBU</th>
-						<th>Amount</th>
-					</tr>
-				</thead>
-				<tbody>
-					{loading ? (
-						<tr>
-							<th className="has-text-centered loading" colSpan={8}>
-								Loading Flatstick ratings...
-								<progress className="progress is-small is-primary" max={100}>
-									15%
-								</progress>
-							</th>
-						</tr>
-					) : null}
-					{data.map((el) => (
-						<tr>
-							<td>{el.rating}</td>
-							<td>{el.beer}</td>
-							<td>{el.brewery}</td>
-							<td>{el.location}</td>
-							<td>{el.style}</td>
-							<td>{el.abv}</td>
-							<td>{el.ibu}</td>
-							<td>{el.ibu}</td>
-							<td>{el.amount}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
+			<Table
+				height={400}
+				sortColumn="rating"
+				sortType="desc"
+				loading={loading}
+				data={data}
+				onRowClick={(data) => {
+					console.log(data);
+				}}>
+				<Column fixed>
+					<HeaderCell>Rating</HeaderCell>
+					<Cell dataKey="rating" />
+				</Column>
+				<Column fixed>
+					<HeaderCell>Beer</HeaderCell>
+					<Cell dataKey="beer" />
+				</Column>
+
+				<Column fixed>
+					<HeaderCell>Brewery</HeaderCell>
+					<Cell dataKey="brewery" />
+				</Column>
+
+				<Column fixed>
+					<HeaderCell>Location</HeaderCell>
+					<Cell dataKey="location" />
+				</Column>
+
+				<Column fixed>
+					<HeaderCell>Style</HeaderCell>
+					<Cell dataKey="style" />
+				</Column>
+
+				<Column fixed>
+					<HeaderCell>ABV</HeaderCell>
+					<Cell dataKey="abv" />
+				</Column>
+
+				<Column fixed>
+					<HeaderCell>IBU</HeaderCell>
+					<Cell dataKey="ibu" />
+				</Column>
+
+				<Column fixed>
+					<HeaderCell>Amount</HeaderCell>
+					<Cell dataKey="amount" />
+				</Column>
+			</Table>
 		</div>
 	);
 }
