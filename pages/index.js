@@ -31,7 +31,7 @@ export default function Home() {
 			<br />
 			<h2 className="subtitle">Flatstick</h2>
 			<Table
-				height={400}
+				height={500}
 				sortColumn="rating"
 				sortType="desc"
 				loading={loading}
@@ -39,41 +39,41 @@ export default function Home() {
 				onRowClick={(data) => {
 					console.log(data);
 				}}>
-				<Column fixed>
+				<Column flexGrow={1} fixed>
 					<HeaderCell>Rating</HeaderCell>
 					<Cell dataKey="rating" />
 				</Column>
-				<Column fixed>
+				<Column flexGrow={2} fixed>
 					<HeaderCell>Beer</HeaderCell>
 					<Cell dataKey="beer" />
 				</Column>
 
-				<Column fixed>
+				<Column flexGrow={1} fixed>
 					<HeaderCell>Brewery</HeaderCell>
 					<Cell dataKey="brewery" />
 				</Column>
 
-				<Column fixed>
+				<Column flexGrow={1} fixed>
 					<HeaderCell>Location</HeaderCell>
 					<Cell dataKey="location" />
 				</Column>
 
-				<Column fixed>
+				<Column flexGrow={1} fixed>
 					<HeaderCell>Style</HeaderCell>
 					<Cell dataKey="style" />
 				</Column>
 
-				<Column fixed>
+				<Column flexGrow={1} fixed>
 					<HeaderCell>ABV</HeaderCell>
 					<Cell dataKey="abv" />
 				</Column>
 
-				<Column fixed>
+				<Column flexGrow={1} fixed>
 					<HeaderCell>IBU</HeaderCell>
 					<Cell dataKey="ibu" />
 				</Column>
 
-				<Column fixed>
+				<Column flexGrow={1} fixed>
 					<HeaderCell>Amount</HeaderCell>
 					<Cell dataKey="amount" />
 				</Column>

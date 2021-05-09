@@ -11,7 +11,6 @@ class ConnectorBase {
 	}
 
 	async read() {
-		console.log(this.url);
 		return this.xray(this.url, this.selector, this.selectors);
 	}
 
