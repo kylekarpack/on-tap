@@ -55,42 +55,48 @@ export default function Home() {
 					data={data}
 					sortColumn={state.sortColumn}
 					sortType={state.sortType}
-					onSortColumn={handleSort}>
+					onSortColumn={handleSort}
+					affixHeader
+					affixHorizontalScrollbar>
 					<Column flexGrow={1} fixed sortable>
 						<HeaderCell>Rating</HeaderCell>
 						<Cell dataKey="rating" />
 					</Column>
 					<Column flexGrow={2} fixed sortable>
 						<HeaderCell>Beer</HeaderCell>
-						<Cell dataKey="beer" />
+						<Cell dataKey="beer">
+							{(rowData) => (
+								<a href={rowData.details} target="_blank" rel="nofollow noreferrer">{rowData.beer}</a>
+							)}
+						</Cell>
 					</Column>
 
-					<Column flexGrow={1} fixed sortable>
+					<Column flexGrow={1} sortable>
 						<HeaderCell>Brewery</HeaderCell>
 						<Cell dataKey="brewery" />
 					</Column>
 
-					<Column flexGrow={1} fixed sortable>
+					<Column flexGrow={1} sortable>
 						<HeaderCell>Location</HeaderCell>
 						<Cell dataKey="location" />
 					</Column>
 
-					<Column flexGrow={1} fixed sortable>
+					<Column flexGrow={1} sortable>
 						<HeaderCell>Style</HeaderCell>
 						<Cell dataKey="style" />
 					</Column>
 
-					<Column flexGrow={1} fixed sortable>
+					<Column flexGrow={1} sortable>
 						<HeaderCell>ABV</HeaderCell>
 						<Cell dataKey="abv" />
 					</Column>
 
-					<Column flexGrow={1} fixed sortable>
+					<Column flexGrow={1} sortable>
 						<HeaderCell>IBU</HeaderCell>
 						<Cell dataKey="ibu" />
 					</Column>
 
-					<Column flexGrow={1} fixed sortable>
+					<Column flexGrow={1} sortable>
 						<HeaderCell>Amount</HeaderCell>
 						<Cell dataKey="amount" />
 					</Column>

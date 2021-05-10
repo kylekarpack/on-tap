@@ -17,7 +17,8 @@ export default class UntappdClient {
 			brewery: ".brewery a",
 			style: ".style",
 			rating: ".rating .num",
-			ratings: ".ibu"
+			ratings: ".ibu",
+			details: ".name a@href"
 		}]);
 
 		if (result) {
