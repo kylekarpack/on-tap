@@ -15,7 +15,6 @@ class ConnectorBase {
 	}
 
 	process(data) {
-		//throw "Process method not implemented";
 		return data;
 	}
 
