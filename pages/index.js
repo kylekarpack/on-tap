@@ -1,18 +1,35 @@
 import Head from "next/head";
 import { useState } from "react";
 import { Table, Container, Content } from "rsuite";
-import useApi from "../util/hooks/useApi";
+import { gql, useQuery } from "@apollo/client";
 
 const { Column, HeaderCell, Cell, Pagination } = Table;
 
 export default function Home() {
-	let { data, loading, error } = useApi("/api/flatstick");
+
 	const [state, setState] = useState({});
+
+	const { loading, error, data } = useQuery(
+		gql`query {
+			beers {
+				beer
+				brewery
+				style
+				amount
+				location
+				abv
+				ibu
+				rating
+				ratings
+				details
+			}
+		}`
+	);
 
 	const sort = () => {
 		const { sortColumn, sortType } = state;
 		if (sortColumn && sortType) {
-			data = data.sort((a, b) => {
+			data.beers.sort((a, b) => {
 				let x = a[sortColumn];
 				let y = b[sortColumn];
 				if (typeof x === "string") {
@@ -53,7 +70,7 @@ export default function Home() {
 					<Table
 						height={500}
 						loading={loading}
-						data={data}
+						data={data.beers}
 						sortColumn={state.sortColumn}
 						sortType={state.sortType}
 						onSortColumn={handleSort}

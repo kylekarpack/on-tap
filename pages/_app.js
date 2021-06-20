@@ -1,7 +1,15 @@
-import 'rsuite/dist/styles/rsuite-default.css';
+import "rsuite/dist/styles/rsuite-default.css";
+import { ApolloProvider } from "@apollo/client";
+import { useApollo } from "../util/apollo-client";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+	const apolloClient = useApollo(pageProps.initialApolloState);
+
+	return (
+		<ApolloProvider client={apolloClient}>
+			<Component {...pageProps} />
+		</ApolloProvider>
+	);
 }
 
-export default MyApp
+export default MyApp;
