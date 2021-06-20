@@ -5,54 +5,55 @@ import { gql, useQuery } from "@apollo/client";
 
 const { Column, HeaderCell, Cell, Pagination } = Table;
 
-export default function Home() {
+const sort = (state, data) => {
+	const { sortColumn, sortType } = state;
+	if (sortColumn && sortType) {
+		return [...data].sort((a, b) => {
+			let x = a[sortColumn];
+			let y = b[sortColumn];
+			if (typeof x === "string") {
+				x = x.charCodeAt();
+			}
+			if (typeof y === "string") {
+				y = y.charCodeAt();
+			}
+			if (sortType === "asc") {
+				return x - y;
+			} else {
+				return y - x;
+			}
+		});
+	}
+	return data;
+};
 
+export default function Home() {
 	const [state, setState] = useState({});
 
 	const { loading, error, data } = useQuery(
-		gql`query {
-			beers {
-				beer
-				brewery
-				style
-				amount
-				location
-				abv
-				ibu
-				rating
-				ratings
-				details
+		gql`
+			query {
+				beers {
+					beer
+					brewery
+					style
+					amount
+					location
+					abv
+					ibu
+					rating
+					ratings
+					details
+				}
 			}
-		}`
+		`
 	);
-
-	const sort = () => {
-		const { sortColumn, sortType } = state;
-		if (sortColumn && sortType) {
-			data.beers.sort((a, b) => {
-				let x = a[sortColumn];
-				let y = b[sortColumn];
-				if (typeof x === "string") {
-					x = x.charCodeAt();
-				}
-				if (typeof y === "string") {
-					y = y.charCodeAt();
-				}
-				if (sortType === "asc") {
-					return x - y;
-				} else {
-					return y - x;
-				}
-			});
-		}
-	};
 
 	const handleSort = (sortColumn, sortType) => {
 		setState({
 			sortColumn,
 			sortType,
 		});
-		sort();
 	};
 
 	return (
@@ -70,7 +71,7 @@ export default function Home() {
 					<Table
 						height={500}
 						loading={loading}
-						data={data.beers}
+						data={sort(state, data.beers)}
 						sortColumn={state.sortColumn}
 						sortType={state.sortType}
 						onSortColumn={handleSort}
