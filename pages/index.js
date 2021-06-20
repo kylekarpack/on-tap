@@ -1,7 +1,8 @@
+import { useQuery } from "@apollo/client";
 import Head from "next/head";
 import { useState } from "react";
-import { Table, Container, Content } from "rsuite";
-import { gql, useQuery } from "@apollo/client";
+import { Container, Content, Table } from "rsuite";
+import { GET_BEERS } from "../util/queries/getBeers";
 
 const { Column, HeaderCell, Cell, Pagination } = Table;
 
@@ -30,24 +31,7 @@ const sort = (state, data) => {
 export default function Home() {
 	const [state, setState] = useState({});
 
-	const { loading, error, data } = useQuery(
-		gql`
-			query {
-				beers {
-					beer
-					brewery
-					style
-					amount
-					location
-					abv
-					ibu
-					rating
-					ratings
-					details
-				}
-			}
-		`
-	);
+	const { loading, error, data } = useQuery(GET_BEERS);
 
 	const handleSort = (sortColumn, sortType) => {
 		setState({
@@ -71,7 +55,7 @@ export default function Home() {
 					<Table
 						height={500}
 						loading={loading}
-						data={sort(state, data.beers)}
+						data={sort(state, data?.beers)}
 						sortColumn={state.sortColumn}
 						sortType={state.sortType}
 						onSortColumn={handleSort}

@@ -1,7 +1,6 @@
 
 import xray from "x-ray";
 import UntappdApi from "./untappd";
-//import Beer from "./models/Beer";
 
 class ConnectorBase {
 
