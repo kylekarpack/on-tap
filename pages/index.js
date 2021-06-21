@@ -4,12 +4,13 @@ import { useState } from "react";
 import { Container, Content, Table, SelectPicker } from "rsuite";
 import { GET_BEERS } from "../util/queries/getBeers";
 
-const { Column, HeaderCell, Cell, Pagination } = Table;
+const { Column, HeaderCell, Cell } = Table;
 
 const sort = (state, data) => {
 	const { sortColumn, sortType } = state;
-	if (sortColumn && sortType) {
-		return [...data].sort((a, b) => {
+	if (sortColumn && sortType && data) {
+		let copy = JSON.parse(JSON.stringify(data));
+		return copy.sort((a, b) => {
 			let x = a[sortColumn];
 			let y = b[sortColumn];
 			if (typeof x === "string") {
@@ -30,18 +31,18 @@ const sort = (state, data) => {
 
 export default function Home() {
 	const [state, setState] = useState({
-		venue: "chucks",
+		venue: "flatstick",
 	});
 
-	console.log("state", state.venue);
 	const { loading, error, data } = useQuery(GET_BEERS, {
 		variables: {
-			venue: state.venue,
+			venue: state.venue || "flatstick",
 		},
 	});
 
 	const handleSort = (sortColumn, sortType) => {
 		setState({
+			...state,
 			sortColumn,
 			sortType,
 		});
@@ -95,7 +96,7 @@ export default function Home() {
 							</Cell>
 						</Column>
 
-						<Column flexGrow={1} sortable>
+						<Column flexGrow={2} sortable>
 							<HeaderCell>Brewery</HeaderCell>
 							<Cell dataKey="brewery" />
 						</Column>
