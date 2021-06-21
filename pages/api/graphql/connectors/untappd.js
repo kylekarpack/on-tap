@@ -8,9 +8,11 @@ export default class UntappdClient {
 		this.xray = xray();
 	}
 
-	async getBeer(beer) {			
+	async getBeer(beer) {
 
 		const url = `https://untappd.com/search?q=${encodeURIComponent(beer.brewery)}%20${encodeURIComponent(beer.beer)}&type=beer`;
+
+		console.log(url);
 
 		const [result] = await this.xray(url, ".results-container .beer-item", [{
 			beer: ".name a",
