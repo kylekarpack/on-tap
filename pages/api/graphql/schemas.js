@@ -15,6 +15,6 @@ export const typeDefs = gql`
 	}
 
 	type Query {
-		beers: [Beer]
+		beers(venue: String!): [Beer]
 	}
 `;

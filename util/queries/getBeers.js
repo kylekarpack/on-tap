@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_BEERS = gql`
-	query {
-		beers {
+	query($venue: String!) {
+		beers(venue: $venue) {
 			beer
 			brewery
 			style

@@ -1,11 +1,14 @@
 export const resolvers = {
 	Query: {
-		beers: async (parent, args) => {
-			const type = "flatstick";
-			const DataSource = (await import(`./connectors/${type}.js`)).default;
-			const client = new DataSource();
-			const data = await client.execute();
-			return data;
+		beers: async (parent, { venue }) => {
+			let client;
+
+			try {
+				client = new (await import(`./connectors/${venue}.js`)).default();
+			} catch {
+				throw `Venue "${venue}" is not registered!`;
+			}
+			return await client.execute();
 		},
 	},
 };

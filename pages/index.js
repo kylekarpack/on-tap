@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import Head from "next/head";
 import { useState } from "react";
-import { Container, Content, Table } from "rsuite";
+import { Container, Content, Table, SelectPicker } from "rsuite";
 import { GET_BEERS } from "../util/queries/getBeers";
 
 const { Column, HeaderCell, Cell, Pagination } = Table;
@@ -29,9 +29,16 @@ const sort = (state, data) => {
 };
 
 export default function Home() {
-	const [state, setState] = useState({});
+	const [state, setState] = useState({
+		venue: "chucks"
+	});
 
-	const { loading, error, data } = useQuery(GET_BEERS);
+	console.log("state", state.venue)
+	const { loading, error, data } = useQuery(GET_BEERS, {
+		variables: {
+			venue: state.venue
+		}
+	});
 
 	const handleSort = (sortColumn, sortType) => {
 		setState({
@@ -48,7 +55,13 @@ export default function Home() {
 
 			<Content>
 				<h1 className="title">On Tap Seattle</h1>
-				<h2 className="subtitle">Flatstick</h2>
+				<SelectPicker
+					onChange={(e) => setState({ venue: e })}
+					value={state.venue}
+					searchable={false}
+					cleanable={false}
+					data={[{ label: "Flatstick", value: "flatstick" }, { label: "Chuck's Greenwood", value: "chucks" }]}
+				/>
 				{error ? (
 					<div>Error: {error.message}</div>
 				) : (
