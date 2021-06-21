@@ -30,14 +30,14 @@ const sort = (state, data) => {
 
 export default function Home() {
 	const [state, setState] = useState({
-		venue: "chucks"
+		venue: "chucks",
 	});
 
-	console.log("state", state.venue)
+	console.log("state", state.venue);
 	const { loading, error, data } = useQuery(GET_BEERS, {
 		variables: {
-			venue: state.venue
-		}
+			venue: state.venue,
+		},
 	});
 
 	const handleSort = (sortColumn, sortType) => {
@@ -53,14 +53,17 @@ export default function Home() {
 				<title>On Tap Seattle</title>
 			</Head>
 
-			<Content>
+			<Content style={{ padding: "1em" }}>
 				<h1 className="title">On Tap Seattle</h1>
 				<SelectPicker
 					onChange={(e) => setState({ venue: e })}
 					value={state.venue}
 					searchable={false}
 					cleanable={false}
-					data={[{ label: "Flatstick", value: "flatstick" }, { label: "Chuck's Greenwood", value: "chucks" }]}
+					data={[
+						{ label: "Flatstick", value: "flatstick" },
+						{ label: "Chuck's Greenwood", value: "chucks" },
+					]}
 				/>
 				{error ? (
 					<div>Error: {error.message}</div>

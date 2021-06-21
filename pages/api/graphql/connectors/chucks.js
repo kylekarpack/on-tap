@@ -2,7 +2,6 @@ import ConnectorBase from "./connector-base";
 import axios from "axios";
 
 export default class Chucks extends ConnectorBase {
-
 	constructor() {
 		super();
 	}
@@ -13,12 +12,15 @@ export default class Chucks extends ConnectorBase {
 	}
 
 	process(data) {
-		data.forEach(d => {
+		data.forEach((d) => {
 			const split = d.beer.split(":");
-			d.brewery = split.unshift();
+			d.brewery = split.shift();
 			d.beer = split.join(":").trim();
+			d.location = d.origin;
+			d.style = d.type;
+			d.abv = `${d.abv}%`;
 		});
+		console.log(data.slice(0, 2));
 		return data;
 	}
-	
 }
