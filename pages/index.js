@@ -1,41 +1,51 @@
+import { useQuery } from "@apollo/client";
 import Head from "next/head";
 import { useState } from "react";
-import { Table, Container, Content } from "rsuite";
-import useApi from "../util/hooks/useApi";
+import { Container, Content, Table, SelectPicker } from "rsuite";
+import { GET_BEERS } from "../util/queries/getBeers";
 
-const { Column, HeaderCell, Cell, Pagination } = Table;
+const { Column, HeaderCell, Cell } = Table;
+
+const sort = (state, data) => {
+	const { sortColumn, sortType } = state;
+	if (sortColumn && sortType && data) {
+		let copy = JSON.parse(JSON.stringify(data));
+		return copy.sort((a, b) => {
+			let x = a[sortColumn];
+			let y = b[sortColumn];
+			if (typeof x === "string") {
+				x = x.charCodeAt();
+			}
+			if (typeof y === "string") {
+				y = y.charCodeAt();
+			}
+			if (sortType === "asc") {
+				return x - y;
+			} else {
+				return y - x;
+			}
+		});
+	}
+	return data;
+};
 
 export default function Home() {
-	let { data, loading, error } = useApi("/api/flatstick");
-	const [state, setState] = useState({});
+	const [state, setState] = useState({
+		venue: "flatstick",
+	});
 
-	const sort = () => {
-		const { sortColumn, sortType } = state;
-		if (sortColumn && sortType) {
-			data = data.sort((a, b) => {
-				let x = a[sortColumn];
-				let y = b[sortColumn];
-				if (typeof x === "string") {
-					x = x.charCodeAt();
-				}
-				if (typeof y === "string") {
-					y = y.charCodeAt();
-				}
-				if (sortType === "asc") {
-					return x - y;
-				} else {
-					return y - x;
-				}
-			});
-		}
-	};
+	const { loading, error, data } = useQuery(GET_BEERS, {
+		variables: {
+			venue: state.venue || "flatstick",
+		},
+	});
 
 	const handleSort = (sortColumn, sortType) => {
 		setState({
+			...state,
 			sortColumn,
 			sortType,
 		});
-		sort();
 	};
 
 	return (
@@ -44,16 +54,25 @@ export default function Home() {
 				<title>On Tap Seattle</title>
 			</Head>
 
-			<Content>
+			<Content style={{ padding: "1em" }}>
 				<h1 className="title">On Tap Seattle</h1>
-				<h2 className="subtitle">Flatstick</h2>
+				<SelectPicker
+					onChange={(e) => setState({ venue: e })}
+					value={state.venue}
+					searchable={false}
+					cleanable={false}
+					data={[
+						{ label: "Flatstick", value: "flatstick" },
+						{ label: "Chuck's Greenwood", value: "chucks" },
+					]}
+				/>
 				{error ? (
 					<div>Error: {error.message}</div>
 				) : (
 					<Table
 						height={500}
 						loading={loading}
-						data={data}
+						data={sort(state, data?.beers)}
 						sortColumn={state.sortColumn}
 						sortType={state.sortType}
 						onSortColumn={handleSort}
@@ -77,7 +96,7 @@ export default function Home() {
 							</Cell>
 						</Column>
 
-						<Column flexGrow={1} sortable>
+						<Column flexGrow={2} sortable>
 							<HeaderCell>Brewery</HeaderCell>
 							<Cell dataKey="brewery" />
 						</Column>
