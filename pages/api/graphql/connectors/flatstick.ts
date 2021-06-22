@@ -1,5 +1,5 @@
 import { Beer } from "util/types/beer";
-import ConnectorBase from "./connector-base";
+import ConnectorBase from "./connectorBase";
 
 export default class Flatstick extends ConnectorBase {
 	constructor() {

@@ -1,4 +1,4 @@
-import ConnectorBase from "./connector-base";
+import ConnectorBase from "./connectorBase";
 import axios from "axios";
 import { Beer } from "util/types/beer";
 
