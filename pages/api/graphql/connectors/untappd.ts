@@ -35,6 +35,7 @@ export default class UntappdClient {
 		}
 
 		return {
+			id: result.bid,
 			beer: result.beer_name,
 			brewery: result.brewery_name,
 			style: result.type_name,

@@ -87,7 +87,7 @@ export default function Home() {
 							<Cell dataKey="beer">
 								{(rowData) => (
 									<a
-										href={rowData.details}
+										href={`https://untappd.com/beer/${rowData.id}`}
 										target="_blank"
 										rel="nofollow noreferrer">
 										{rowData.beer}

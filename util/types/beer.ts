@@ -1,4 +1,5 @@
 export interface Beer {
+	id: number;
 	beer: string;
 	brewery: string;
 	style: string;
