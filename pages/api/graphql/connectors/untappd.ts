@@ -39,7 +39,7 @@ export default class UntappdClient {
 			beer: result.beer_name,
 			brewery: result.brewery_name,
 			style: result.type_name,
-			rating: result.rating_score,
+			rating: Math.round(result.rating_score * 100) / 100,
 			ratings: Number(result.rating_count),
 			abv: result.beer_abv,
 		};
