@@ -1,6 +1,6 @@
 import ConnectorBase from "./connector-base";
 import axios from "axios";
-import { Beer } from "../../../../util/types/beer";
+import { Beer } from "util/types/beer";
 
 export default class Chucks extends ConnectorBase {
 	constructor() {

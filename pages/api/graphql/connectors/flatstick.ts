@@ -1,4 +1,4 @@
-import { Beer } from "../../../../util/types/beer";
+import { Beer } from "util/types/beer";
 import ConnectorBase from "./connector-base";
 
 export default class Flatstick extends ConnectorBase {

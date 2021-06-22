@@ -1,7 +1,10 @@
+import { Beer } from "util/types/beer";
+import ConnectorBase from "./connectors/connector-base";
+
 export const resolvers = {
 	Query: {
-		beers: async (parent, { venue }) => {
-			let client;
+		beers: async (_, { venue }): Promise<Beer[]> => {
+			let client: ConnectorBase;
 
 			try {
 				client = new (await import(`./connectors/${venue}.ts`)).default();

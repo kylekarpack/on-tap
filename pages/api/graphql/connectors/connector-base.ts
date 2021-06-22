@@ -1,5 +1,5 @@
 import xray from "x-ray";
-import { Beer } from "../../../../util/types/beer";
+import { Beer } from "util/types/beer";
 import UntappdApi from "./untappd";
 
 class ConnectorBase {
