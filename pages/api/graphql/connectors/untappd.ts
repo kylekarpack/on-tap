@@ -1,14 +1,9 @@
 require("dotenv").config();
 import axios from "axios";
-import xray from "x-ray";
+import { Beer, AlgoliaBeer } from "../../../../util/types/beer";
 
 export default class UntappdClient {
-	constructor() {
-		this.xray = xray();
-	}
-
-	async getBeer(beer) {
-
+	async getBeer(beer: Beer): Promise<Partial<Beer>> {
 		const search = await axios.post(
 			"https://9wbo4rq3ho-dsn.algolia.net/1/indexes/beer/query?x-algolia-agent=Algolia%20for%20vanilla%20JavaScript%203.24.8&x-algolia-application-id=9WBO4RQ3HO&x-algolia-api-key=1d347324d67ec472bb7132c66aead485",
 			{
@@ -27,28 +22,25 @@ export default class UntappdClient {
 					"sec-fetch-dest": "empty",
 					"sec-fetch-mode": "cors",
 					"sec-fetch-site": "cross-site",
+					referrer: "https://untappd.com/",
 				},
-				referrer: "https://untappd.com/",
-				referrerPolicy: "origin-when-cross-origin",
 			}
 		);
 
 		const { data } = search;
-		const [result] = data.hits;
+		const result: AlgoliaBeer = data.hits[0];
 
 		if (!result) {
 			return {};
 		}
-
-		console.log(result);
 
 		return {
 			beer: result.beer_name,
 			brewery: result.brewery_name,
 			style: result.type_name,
 			rating: result.rating_score,
-			ratings: result.rating_count,
+			ratings: Number(result.rating_count),
+			abv: result.beer_abv,
 		};
-
 	}
 }

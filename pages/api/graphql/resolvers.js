@@ -4,7 +4,7 @@ export const resolvers = {
 			let client;
 
 			try {
-				client = new (await import(`./connectors/${venue}.js`)).default();
+				client = new (await import(`./connectors/${venue}.ts`)).default();
 			} catch {
 				throw `Venue "${venue}" is not registered!`;
 			}
