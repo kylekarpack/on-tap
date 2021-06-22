@@ -2,27 +2,43 @@ import ConnectorBase from "./connectorBase";
 import axios from "axios";
 import { Beer } from "util/types/beer";
 
-export default class Chucks extends ConnectorBase {
-	constructor() {
-		super();
-	}
+interface ChucksBeer {
+	tap: number;
+	beer: string;
+	shop: string;
+	Keg$: string;
+	abv: string;
+	origin: string;
+	type: string;
+	color: string;
+	Size: string;
+	serving: string;
+	oz: number;
+	costOz: number;
+	priceOz: number;
+	price: string;
+	growler: number;
+	crowler: number;
+}
 
+export default class Chucks extends ConnectorBase {
 	async read(): Promise<Beer[]> {
 		const { data } = await axios.get("https://taplists.web.app/data?menu=GW");
-		return data.filter((el: Beer) => {
-			return el.beer && el.beer !== "_" && isNaN(Number(el.beer));
-		});
+		return data.filter((el: ChucksBeer) => el.price !== "NaN");
 	}
 
-	process(data): Beer[] {
-		data.forEach((d) => {
+	process(data: ChucksBeer[]): Partial<Beer>[] {
+		console.log(data.map(el => el.beer	))
+		return data.map((d) => {
 			const split = d.beer.split(":");
-			d.brewery = split.shift().replace("_", "");
-			d.beer = split.join(":").trim();
-			d.location = d.origin;
-			d.style = d.type;
-			d.abv = `${d.abv}%`;
+
+			return {
+				brewery: split.shift().replace("_", ""),
+				beer: split.join(":").trim(),
+				location: d.origin,
+				style: d.type,
+				abv: parseFloat(d.abv) || null,
+			};
 		});
-		return data;
 	}
 }

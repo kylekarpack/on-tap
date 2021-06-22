@@ -11,21 +11,21 @@ class ConnectorBase {
 	protected selectors: { [key: string]: string }[];
 	protected key: string;
 
-	async read(): Promise<Beer[]> {
-		return this.xray(this.url, this.selector, this.selectors);
-	}
-
-	process(data: Beer[]): Beer[] {
-		return data;
-	}
-
-	async execute(): Promise<Beer[]> {
+	public async execute(): Promise<Beer[]> {
 		const pageData = await this.read();
 		const beers = this.process(pageData);
 		return await this.compare(beers);
 	}
 
-	async compare(beers: Beer[]): Promise<Beer[]> {
+	protected async read(): Promise<Beer[]> {
+		return this.xray(this.url, this.selector, this.selectors);
+	}
+
+	protected process(data: any[]): any[] {
+		return data;
+	}
+
+	private async compare(beers: Beer[]): Promise<Beer[]> {
 		let output = [];
 		for (let beer of beers) {
 			let appendix = await this.untapped.getBeer(beer);
@@ -37,7 +37,6 @@ class ConnectorBase {
 
 		return output;
 	}
-
 }
 
 export default ConnectorBase;
