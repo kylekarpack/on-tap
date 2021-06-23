@@ -27,7 +27,6 @@ const sort = (state, data: Beer[]) => {
 			}
 		});
 	}
-	console.log(data);
 	return data;
 };
 
@@ -64,7 +63,8 @@ export default function Home() {
 					searchable={false}
 					cleanable={false}
 					data={[
-						{ label: "Flatstick", value: "flatstick" },
+						{ label: "Flatstick Pioneer Square", value: "flatstick" },
+						{ label: "Flatstick Kirkland", value: "flatstickKirkland" },
 						{ label: "Chuck's Greenwood", value: "chucks" },
 					]}
 				/>
