@@ -26,14 +26,14 @@ class ConnectorBase {
 	}
 
 	private async compare(beers: Beer[]): Promise<Beer[]> {
-		let output = [];
-		for (let beer of beers) {
-			let appendix = await this.untapped.getBeer(beer);
-			output.push({
-				...beer,
-				...appendix,
-			});
-		}
+		const output = await Promise.all(
+			beers.map(async (beerData) => {
+				let appendix = await this.untapped.getBeer(beerData);
+				const beer = new Beer(beerData);
+				beer.augment(appendix);
+				return beer;
+			})
+		);
 
 		return output;
 	}
