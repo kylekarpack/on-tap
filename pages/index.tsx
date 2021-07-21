@@ -51,7 +51,7 @@ export default function Home() {
 					<div>Error: {error.message}</div>
 				) : (
 					<Table
-						height={500}
+						height={750}
 						loading={loading}
 						data={sortTable(state, data?.beers)}
 						sortColumn={state.sortColumn}
@@ -59,7 +59,7 @@ export default function Home() {
 						onSortColumn={handleSort}
 						affixHeader
 						affixHorizontalScrollbar>
-						<Column flexGrow={1} fixed sortable>
+						<Column flexGrow={1} minWidth={80} fixed sortable>
 							<HeaderCell>Rating</HeaderCell>
 							<Cell dataKey="rating" f>
 								{(rowData: Beer) => (
@@ -99,7 +99,7 @@ export default function Home() {
 								)}
 							</Cell>
 						</Column>
-						<Column flexGrow={2} fixed sortable>
+						<Column flexGrow={2} minWidth={200} fixed sortable>
 							<HeaderCell>Beer</HeaderCell>
 							<Cell dataKey="beer">
 								{(rowData: Beer) =>
@@ -117,34 +117,34 @@ export default function Home() {
 							</Cell>
 						</Column>
 
-						<Column flexGrow={2} sortable>
+						<Column flexGrow={2} minWidth={200} sortable>
 							<HeaderCell>Brewery</HeaderCell>
 							<Cell dataKey="brewery" />
 						</Column>
 
-						<Column flexGrow={1} sortable>
+						<Column flexGrow={1} minWidth={100} sortable>
 							<HeaderCell>Location</HeaderCell>
 							<Cell dataKey="location" />
 						</Column>
 
-						<Column flexGrow={1} sortable>
+						<Column flexGrow={1} minWidth={100} sortable>
 							<HeaderCell>Style</HeaderCell>
 							<Cell dataKey="style" />
 						</Column>
 
-						<Column flexGrow={1} sortable>
+						<Column flexGrow={1} minWidth={75} sortable>
 							<HeaderCell>ABV</HeaderCell>
 							<Cell dataKey="abv">
 								{(rowData: Beer) => rowData.abv && `${rowData.abv}%`}
 							</Cell>
 						</Column>
 
-						<Column flexGrow={1} sortable>
+						<Column flexGrow={1} minWidth={75} sortable>
 							<HeaderCell>IBU</HeaderCell>
 							<Cell dataKey="ibu" />
 						</Column>
 
-						<Column flexGrow={1} sortable>
+						<Column flexGrow={1} minWidth={75} sortable>
 							<HeaderCell>Remaining</HeaderCell>
 							<Cell dataKey="amount">
 								{(rowData: Beer) => rowData.amount && `${rowData.amount}%`}
