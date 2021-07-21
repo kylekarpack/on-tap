@@ -23,6 +23,5 @@ export const sortTable = (
 			}
 		});
 	}
-	console.log(data);
 	return data;
 };
