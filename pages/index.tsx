@@ -1,35 +1,13 @@
 import { useQuery } from "@apollo/client";
 import Head from "next/head";
 import { useState } from "react";
+import Ratings from "react-ratings-declarative";
 import { Container, Content, SelectPicker, Table } from "rsuite";
 import { Beer } from "util/types/beer";
+import { sortTable } from "util/utils";
 import { GET_BEERS } from "../util/queries/getBeers";
-import Ratings from "react-ratings-declarative";
 
 const { Column, HeaderCell, Cell } = Table;
-
-const sort = (state, data: Beer[]) => {
-	const { sortColumn, sortType } = state;
-	if (sortColumn && sortType && data) {
-		let copy = JSON.parse(JSON.stringify(data));
-		return copy.sort((a: Beer, b: Beer) => {
-			let x = a[sortColumn];
-			let y = b[sortColumn];
-			if (typeof x === "string") {
-				x = x.charCodeAt(0);
-			}
-			if (typeof y === "string") {
-				y = y.charCodeAt(0);
-			}
-			if (sortType === "asc") {
-				return x - y;
-			} else {
-				return y - x;
-			}
-		});
-	}
-	return data;
-};
 
 export default function Home() {
 	const [state, setState] = useState<any>({
@@ -42,7 +20,7 @@ export default function Home() {
 		},
 	}) as { data: { beers: Beer[] }; loading: boolean; error: Error };
 
-	const handleSort = (sortColumn, sortType) => {
+	const handleSort = (sortColumn: string, sortType: string): void => {
 		setState({
 			...state,
 			sortColumn,
@@ -75,7 +53,7 @@ export default function Home() {
 					<Table
 						height={500}
 						loading={loading}
-						data={sort(state, data?.beers)}
+						data={sortTable(state, data?.beers)}
 						sortColumn={state.sortColumn}
 						sortType={state.sortType}
 						onSortColumn={handleSort}
