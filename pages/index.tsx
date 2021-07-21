@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Container, Content, SelectPicker, Table } from "rsuite";
 import { Beer } from "util/types/beer";
 import { GET_BEERS } from "../util/queries/getBeers";
+import Ratings from "react-ratings-declarative";
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -82,7 +83,43 @@ export default function Home() {
 						affixHorizontalScrollbar>
 						<Column flexGrow={1} fixed sortable>
 							<HeaderCell>Rating</HeaderCell>
-							<Cell dataKey="rating" />
+							<Cell dataKey="rating">
+								{(rowData: Beer) => (
+									<>
+										{rowData.rating ? (
+											<div style={{ textAlign: "center" }}>
+												<small style={{ display: "block" }}>
+													{rowData.rating}
+												</small>
+												<div style={{ marginTop: "-8px" }}>
+													<Ratings rating={rowData.rating}>
+														<Ratings.Widget
+															widgetDimension="10px"
+															widgetSpacing="0"
+														/>
+														<Ratings.Widget
+															widgetDimension="10px"
+															widgetSpacing="0"
+														/>
+														<Ratings.Widget
+															widgetDimension="10px"
+															widgetSpacing="0"
+														/>
+														<Ratings.Widget
+															widgetDimension="10px"
+															widgetSpacing="0"
+														/>
+														<Ratings.Widget
+															widgetDimension="10px"
+															widgetSpacing="0"
+														/>
+													</Ratings>
+												</div>
+											</div>
+										) : null}
+									</>
+								)}
+							</Cell>
 						</Column>
 						<Column flexGrow={2} fixed sortable>
 							<HeaderCell>Beer</HeaderCell>
@@ -115,7 +152,9 @@ export default function Home() {
 
 						<Column flexGrow={1} sortable>
 							<HeaderCell>ABV</HeaderCell>
-							<Cell dataKey="abv" />
+							<Cell dataKey="abv">
+								{(rowData: Beer) => rowData.abv && `${rowData.abv}%`}
+							</Cell>
 						</Column>
 
 						<Column flexGrow={1} sortable>
@@ -124,8 +163,10 @@ export default function Home() {
 						</Column>
 
 						<Column flexGrow={1} sortable>
-							<HeaderCell>Amount</HeaderCell>
-							<Cell dataKey="amount" />
+							<HeaderCell>Remaining</HeaderCell>
+							<Cell dataKey="amount">
+								{(rowData: Beer) => rowData.amount && `${rowData.amount}%`}
+							</Cell>
 						</Column>
 					</Table>
 				)}
