@@ -13,6 +13,7 @@ export const typeDefs = gql`
 		rating: Float
 		ratings: String
 		details: String
+		labelImageUrl: String
 	}
 
 	type Query {

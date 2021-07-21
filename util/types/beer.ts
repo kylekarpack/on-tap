@@ -22,10 +22,7 @@ export class Beer {
 	public rating: number;
 	public ratings: number;
 	public details: string;
-
-	get remaining(): string {
-		return `${this.amount}%`;
-	}
+	public labelImageUrl: string;
 }
 
 export interface AlgoliaBeer {

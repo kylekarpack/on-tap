@@ -14,6 +14,7 @@ export const GET_BEERS = gql`
 			rating
 			ratings
 			details
+			labelImageUrl
 		}
 	}
 `;

@@ -43,6 +43,7 @@ export default class UntappdClient {
 			rating: Math.round(result.rating_score * 100) / 100,
 			ratings: Number(result.rating_count),
 			abv: result.beer_abv,
+			labelImageUrl: result.beer_label
 		};
 	}
 }
