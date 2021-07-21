@@ -37,7 +37,7 @@ export default function BeerTable({ venue }) {
 			onSortColumn={handleSort}
 			affixHeader
 			affixHorizontalScrollbar>
-			<Column flexGrow={1} minWidth={80} fixed sortable>
+			<Column flexGrow={1} minWidth={75} fixed sortable>
 				<HeaderCell>Rating</HeaderCell>
 				<Cell dataKey="rating" f>
 					{(rowData: Beer) => (
@@ -75,7 +75,7 @@ export default function BeerTable({ venue }) {
 					)}
 				</Cell>
 			</Column>
-			<Column flexGrow={2} minWidth={200} fixed sortable>
+			<Column flexGrow={2} minWidth={100} fixed sortable>
 				<HeaderCell>Beer</HeaderCell>
 				<Cell dataKey="beer">
 					{(rowData: Beer) =>
