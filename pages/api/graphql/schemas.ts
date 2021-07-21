@@ -6,10 +6,10 @@ export const typeDefs = gql`
 		beer: String
 		brewery: String
 		style: String
-		amount: String
+		amount: Float
 		location: String
-		abv: String
-		ibu: String
+		abv: Float
+		ibu: Float
 		rating: Float
 		ratings: String
 		details: String
