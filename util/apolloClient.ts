@@ -10,7 +10,13 @@ function createApolloClient(): ApolloClient<any> {
 		link: new HttpLink({
 			uri: "/api/graphql",
 		}),
-		cache: new InMemoryCache(),
+		cache: new InMemoryCache({
+			typePolicies: {
+				Beer: {
+					keyFields: ["id", "beer", "brewery"]
+				}
+			}
+		}),
 	});
 }
 

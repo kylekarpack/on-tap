@@ -61,7 +61,7 @@ export default function Home() {
 						affixHorizontalScrollbar>
 						<Column flexGrow={1} fixed sortable>
 							<HeaderCell>Rating</HeaderCell>
-							<Cell dataKey="rating">
+							<Cell dataKey="rating" f>
 								{(rowData: Beer) => (
 									<>
 										{rowData.rating ? (
@@ -102,14 +102,18 @@ export default function Home() {
 						<Column flexGrow={2} fixed sortable>
 							<HeaderCell>Beer</HeaderCell>
 							<Cell dataKey="beer">
-								{(rowData: Beer) => (
-									<a
-										href={`https://untappd.com/beer/${rowData.id}`}
-										target="_blank"
-										rel="nofollow noreferrer">
-										{rowData.beer}
-									</a>
-								)}
+								{(rowData: Beer) =>
+									rowData.id ? (
+										<a
+											href={`https://untappd.com/beer/${rowData.id}`}
+											target="_blank"
+											rel="nofollow noreferrer">
+											{rowData.beer}
+										</a>
+									) : (
+										rowData.beer
+									)
+								}
 							</Cell>
 						</Column>
 

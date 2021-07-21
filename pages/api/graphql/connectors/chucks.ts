@@ -28,7 +28,6 @@ export default class Chucks extends ConnectorBase {
 	}
 
 	process(data: ChucksBeer[]): Partial<Beer>[] {
-		console.log(data.map(el => el.beer	))
 		return data.map((d) => {
 			const split = d.beer.split(":");
 
