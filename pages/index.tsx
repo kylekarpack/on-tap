@@ -1,31 +1,19 @@
-import { useQuery } from "@apollo/client";
+import Table from "components/table";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useState } from "react";
-import Ratings from "react-ratings-declarative";
-import { Container, Content, SelectPicker, Table } from "rsuite";
-import { Beer } from "util/types/beer";
-import { sortTable } from "util/utils";
-import { GET_BEERS } from "../util/queries/getBeers";
+import { Container, Content, SelectPicker } from "rsuite";
 
-const { Column, HeaderCell, Cell } = Table;
+export default function Home({ initialVenue }: { initialVenue: string }) {
+	const router = useRouter();
+	const [venue, setVenue] = useState<string>(initialVenue || "flatstick");
 
-export default function Home() {
-	const [state, setState] = useState<any>({
-		venue: "flatstick",
-	});
-
-	const { loading, error, data } = useQuery(GET_BEERS, {
-		variables: {
-			venue: state.venue || "flatstick",
-		},
-	}) as { data: { beers: Beer[] }; loading: boolean; error: Error };
-
-	const handleSort = (sortColumn: string, sortType: string): void => {
-		setState({
-			...state,
-			sortColumn,
-			sortType,
+	const changeVenue = (venue: string): void => {
+		router.push({
+			query: { venue },
 		});
+		setVenue(venue);
 	};
 
 	return (
@@ -37,8 +25,8 @@ export default function Home() {
 			<Content style={{ padding: "1em" }}>
 				<h1 className="title">On Tap Seattle</h1>
 				<SelectPicker
-					onChange={(e) => setState({ venue: e })}
-					value={state.venue}
+					onChange={changeVenue}
+					value={venue}
 					searchable={false}
 					cleanable={false}
 					data={[
@@ -47,112 +35,16 @@ export default function Home() {
 						{ label: "Chuck's Greenwood", value: "chucks" },
 					]}
 				/>
-				{error ? (
-					<div>Error: {error.message}</div>
-				) : (
-					<Table
-						height={750}
-						loading={loading}
-						data={sortTable(state, data?.beers)}
-						sortColumn={state.sortColumn}
-						sortType={state.sortType}
-						onSortColumn={handleSort}
-						affixHeader
-						affixHorizontalScrollbar>
-						<Column flexGrow={1} minWidth={80} fixed sortable>
-							<HeaderCell>Rating</HeaderCell>
-							<Cell dataKey="rating" f>
-								{(rowData: Beer) => (
-									<>
-										{rowData.rating ? (
-											<div style={{ textAlign: "center" }}>
-												<small style={{ display: "block" }}>
-													{rowData.rating}
-												</small>
-												<div style={{ marginTop: "-8px" }}>
-													<Ratings rating={rowData.rating}>
-														<Ratings.Widget
-															widgetDimension="10px"
-															widgetSpacing="0"
-														/>
-														<Ratings.Widget
-															widgetDimension="10px"
-															widgetSpacing="0"
-														/>
-														<Ratings.Widget
-															widgetDimension="10px"
-															widgetSpacing="0"
-														/>
-														<Ratings.Widget
-															widgetDimension="10px"
-															widgetSpacing="0"
-														/>
-														<Ratings.Widget
-															widgetDimension="10px"
-															widgetSpacing="0"
-														/>
-													</Ratings>
-												</div>
-											</div>
-										) : null}
-									</>
-								)}
-							</Cell>
-						</Column>
-						<Column flexGrow={2} minWidth={200} fixed sortable>
-							<HeaderCell>Beer</HeaderCell>
-							<Cell dataKey="beer">
-								{(rowData: Beer) =>
-									rowData.id ? (
-										<a
-											href={`https://untappd.com/beer/${rowData.id}`}
-											target="_blank"
-											rel="nofollow noreferrer">
-											{rowData.beer}
-										</a>
-									) : (
-										rowData.beer
-									)
-								}
-							</Cell>
-						</Column>
-
-						<Column flexGrow={2} minWidth={200} sortable>
-							<HeaderCell>Brewery</HeaderCell>
-							<Cell dataKey="brewery" />
-						</Column>
-
-						<Column flexGrow={1} minWidth={100} sortable>
-							<HeaderCell>Location</HeaderCell>
-							<Cell dataKey="location" />
-						</Column>
-
-						<Column flexGrow={1} minWidth={100} sortable>
-							<HeaderCell>Style</HeaderCell>
-							<Cell dataKey="style" />
-						</Column>
-
-						<Column flexGrow={1} minWidth={75} sortable>
-							<HeaderCell>ABV</HeaderCell>
-							<Cell dataKey="abv">
-								{(rowData: Beer) => rowData.abv && `${rowData.abv}%`}
-							</Cell>
-						</Column>
-
-						<Column flexGrow={1} minWidth={75} sortable>
-							<HeaderCell>IBU</HeaderCell>
-							<Cell dataKey="ibu" />
-						</Column>
-
-						<Column flexGrow={1} minWidth={75} sortable>
-							<HeaderCell>Remaining</HeaderCell>
-							<Cell dataKey="amount">
-								{(rowData: Beer) => rowData.amount && `${rowData.amount}%`}
-							</Cell>
-						</Column>
-					</Table>
-				)}
+				<Table venue={venue} />
 			</Content>
 		</Container>
 	);
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	return {
+		props: {
+			initialVenue: context.query.venue,
+		},
+	};
+};
