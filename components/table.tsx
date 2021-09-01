@@ -25,7 +25,6 @@ const slimText = {
 
 const titleStyle = {
   paddingBottom: 5,
-  whiteSpace: "nowrap",
   fontWeight: 500,
   fontSize: "1.5em"
 };
@@ -62,8 +61,12 @@ export default function BeerTable({ venue }) {
     );
   }
 
+	if (error) {
+		return <div>Error: {error.message}</div>
+	}
+
   return (
-    <PanelGroup hover>
+    <PanelGroup>
       {listData.map((beer, i) => (
         <Panel key={i} index={i}>
           <Grid fluid>
@@ -98,14 +101,14 @@ export default function BeerTable({ venue }) {
                   <div style={{ textAlign: "center" }}>
                     <div style={slimText}>Rating</div>
                     <div style={dataStyle}>
-                      <small>{beer.rating?.toFixed(2)}</small>&nbsp;
-                      <Ratings rating={beer.rating}>
+                      {beer.rating?.toFixed(2)}
+                      {/* <Ratings rating={beer.rating}>
                         <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
                         <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
                         <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
                         <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
                         <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
-                      </Ratings>
+                      </Ratings> */}
                     </div>
                   </div>
                 </Col>

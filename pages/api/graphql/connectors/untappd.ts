@@ -38,8 +38,8 @@ export default class UntappdClient {
       beer: result.beer_name,
       brewery: result.brewery_name,
       style: result.type_name,
-      rating: Math.round(result.rating_score * 100) / 100,
-      ratings: Number(result.rating_count),
+      rating: Math.round(result.rating_score * 100) / 100 || null,
+      ratings: Number(result.rating_count) || null,
       abv: result.beer_abv,
       labelImageUrl: result.beer_label
     };
