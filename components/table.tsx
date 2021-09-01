@@ -1,12 +1,11 @@
 import { useQuery } from "@apollo/client";
+import Image from "next/image";
 import React, { useState } from "react";
 import Ratings from "react-ratings-declarative";
-import { FlexboxGrid, Icon, List, Loader, Panel, PanelGroup, Table } from "rsuite";
+import { Col, Grid, Loader, Panel, PanelGroup, Row, Table } from "rsuite";
 import { GET_BEERS } from "util/queries/getBeers";
 import { Beer } from "util/types/beer";
 import { sortTable } from "util/utils";
-import Image from "next/image";
-import image from "next/image";
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -18,7 +17,7 @@ const styleCenter = {
 };
 
 const slimText = {
-  fontSize: "0.666em",
+  fontSize: "0.9em",
   color: "#97969B",
   fontWeight: "lighter",
   paddingBottom: 5
@@ -27,7 +26,8 @@ const slimText = {
 const titleStyle = {
   paddingBottom: 5,
   whiteSpace: "nowrap",
-  fontWeight: 500
+  fontWeight: 500,
+  fontSize: "1.5em"
 };
 
 const dataStyle = {
@@ -54,68 +54,80 @@ export default function BeerTable({ venue }) {
 
   const listData: Beer[] = sortTable(state, data?.beers) ?? [];
 
-	if (loading) {
-		return <div>
-			<Loader center size="md" />
-		</div>
-	}
+  if (loading) {
+    return (
+      <div>
+        <Loader center size="md" />
+      </div>
+    );
+  }
 
   return (
     <PanelGroup hover>
       {listData.map((beer, i) => (
         <Panel key={i} index={i}>
-          <FlexboxGrid>
-            <FlexboxGrid.Item>
-              <Image
-                width={100}
-                height={100}
-                src={
-                  beer.labelImageUrl || "https://untappd.akamaized.net/site/assets/images/temp/badge-beer-default.png"
-                }
-                alt={beer.beer}
-              />
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={6}>
-              <div style={titleStyle}>{beer.beer}</div>
-              <div style={titleStyle}>{beer.brewery}</div>
-              <div style={slimText}>
-                <div>{beer.style}</div>
-              </div>
-            </FlexboxGrid.Item>
-          </FlexboxGrid>
-          <FlexboxGrid>
-            {beer.rating ? (
-              <FlexboxGrid.Item colspan={6} style={styleCenter}>
-                <div style={{ textAlign: "right" }}>
-                  <div style={slimText}>Rating</div>
-                  <div style={dataStyle}>
-                    <small style={{ display: "block" }}>{beer.rating}</small>
-                    <div style={{ marginTop: "-8px" }}>
+          <Grid fluid>
+            <Row gutter={16}>
+              <Col xs={4} lg={2}>
+                <Image
+                  width={75}
+                  height={75}
+                  src={
+                    beer.labelImageUrl || "https://untappd.akamaized.net/site/assets/images/temp/badge-beer-default.png"
+                  }
+                  alt={beer.beer}
+                />
+              </Col>
+              <Col xs={20} lg={10}>
+                <div style={titleStyle}>
+                  {beer.id ? (
+                    <a href={`https://untappd.com/beer/${beer.id}`} target="_blank" rel="nofollow noreferrer">
+                      {beer.beer}
+                    </a>
+                  ) : (
+                    beer.beer
+                  )}
+                </div>
+                <div style={titleStyle}>{beer.brewery}</div>
+                <div style={slimText}>
+                  <div>{beer.style}</div>
+                </div>
+              </Col>
+              {beer.rating && (
+                <Col xs={4} style={styleCenter}>
+                  <div style={{ textAlign: "center" }}>
+                    <div style={slimText}>Rating</div>
+                    <div style={dataStyle}>
+                      <small>{beer.rating?.toFixed(2)}</small>&nbsp;
                       <Ratings rating={beer.rating}>
-                        <Ratings.Widget widgetDimension="10px" widgetSpacing="0" />
-                        <Ratings.Widget widgetDimension="10px" widgetSpacing="0" />
-                        <Ratings.Widget widgetDimension="10px" widgetSpacing="0" />
-                        <Ratings.Widget widgetDimension="10px" widgetSpacing="0" />
-                        <Ratings.Widget widgetDimension="10px" widgetSpacing="0" />
+                        <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
+                        <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
+                        <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
+                        <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
+                        <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
                       </Ratings>
                     </div>
                   </div>
-                </div>
-              </FlexboxGrid.Item>
-            ) : null}
-            <FlexboxGrid.Item colspan={6} style={styleCenter}>
-              <div style={{ textAlign: "right" }}>
-                <div style={slimText}>ABV</div>
-                <div style={dataStyle}>{beer.abv}</div>
-              </div>
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={6} style={styleCenter}>
-              <div style={{ textAlign: "right" }}>
-                <div style={slimText}>IBU</div>
-                <div style={dataStyle}>{beer.ibu}</div>
-              </div>
-            </FlexboxGrid.Item>
-          </FlexboxGrid>
+                </Col>
+              )}
+              {beer.abv && (
+                <Col xs={4} style={styleCenter}>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={slimText}>ABV</div>
+                    <div style={dataStyle}>{beer.abv}%</div>
+                  </div>
+                </Col>
+              )}
+              {beer.ibu && (
+                <Col xs={4} style={styleCenter}>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={slimText}>IBU</div>
+                    <div style={dataStyle}>{beer.ibu}</div>
+                  </div>
+                </Col>
+              )}
+            </Row>
+          </Grid>
         </Panel>
       ))}
     </PanelGroup>
