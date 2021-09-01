@@ -44,7 +44,7 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	return {
 		props: {
-			initialVenue: context.query.venue,
+			initialVenue: context.query.venue ?? null,
 		},
 	};
 };
