@@ -1,11 +1,12 @@
 import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import Ratings from "react-ratings-declarative";
-import { FlexboxGrid, Icon, List, Table } from "rsuite";
+import { FlexboxGrid, Icon, List, Loader, Panel, PanelGroup, Table } from "rsuite";
 import { GET_BEERS } from "util/queries/getBeers";
 import { Beer } from "util/types/beer";
 import { sortTable } from "util/utils";
 import Image from "next/image";
+import image from "next/image";
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -51,55 +52,73 @@ export default function BeerTable({ venue }) {
     });
   };
 
-  const listData: Beer[] = sortTable(state, data?.beers);
+  const listData: Beer[] = sortTable(state, data?.beers) ?? [];
+
+	if (loading) {
+		return <div>
+			<Loader center size="md" />
+		</div>
+	}
 
   return (
-    <List hover>
+    <PanelGroup hover>
       {listData.map((beer, i) => (
-        <List.Item key={i} index={i}>
+        <Panel key={i} index={i}>
           <FlexboxGrid>
             <FlexboxGrid.Item>
-              <img src={beer.labelImageUrl} alt={beer.beer} />
+              <Image
+                width={100}
+                height={100}
+                src={
+                  beer.labelImageUrl || "https://untappd.akamaized.net/site/assets/images/temp/badge-beer-default.png"
+                }
+                alt={beer.beer}
+              />
             </FlexboxGrid.Item>
             <FlexboxGrid.Item colspan={6}>
               <div style={titleStyle}>{beer.beer}</div>
+              <div style={titleStyle}>{beer.brewery}</div>
               <div style={slimText}>
                 <div>{beer.style}</div>
               </div>
             </FlexboxGrid.Item>
           </FlexboxGrid>
           <FlexboxGrid>
-            {/*base info*/}
-
-            {/*peak data*/}
+            {beer.rating ? (
+              <FlexboxGrid.Item colspan={6} style={styleCenter}>
+                <div style={{ textAlign: "right" }}>
+                  <div style={slimText}>Rating</div>
+                  <div style={dataStyle}>
+                    <small style={{ display: "block" }}>{beer.rating}</small>
+                    <div style={{ marginTop: "-8px" }}>
+                      <Ratings rating={beer.rating}>
+                        <Ratings.Widget widgetDimension="10px" widgetSpacing="0" />
+                        <Ratings.Widget widgetDimension="10px" widgetSpacing="0" />
+                        <Ratings.Widget widgetDimension="10px" widgetSpacing="0" />
+                        <Ratings.Widget widgetDimension="10px" widgetSpacing="0" />
+                        <Ratings.Widget widgetDimension="10px" widgetSpacing="0" />
+                      </Ratings>
+                    </div>
+                  </div>
+                </div>
+              </FlexboxGrid.Item>
+            ) : null}
             <FlexboxGrid.Item colspan={6} style={styleCenter}>
               <div style={{ textAlign: "right" }}>
-                <div style={slimText}>Top Value</div>
-                <div style={dataStyle}>{beer.rating}</div>
-              </div>
-            </FlexboxGrid.Item>
-            {/*uv data*/}
-            <FlexboxGrid.Item colspan={6} style={styleCenter}>
-              <div style={{ textAlign: "right" }}>
-                <div style={slimText}>UV</div>
+                <div style={slimText}>ABV</div>
                 <div style={dataStyle}>{beer.abv}</div>
               </div>
             </FlexboxGrid.Item>
-            {/*uv data*/}
-            <FlexboxGrid.Item
-              colspan={4}
-              style={{
-                ...styleCenter
-              }}
-            >
-              <a href="#">View</a>
-              <span style={{ padding: 5 }}>|</span>
-              <a href="#">Edit</a>
+            <FlexboxGrid.Item colspan={6} style={styleCenter}>
+              <div style={{ textAlign: "right" }}>
+                <div style={slimText}>IBU</div>
+                <div style={dataStyle}>{beer.ibu}</div>
+              </div>
             </FlexboxGrid.Item>
           </FlexboxGrid>
-        </List.Item>
+        </Panel>
       ))}
-    </List>
+    </PanelGroup>
   );
 
   return error ? (
