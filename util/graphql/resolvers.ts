@@ -7,7 +7,7 @@ export const resolvers = {
 			let client: ConnectorBase;
 
 			try {
-				client = new (await import(`./connectors/${venue}.ts`)).default();
+				client = new (await import(`../connectors/${venue}.ts`)).default();
 			} catch {
 				throw `Venue "${venue}" is not registered!`;
 			}

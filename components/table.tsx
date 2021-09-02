@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Col, Grid, Loader, Panel, PanelGroup, Row } from "rsuite";
 import { GET_BEERS } from "util/queries/getBeers";
 import { Beer } from "util/types/beer";
+import { Sort } from "util/types/sort";
 import { sortTable } from "util/utils";
 
 const cardStyle = {
@@ -30,7 +31,7 @@ const dataStyle = {
   fontWeight: 500
 };
 
-export default function BeerTable({ venue }: { venue: string }) {
+export default function BeerTable({ venue, sort }: { venue: string, sort: Sort }) {
   const [state, setState] = useState<any>({});
 
   const { loading, error, data } = useQuery(GET_BEERS, {
@@ -39,15 +40,8 @@ export default function BeerTable({ venue }: { venue: string }) {
     }
   }) as { data: { beers: Beer[] }; loading: boolean; error: Error };
 
-  const handleSort = (sortColumn: string, sortType: string): void => {
-    setState({
-      ...state,
-      sortColumn,
-      sortType
-    });
-  };
-
-  const listData: Beer[] = sortTable(state, data?.beers) ?? [];
+	console.warn("sort", sort)
+  const listData: Beer[] = sortTable(sort, data?.beers) ?? [];
 
   if (loading) {
     return (

@@ -4,10 +4,12 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Container, Content, SelectPicker } from "rsuite";
+import { Sort } from "util/types/sort";
 
 export default function Home({ initialVenue }: { initialVenue: string }) {
 	const router = useRouter();
 	const [venue, setVenue] = useState<string>(initialVenue || "flatstick");
+	const [sort, setSort] = useState<Sort>({ field: "rating", dir: "desc" });
 
 	const changeVenue = (venue: string): void => {
 		router.push({
@@ -15,6 +17,10 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
 		});
 		setVenue(venue);
 	};
+
+	const changeSort = (sort: Sort): void =>{
+
+	}
 
 	return (
 		<Container>
@@ -35,7 +41,18 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
 						{ label: "Chuck's Greenwood", value: "chucks" },
 					]}
 				/>
-				<Table venue={venue} />
+				{/* <SelectPicker
+					onChange={changeVenue}
+					value={venue}
+					searchable={false}
+					cleanable={false}
+					data={[
+						{ label: "Flatstick Pioneer Square", value: "flatstick" },
+						{ label: "Flatstick Kirkland", value: "flatstickKirkland" },
+						{ label: "Chuck's Greenwood", value: "chucks" },
+					]}
+				/> */}
+				<Table venue={venue} sort={sort} />
 			</Content>
 		</Container>
 	);
