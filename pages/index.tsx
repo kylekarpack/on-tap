@@ -4,16 +4,51 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Container, Content, SelectPicker } from "rsuite";
+import { Sort } from "util/types/sort";
+
+const venues = [
+	{ label: "Flatstick Pioneer Square", value: "flatstick" },
+	{ label: "Flatstick Kirkland", value: "flatstickKirkland" },
+	{ label: "Chuck's Greenwood", value: "chucks" },
+];
+
+const sorts: Sort[] = [
+	{
+		label: "Rating (High to Low)",
+		field: "rating",
+		dir: "desc"
+	},
+	{
+		label: "Rating (Low to High)",
+		field: "rating",
+		dir: "asc"
+	},
+	{
+		label: "Name (A to Z)",
+		field: "beer",
+		dir: "asc"
+	},
+	{
+		label: "Name (Z to A)",
+		field: "beer",
+		dir: "desc"
+	}
+]
 
 export default function Home({ initialVenue }: { initialVenue: string }) {
 	const router = useRouter();
 	const [venue, setVenue] = useState<string>(initialVenue || "flatstick");
+	const [sort, setSort] = useState<Sort>(sorts[0]);
 
 	const changeVenue = (venue: string): void => {
 		router.push({
 			query: { venue },
 		});
 		setVenue(venue);
+	};
+
+	const changeSort = (_: never, sort: Sort): void =>{
+		setSort(sort);
 	};
 
 	return (
@@ -29,13 +64,18 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
 					value={venue}
 					searchable={false}
 					cleanable={false}
-					data={[
-						{ label: "Flatstick Pioneer Square", value: "flatstick" },
-						{ label: "Flatstick Kirkland", value: "flatstickKirkland" },
-						{ label: "Chuck's Greenwood", value: "chucks" },
-					]}
+					data={venues}
 				/>
-				<Table venue={venue} />
+				&nbsp;
+				<SelectPicker
+					onSelect={changeSort}
+					value={sort.label}
+					valueKey="label"
+					searchable={false}
+					cleanable={false}
+					data={sorts}
+				/>
+				<Table venue={venue} sort={sort} />
 			</Content>
 		</Container>
 	);
@@ -44,7 +84,7 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	return {
 		props: {
-			initialVenue: context.query.venue,
+			initialVenue: context.query.venue ?? null,
 		},
 	};
 };
