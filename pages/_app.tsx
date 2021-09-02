@@ -1,10 +1,11 @@
-import "rsuite/dist/rsuite.min.css"; // or css
-import "styles/globals.css";
 import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "../util/apolloClient";
+import { AppProps } from "next/app";
 import Head from "next/head";
+import "rsuite/dist/rsuite.min.css";
+import "styles/globals.css";
+import { useApollo } from "../util/apolloClient";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (

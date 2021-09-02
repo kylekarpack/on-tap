@@ -8,8 +8,8 @@ export const sortTable = (
 	if (sortColumn && sortType && data) {
 		let copy = JSON.parse(JSON.stringify(data));
 		return copy.sort((a: Beer, b: Beer) => {
-			let x = a[sortColumn];
-			let y = b[sortColumn];
+			let x = (a as any)[sortColumn];
+			let y = (b as any)[sortColumn];
 			if (typeof x === "string") {
 				x = x.charCodeAt(0);
 			}
