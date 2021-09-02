@@ -30,7 +30,7 @@ const dataStyle = {
   fontWeight: 500
 };
 
-export default function BeerTable({ venue }) {
+export default function BeerTable({ venue }: { venue: string }) {
   const [state, setState] = useState<any>({});
 
   const { loading, error, data } = useQuery(GET_BEERS, {
@@ -64,7 +64,7 @@ export default function BeerTable({ venue }) {
   return (
     <PanelGroup>
       {listData.map((beer, i) => (
-        <Panel key={i} index={i}>
+        <Panel key={i}>
           <Grid fluid>
             <Row gutter={16}>
               <Col xs={8} sm={4} md={2}>
