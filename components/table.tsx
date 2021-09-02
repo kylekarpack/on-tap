@@ -18,7 +18,7 @@ const cardStyle = {
 const slimText = {
   fontSize: "0.9em",
   color: "#97969B",
-  fontWeight: "lighter",
+  fontWeight: 300,
   paddingBottom: 5
 };
 
