@@ -9,11 +9,10 @@ import { sortTable } from "util/utils";
 
 const { Column, HeaderCell, Cell } = Table;
 
-const styleCenter = {
-  display: "flex",
+const cardStyle = {
   justifyContent: "center",
   alignItems: "center",
-  height: "60px"
+	marginTop: "1em"
 };
 
 const slimText = {
@@ -26,7 +25,7 @@ const slimText = {
 const titleStyle = {
   paddingBottom: 5,
   fontWeight: 500,
-  fontSize: "1.5em"
+  fontSize: "1.6em"
 };
 
 const dataStyle = {
@@ -61,9 +60,9 @@ export default function BeerTable({ venue }) {
     );
   }
 
-	if (error) {
-		return <div>Error: {error.message}</div>
-	}
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <PanelGroup>
@@ -71,7 +70,7 @@ export default function BeerTable({ venue }) {
         <Panel key={i} index={i}>
           <Grid fluid>
             <Row gutter={16}>
-              <Col xs={4} lg={2}>
+              <Col xs={8} sm={4} md={2}>
                 <Image
                   width={75}
                   height={75}
@@ -81,7 +80,7 @@ export default function BeerTable({ venue }) {
                   alt={beer.beer}
                 />
               </Col>
-              <Col xs={20} lg={10}>
+              <Col xs={16} sm={14} md={10}>
                 <div style={titleStyle}>
                   {beer.id ? (
                     <a href={`https://untappd.com/beer/${beer.id}`} target="_blank" rel="nofollow noreferrer">
@@ -91,42 +90,27 @@ export default function BeerTable({ venue }) {
                     beer.beer
                   )}
                 </div>
-                <div style={titleStyle}>{beer.brewery}</div>
+                <div style={{ ...titleStyle, ...{ fontSize: "1.2em" } }}>{beer.brewery}</div>
                 <div style={slimText}>
                   <div>{beer.style}</div>
                 </div>
               </Col>
               {beer.rating && (
-                <Col xs={4} style={styleCenter}>
-                  <div style={{ textAlign: "center" }}>
-                    <div style={slimText}>Rating</div>
-                    <div style={dataStyle}>
-                      {beer.rating?.toFixed(2)}
-                      {/* <Ratings rating={beer.rating}>
-                        <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
-                        <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
-                        <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
-                        <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
-                        <Ratings.Widget widgetDimension="15px" widgetSpacing="0" />
-                      </Ratings> */}
-                    </div>
-                  </div>
+                <Col xs={8} md={4} style={cardStyle}>
+                  <div style={slimText}>Rating</div>
+                  <div style={dataStyle}>{beer.rating?.toFixed(2)}</div>
                 </Col>
               )}
               {beer.abv && (
-                <Col xs={4} style={styleCenter}>
-                  <div style={{ textAlign: "right" }}>
-                    <div style={slimText}>ABV</div>
-                    <div style={dataStyle}>{beer.abv}%</div>
-                  </div>
+                <Col xs={8} md={4} style={cardStyle}>
+                  <div style={slimText}>ABV</div>
+                  <div style={dataStyle}>{beer.abv}%</div>
                 </Col>
               )}
               {beer.ibu && (
-                <Col xs={4} style={styleCenter}>
-                  <div style={{ textAlign: "right" }}>
-                    <div style={slimText}>IBU</div>
-                    <div style={dataStyle}>{beer.ibu}</div>
-                  </div>
+                <Col xs={8} md={4} style={cardStyle}>
+                  <div style={slimText}>IBU</div>
+                  <div style={dataStyle}>{beer.ibu}</div>
                 </Col>
               )}
             </Row>
