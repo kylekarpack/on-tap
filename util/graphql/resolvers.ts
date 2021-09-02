@@ -1,5 +1,5 @@
 import { Beer } from "util/types/beer";
-import ConnectorBase from "./connectors/connectorBase";
+import ConnectorBase from "../connectors/connectorBase";
 
 export const resolvers = {
 	Query: {
