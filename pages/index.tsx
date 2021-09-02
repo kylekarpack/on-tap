@@ -58,7 +58,7 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
 			</Head>
 
 			<Content style={{ padding: "1em" }}>
-				<h1 className="title">On Tap Seattle</h1>
+				<h1 style={{fontSize: "2em"}}>On Tap Seattle</h1>
 				<SelectPicker
 					onChange={changeVenue}
 					value={venue}

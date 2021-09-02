@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import { Col, Grid, Loader, Panel, PanelGroup, Row } from "rsuite";
 import { GET_BEERS } from "util/queries/getBeers";
 import { Beer } from "util/types/beer";
@@ -31,16 +31,13 @@ const dataStyle = {
   fontWeight: 500
 };
 
-export default function BeerTable({ venue, sort }: { venue: string, sort: Sort }) {
-  const [state, setState] = useState<any>({});
-
+export default function BeerTable({ venue, sort }: { venue: string; sort: Sort }) {
   const { loading, error, data } = useQuery(GET_BEERS, {
     variables: {
       venue
     }
   }) as { data: { beers: Beer[] }; loading: boolean; error: Error };
 
-	console.warn("sort", sort)
   const listData: Beer[] = sortTable(sort, data?.beers) ?? [];
 
   if (loading) {
@@ -89,7 +86,14 @@ export default function BeerTable({ venue, sort }: { venue: string, sort: Sort }
               {beer.rating && (
                 <Col xs={8} md={4} style={cardStyle}>
                   <div style={slimText}>Rating</div>
-                  <div style={dataStyle}>{beer.rating?.toFixed(2)}</div>
+                  <div style={dataStyle}>
+                    {beer.rating?.toFixed(2)}
+                    {beer.ratings && (
+                      <small style={{ opacity: 0.5 }}>
+                        &nbsp;({new Intl.NumberFormat("en-US").format(beer.ratings)})
+                      </small>
+                    )}
+                  </div>
                 </Col>
               )}
               {beer.abv && (

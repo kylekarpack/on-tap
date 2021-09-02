@@ -11,7 +11,7 @@ export const typeDefs = gql`
 		abv: Float
 		ibu: Float
 		rating: Float
-		ratings: String
+		ratings: Int
 		details: String
 		labelImageUrl: String
 	}
