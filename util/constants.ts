@@ -1,0 +1,30 @@
+import { Sort } from "./types/sort";
+
+export const venues = [
+  { label: "Flatstick Pioneer Square", value: "flatstick" },
+  { label: "Flatstick Kirkland", value: "flatstickKirkland" },
+  { label: "Chuck's Greenwood", value: "chucks" }
+];
+
+export const sorts: Sort[] = [
+  {
+    label: "Rating (High to Low)",
+    field: "rating",
+    dir: "desc"
+  },
+  {
+    label: "Rating (Low to High)",
+    field: "rating",
+    dir: "asc"
+  },
+  {
+    label: "Name (A to Z)",
+    field: "beer",
+    dir: "asc"
+  },
+  {
+    label: "Name (Z to A)",
+    field: "beer",
+    dir: "desc"
+  }
+];
