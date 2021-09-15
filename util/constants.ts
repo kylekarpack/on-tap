@@ -46,5 +46,15 @@ export const sorts: Sort[] = [
     label: "ABV (Low to High)",
     field: "abv",
     dir: "asc"
+  },
+  {
+    label: "IBU (High to Low)",
+    field: "ibu",
+    dir: "desc"
+  },
+  {
+    label: "IBU (Low to High)",
+    field: "ibu",
+    dir: "asc"
   }
 ];
