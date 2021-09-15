@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Container, Content, SelectPicker } from "rsuite";
+import { Container, Content, FlexboxGrid, SelectPicker } from "rsuite";
 import { sorts, venues } from "util/constants";
 import { Sort } from "util/types/sort";
 
@@ -31,16 +31,27 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
 
       <Content style={{ padding: "1em" }}>
         <h1 style={{ fontSize: "2em" }}>On Tap Seattle</h1>
-        <SelectPicker onChange={changeVenue} value={venue} searchable={false} cleanable={false} data={venues} />
-        &nbsp;
-        <SelectPicker
-          onSelect={changeSort}
-          value={sort.label}
-          valueKey="label"
-          searchable={false}
-          cleanable={false}
-          data={sorts}
-        />
+        <FlexboxGrid>
+          <FlexboxGrid.Item style={{marginRight:"1em"}}>
+            <SelectPicker
+              onChange={changeVenue}
+              value={venue}
+              searchable={false}
+              cleanable={false}
+              data={venues}
+            />
+          </FlexboxGrid.Item>
+          <FlexboxGrid.Item>
+            <SelectPicker
+              onSelect={changeSort}
+              value={sort.label}
+              valueKey="label"
+              searchable={false}
+              cleanable={false}
+              data={sorts}
+            />
+          </FlexboxGrid.Item>
+        </FlexboxGrid>
         <Table venue={venue} sort={sort} />
       </Content>
     </Container>

@@ -49,7 +49,6 @@ export default function BeerTable({ venue, sort }: { venue: string; sort: Sort }
   }
 
   if (error) {
-    console.log({ e: error });
     return (
       <Message style={{ marginTop: "1em" }} type="error">
         <h5 className="rs-message-header">Error</h5>
