@@ -26,5 +26,25 @@ export const sorts: Sort[] = [
     label: "Name (Z to A)",
     field: "beer",
     dir: "desc"
+  },
+  {
+    label: "Style (A to Z)",
+    field: "style",
+    dir: "asc"
+  },
+  {
+    label: "Style (Z to A)",
+    field: "style",
+    dir: "desc"
+  },
+  {
+    label: "ABV (High to Low)",
+    field: "abv",
+    dir: "desc"
+  },
+  {
+    label: "ABV (Low to High)",
+    field: "abv",
+    dir: "asc"
   }
 ];
