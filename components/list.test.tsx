@@ -1,10 +1,10 @@
-import React from "react";
-import { render, cleanup, act } from "@testing-library/react";
 import { MockedProvider, MockedResponse } from "@apollo/react-testing";
-import List from "./list";
-import { GET_BEERS } from "utilities/queries";
+import { act, cleanup, render } from "@testing-library/react";
 import { GraphQLError } from "graphql";
+import React from "react";
+import { GET_BEERS } from "utilities/queries";
 import { Beer } from "utilities/types";
+import List from "./list";
 
 const emptyMock: MockedResponse<Record<string, Beer[]>> = {
   request: {
@@ -32,7 +32,7 @@ describe("list component", () => {
       </MockedProvider>
     );
 
-    expect(cmp).toMatchSnapshot();
+    expect(cmp.container).toBeVisible();
   });
 
   it("renders error", async () => {
