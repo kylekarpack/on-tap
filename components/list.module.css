@@ -1,0 +1,23 @@
+.card {
+  justifycontent: center;
+  alignitems: center;
+  margintop: 1em;
+}
+
+.slim {
+  fontsize: 0.9em;
+  color: #97969b;
+  fontweight: 300;
+  paddingbottom: 5px;
+}
+
+.title {
+  paddingbottom: 5px;
+  fontweight: 500;
+  fontsize: 1.6em;
+}
+
+.data {
+  fontsize: 1.2em;
+  fontweight: 500;
+}
