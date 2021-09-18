@@ -1,23 +1,23 @@
 .card {
-  justifycontent: center;
-  alignitems: center;
-  margintop: 1em;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1em;
 }
 
 .slim {
-  fontsize: 0.9em;
+  font-size: 0.9em;
   color: #97969b;
-  fontweight: 300;
-  paddingbottom: 5px;
+  font-weight: 300;
+  padding-bottom: 5px;
 }
 
 .title {
-  paddingbottom: 5px;
-  fontweight: 500;
-  fontsize: 1.6em;
+  padding-bottom: 5px;
+  font-weight: 500;
+  font-size: 1.6em;
 }
 
 .data {
-  fontsize: 1.2em;
-  fontweight: 500;
+  font-size: 1.2em;
+  font-weight: 500;
 }
