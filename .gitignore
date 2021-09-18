@@ -83,3 +83,5 @@ typings/
 
 # vercel
 .vercel
+
+__snapshots__/
