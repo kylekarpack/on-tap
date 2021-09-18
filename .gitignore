@@ -85,3 +85,4 @@ typings/
 .vercel
 
 __snapshots__/
+test-report.xml
