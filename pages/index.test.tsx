@@ -3,7 +3,7 @@ import React from "react";
 import Index from "./index";
 import { MockedProvider } from "@apollo/react-testing";
 
-describe("index page", () => {
+describe.skip("index page", () => {
   afterEach(cleanup);
 
   it("renders", () => {
