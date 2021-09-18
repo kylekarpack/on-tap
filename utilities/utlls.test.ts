@@ -2,15 +2,19 @@ import { Beer, Sort } from "./types";
 import { sortTable } from "./utils";
 
 describe("table sort functions", () => {
-
-	const sort: Sort = { field: "rating", dir: "desc" };
+  const sort: Sort = { field: "rating", dir: "desc" };
 
   it("sorts empty array", () => {
     expect(sortTable(sort, [])).toEqual([]);
   });
 
-	it("sorts array with one element", () => {
-		const data: Beer[] = [];
-	})
+  it("sorts array with one element", () => {
+    const data: Beer[] = [
+      {
+        rating: 5
+      }
+    ];
 
+    expect(sortTable(sort, data)).toEqual(data);
+  });
 });
