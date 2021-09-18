@@ -12,15 +12,15 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
   const [venue, setVenue] = useState<string>(initialVenue || venues[0].value);
   const [sort, setSort] = useState<Sort>(sorts[0]);
 
-  const changeVenue = (venue: string): void => {
+  const changeVenue = (newVenue: string): void => {
     router.push({
-      query: { venue }
+      query: { venue: newVenue }
     });
-    setVenue(venue);
+    setVenue(newVenue);
   };
 
-  const changeSort = (_: never, sort: Sort): void => {
-    setSort(sort);
+  const changeSort = (_: never, newSort: Sort): void => {
+    setSort(newSort);
   };
 
   return (
@@ -32,14 +32,8 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
       <Content style={{ padding: "1em" }}>
         <h1 style={{ fontSize: "2em" }}>On Tap Seattle</h1>
         <FlexboxGrid>
-          <FlexboxGrid.Item style={{marginRight:"1em"}}>
-            <SelectPicker
-              onChange={changeVenue}
-              value={venue}
-              searchable={false}
-              cleanable={false}
-              data={venues}
-            />
+          <FlexboxGrid.Item style={{ marginRight: "1em" }}>
+            <SelectPicker onChange={changeVenue} value={venue} searchable={false} cleanable={false} data={venues} />
           </FlexboxGrid.Item>
           <FlexboxGrid.Item>
             <SelectPicker
