@@ -1,6 +1,6 @@
 require("dotenv").config();
 import axios from "axios";
-import { Beer, AlgoliaBeer } from "util/types/beer";
+import { Beer, AlgoliaBeer } from "utilities/types/beer";
 
 export default class Untappd {
   async getBeer(beer: Beer): Promise<Partial<Beer>> {

@@ -1,4 +1,4 @@
-import { Beer } from "util/types/beer";
+import { Beer } from "utilities/types/beer";
 import xray from "x-ray";
 import UntappdApi from "./untappd";
 

@@ -1,4 +1,4 @@
-import { Beer } from "util/types/beer";
+import { Beer } from "utilities/types/beer";
 import ConnectorBase from "../connectors/connectorBase";
 
 export const resolvers = {

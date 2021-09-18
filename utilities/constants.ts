@@ -1,4 +1,4 @@
-import { Sort } from "./types/sort";
+import { Sort } from "./types";
 
 export const venues = [
   { label: "Flatstick Pioneer Square", value: "flatstick" },

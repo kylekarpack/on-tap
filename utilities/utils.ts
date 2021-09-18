@@ -1,5 +1,4 @@
-import { Beer } from "./types/beer";
-import { Sort } from "./types/sort";
+import { Beer, Sort } from "./types";
 
 export const sortTable = (sort: Sort, data: Beer[]) => {
   const { field, dir } = sort;
