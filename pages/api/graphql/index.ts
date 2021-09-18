@@ -1,6 +1,6 @@
 import { ApolloServer } from "apollo-server-micro";
-import { typeDefs } from "util/graphql/schemas";
-import { resolvers } from "util/graphql/resolvers";
+import { typeDefs } from "utilities/graphql/schemas";
+import { resolvers } from "utilities/graphql/resolvers";
 
 const apolloServer = new ApolloServer({
 	typeDefs,

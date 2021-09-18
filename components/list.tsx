@@ -1,11 +1,10 @@
 import { useQuery } from "@apollo/client";
 import Image from "next/image";
 import React from "react";
-import { Col, Grid, Loader, Panel, PanelGroup, Row, Message } from "rsuite";
-import { GET_BEERS } from "util/queries/getBeers";
-import { Beer } from "util/types/beer";
-import { Sort } from "util/types/sort";
-import { sortTable } from "util/utils";
+import { Col, Grid, Loader, Message, Panel, PanelGroup, Row } from "rsuite";
+import { GET_BEERS } from "utilities/queries/getBeers";
+import { Beer, Sort } from "utilities/types";
+import { sortTable } from "utilities/utils";
 import styles from "./list.module.css";
 
 export default function List({ venue, sort }: { venue: string; sort: Sort }) {

@@ -1,11 +1,11 @@
-import Table from "components/list";
+import List from "components/list";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Container, Content, FlexboxGrid, SelectPicker } from "rsuite";
-import { sorts, venues } from "util/constants";
-import { Sort } from "util/types/sort";
+import { sorts, venues } from "utilities/constants";
+import { Sort } from "utilities/types";
 
 export default function Home({ initialVenue }: { initialVenue: string }) {
   const router = useRouter();
@@ -46,7 +46,7 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
             />
           </FlexboxGrid.Item>
         </FlexboxGrid>
-        <Table venue={venue} sort={sort} />
+        <List venue={venue} sort={sort} />
       </Content>
     </Container>
   );
