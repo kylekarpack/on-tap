@@ -22,7 +22,7 @@ export default class Flatstick extends ConnectorBase {
 
 	process(data: Beer[]): Beer[] {
 		for (let beer of data) {
-			const amount = String(beer.amount).match(/[0-9]{1,3}\%/g);
+			const amount = String(beer.amount).match(/\d{1,3}\%/g);
 			if (amount) {
 				beer.amount = parseFloat(amount[0]);
 			}

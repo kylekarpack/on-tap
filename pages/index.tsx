@@ -1,4 +1,4 @@
-import Table from "components/table";
+import Table from "components/list";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";

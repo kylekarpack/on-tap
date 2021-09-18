@@ -14,7 +14,7 @@ class ConnectorBase {
   public async execute(): Promise<Beer[]> {
     const pageData = await this.read();
     const beers = this.process(pageData);
-    return await this.compare(beers);
+    return this.compare(beers);
   }
 
   protected async read(): Promise<Beer[]> {
@@ -26,7 +26,7 @@ class ConnectorBase {
   }
 
   private async compare(beers: Beer[]): Promise<Beer[]> {
-    const output = await Promise.all(
+    return Promise.all(
       beers.map(async (beerData) => {
         let appendix = await this.untapped.getBeer(beerData);
         const beer = new Beer(beerData);
@@ -34,8 +34,6 @@ class ConnectorBase {
         return beer;
       })
     );
-
-    return output;
   }
 }
 

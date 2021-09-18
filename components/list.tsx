@@ -31,7 +31,7 @@ const dataStyle = {
   fontWeight: 500
 };
 
-export default function BeerTable({ venue, sort }: { venue: string; sort: Sort }) {
+export default function List({ venue, sort }: { venue: string; sort: Sort }) {
   const { loading, error, data } = useQuery(GET_BEERS, {
     variables: {
       venue

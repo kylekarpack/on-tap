@@ -2,7 +2,7 @@ require("dotenv").config();
 import axios from "axios";
 import { Beer, AlgoliaBeer } from "util/types/beer";
 
-export default class UntappdClient {
+export default class Untappd {
   async getBeer(beer: Beer): Promise<Partial<Beer>> {
     let searchBeer = beer.beer?.replace(/ (ipa|stout|porter|sour|hazy|cider|tripel)$/gi, "");
 		searchBeer = searchBeer.split(" - ")[0];
