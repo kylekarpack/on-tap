@@ -5,7 +5,7 @@ import "rsuite/dist/rsuite.min.css";
 import "styles/globals.css";
 import { useApollo } from "../util/apolloClient";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (
@@ -31,4 +31,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default App;
