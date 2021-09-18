@@ -2,19 +2,18 @@ import { useQuery } from "@apollo/client";
 import Image from "next/image";
 import React from "react";
 import { Col, Grid, Loader, Message, Panel, PanelGroup, Row } from "rsuite";
-import { GET_BEERS } from "utilities/queries";
+import { GET_BEERS } from "utilities/queries/getBeers";
 import { Beer, Sort } from "utilities/types";
 import { sortTable } from "utilities/utils";
 import styles from "./list.module.css";
 
 export default function List({ venue, sort }: { venue: string; sort: Sort }) {
-  const { loading, error, data } = useQuery(GET_BEERS, {
+  
+	const { loading, error, data } = useQuery(GET_BEERS, {
     variables: {
       venue
     }
   }) as { data: { beers: Beer[] }; loading: boolean; error: Error };
-
-  const listData: Beer[] = sortTable(sort, data?.beers) ?? [];
 
   if (loading) {
     return (
@@ -32,6 +31,8 @@ export default function List({ venue, sort }: { venue: string; sort: Sort }) {
       </Message>
     );
   }
+
+	const listData: Beer[] = sortTable(sort, data?.beers) ?? [];
 
   return (
     <PanelGroup>

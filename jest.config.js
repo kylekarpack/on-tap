@@ -1,5 +1,7 @@
 module.exports = {
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   collectCoverageFrom: ["**/*.{ts,tsx}", "!**/*.d.ts", "!**/node_modules/**"],
+  modulePaths: ["<rootDir>", "utilities"],
   moduleNameMapper: {
     /* Handle CSS imports (with CSS modules)
     https://jestjs.io/docs/webpack#mocking-css-modules */
@@ -10,7 +12,9 @@ module.exports = {
 
     /* Handle image imports
     https://jestjs.io/docs/webpack#handling-static-assets */
-    "^.+\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/__mocks__/fileMock.js"
+    "^.+\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/__mocks__/fileMock.js",
+    "^@/components/(.*)$": "<rootDir>/components/$1",
+    "^@/utilities/(.*)$": "<rootDir>/utilities/$1"
   },
   testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
   testEnvironment: "jsdom",
