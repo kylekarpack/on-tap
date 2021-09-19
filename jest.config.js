@@ -1,6 +1,6 @@
 module.exports = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
-  collectCoverageFrom: ["**/*.{ts,tsx}", "!**/*.d.ts", "!**/node_modules/**"],
+  collectCoverageFrom: ["**/*.{ts,tsx}", "!**/*.d.ts", "!**/node_modules/**", "!**/pages/**"],
   modulePaths: ["<rootDir>", "utilities"],
   moduleNameMapper: {
     /* Handle CSS imports (with CSS modules)
@@ -16,7 +16,7 @@ module.exports = {
     "^@/components/(.*)$": "<rootDir>/components/$1",
     "^@/utilities/(.*)$": "<rootDir>/utilities/$1"
   },
-  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
+  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/", "<rootDir>/pages"],
   testEnvironment: "jsdom",
   transform: {
     /* Use babel-jest to transpile tests with the next/babel preset
