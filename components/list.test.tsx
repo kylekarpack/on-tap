@@ -21,7 +21,6 @@ const emptyMock: MockedResponse<Record<string, Beer[]>> = {
 };
 
 describe("list component", () => {
-
   it("renders", () => {
     const mocks = [emptyMock];
 
@@ -53,7 +52,28 @@ describe("list component", () => {
   });
 
   it("renders list", async () => {
-    const mocks = [emptyMock];
+    const mocks = [
+      {
+        ...emptyMock
+        // ...{
+        //   result: {
+        //     data: {
+        //       beers: [
+        //         {
+        // 					id: 1,
+        //           rating: 4.522,
+        //           ratings: 10,
+        //           abv: 5,
+        //           ibu: 30,
+        // 					labelImageUrl: "",
+        // 					details: ""
+        //         }
+        //       ]
+        //     }
+        //   }
+        // }
+      }
+    ];
 
     const cmp = render(
       <MockedProvider mocks={mocks} addTypename={false}>
