@@ -76,6 +76,6 @@ describe("list component", () => {
 
     await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
     expect(cmp.getByTestId("list")).toBeVisible();
-    expect(cmp.getByTestId("list").childElementCount).toEqual(1);
+    expect(cmp.getByTestId("list").childElementCount).toEqual(2);
   });
 });
