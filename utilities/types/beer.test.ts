@@ -16,4 +16,21 @@ describe("beer object", () => {
     expect(beer.abv).toBe(5);
     expect(beer.brewery).toBe("Old Brewery");
   });
+
+  it("merges with algoila", () => {
+    const beer = new Beer();
+    const augmented = beer.fromAlgoliaBeer({
+      rating_score: 4.222,
+      rating_count: 10
+    });
+    expect(augmented).toBeDefined();
+    expect(augmented.rating).toEqual(4.22);
+    expect(augmented.ratings).toEqual(10);
+  });
+
+  it("merges with algoila if source is null", () => {
+    const beer = new Beer();
+    const augmented = beer.fromAlgoliaBeer(null);
+    expect(augmented).toEqual(new Beer());
+  });
 });

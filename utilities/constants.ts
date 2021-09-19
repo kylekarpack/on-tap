@@ -1,9 +1,19 @@
-import { Sort } from "./types";
+/* istanbul ignore file */
+import { Sort, Venue } from "./types";
 
-export const venues = [
-  { label: "Flatstick Pioneer Square", value: "flatstick" },
-  { label: "Flatstick Kirkland", value: "flatstickKirkland" },
-  { label: "Chuck's Greenwood", value: "chucks" }
+export const venues: Venue[] = [
+  {
+    label: "Flatstick Pioneer Square",
+    value: "flatstick"
+  },
+  {
+    label: "Flatstick Kirkland",
+    value: "flatstickKirkland"
+  },
+  {
+    label: "Chuck's Greenwood",
+    value: "chucks"
+  }
 ];
 
 export const sorts: Sort[] = [

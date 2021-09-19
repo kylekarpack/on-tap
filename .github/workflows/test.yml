@@ -16,7 +16,7 @@ jobs:
       - name: Install Packages
         run: npm install --force
       - name: Run Tests
-        run: npm run test -- --coverage --testResultsProcessor=jest-sonar-reporter
+        run: npm run test -- --coverage --verbose --testResultsProcessor=jest-sonar-reporter
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
