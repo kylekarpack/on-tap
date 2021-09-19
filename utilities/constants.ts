@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { Sort, Venue } from "./types";
 
 export const venues: Venue[] = [
