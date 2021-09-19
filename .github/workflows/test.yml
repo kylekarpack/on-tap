@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Install Packages
-        run: npm install --no-shrinkwrap
+        run: npm install --force
       - name: Run Tests
         run: npm run test -- --coverage --testResultsProcessor=jest-sonar-reporter
       - name: SonarCloud Scan
