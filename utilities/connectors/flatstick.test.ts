@@ -5,6 +5,6 @@ describe("flatstick connector", () => {
     const flatstick = new Flatstick();
     const data = await flatstick.execute();
     expect(data).toHaveLength(1);
-		expect(data[0].rating).toBe(4.75);
+    expect(data[0].rating).toBe(4.75);
   });
 });

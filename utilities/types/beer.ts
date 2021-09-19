@@ -2,16 +2,15 @@ import { AlgoliaBeer } from ".";
 
 export class Beer {
   constructor(source?: Partial<Beer>) {
-		if (source != null) {
-			Object.assign(this, source);
-		}
+    if (source != null) {
+      Object.assign(this, source);
+    }
   }
 
   public fromAlgoliaBeer(source: AlgoliaBeer) {
-
-		if (source == null) {
-			return new Beer();
-		}
+    if (source == null) {
+      return new Beer();
+    }
 
     const beer: Partial<Beer> = {
       id: source.bid,

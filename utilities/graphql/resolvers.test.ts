@@ -21,6 +21,6 @@ describe("resolvers", () => {
   it("fails when resolver does not exist", async () => {
     const result = resolvers.Query.beers(null as never, { venue: "VenueDoesNotExist" });
     await expect(result).rejects.toBeTruthy();
-		expect(mockedAxios.get).toHaveBeenCalledTimes(1);
+    expect(mockedAxios.get).toHaveBeenCalledTimes(1);
   });
 });

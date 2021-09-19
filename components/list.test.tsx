@@ -58,9 +58,7 @@ describe("list component", () => {
         ...{
           result: {
             data: {
-              beers: [
-                new Beer()
-              ]
+              beers: [new Beer()]
             }
           }
         }

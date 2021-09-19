@@ -1,7 +1,7 @@
 import { Beer } from "./beer";
 
 export type Sort = {
-	label?: string;
+  label?: string;
   field: keyof Beer;
   dir: "asc" | "desc";
 };

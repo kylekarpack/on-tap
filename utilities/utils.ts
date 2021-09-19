@@ -1,10 +1,9 @@
 import { Beer, Sort } from "./types";
 
 export const sortTable = (sort: Sort, data: Beer[]) => {
-
-	if (!Array.isArray(data)) {
-		throw new Error("List to sort must be an array");
-	}
+  if (!Array.isArray(data)) {
+    throw new Error("List to sort must be an array");
+  }
 
   const { field, dir } = sort;
   if (field && dir && Array.isArray(data)) {

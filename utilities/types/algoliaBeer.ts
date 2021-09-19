@@ -1,6 +1,6 @@
 export class AlgoliaBeer {
   public bid?: number;
-	public beer_abv?: number;
+  public beer_abv?: number;
   public beer_name?: string;
   public beer_index?: string;
   public brewery_label?: string;
