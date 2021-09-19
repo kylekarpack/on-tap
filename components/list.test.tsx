@@ -1,4 +1,4 @@
-import { MockedProvider, MockedResponse } from "@apollo/react-testing";
+import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { act, render } from "@testing-library/react";
 import { GraphQLError } from "graphql";
 import React from "react";
@@ -20,7 +20,7 @@ const emptyMock: MockedResponse<Record<string, Beer[]>> = {
   }
 };
 
-describe.skip("list component", () => {
+describe("list component", () => {
 
   it("renders", () => {
     const mocks = [emptyMock];
