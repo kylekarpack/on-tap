@@ -54,35 +54,27 @@ describe("list component", () => {
   it("renders list", async () => {
     const mocks = [
       {
-        ...emptyMock
-        // ...{
-        //   result: {
-        //     data: {
-        //       beers: [
-        //         {
-        // 					id: 1,
-        //           rating: 4.522,
-        //           ratings: 10,
-        //           abv: 5,
-        //           ibu: 30,
-        // 					labelImageUrl: "",
-        // 					details: ""
-        //         }
-        //       ]
-        //     }
-        //   }
-        // }
+        ...emptyMock,
+        ...{
+          result: {
+            data: {
+              beers: [
+                new Beer()
+              ]
+            }
+          }
+        }
       }
     ];
 
     const cmp = render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider mocks={mocks} addTypename={false} cache={null}>
         <List venue="chucks" sort={{ dir: "asc", field: "beer" }} />
       </MockedProvider>
     );
 
     await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
     expect(cmp.getByTestId("list")).toBeVisible();
-    expect(cmp.getByTestId("list").childElementCount).toEqual(0);
+    expect(cmp.getByTestId("list").childElementCount).toEqual(1);
   });
 });

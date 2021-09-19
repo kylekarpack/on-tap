@@ -35,16 +35,16 @@ export class Beer {
     }
   }
 
-  public beer?: string;
-  public id?: number;
-  public brewery?: string;
-  public style?: string;
-  public amount?: number;
-  public location?: string;
-  public abv?: number;
-  public ibu?: number;
-  public rating?: number;
-  public ratings?: number;
-  public details?: string;
-  public labelImageUrl?: string;
+  public beer: string = null;
+  public id: number = null;
+  public brewery: string = null;
+  public style: string = null;
+  public amount: number = null;
+  public location: string = null;
+  public abv: number = null;
+  public ibu: number = null;
+  public rating: number = null;
+  public ratings: number = null;
+  public details: string = null;
+  public labelImageUrl: string = null;
 }
