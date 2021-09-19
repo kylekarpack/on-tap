@@ -7,6 +7,7 @@ describe("flatstick connector", () => {
     const data = await flatstick.execute();
     expect(data).toHaveLength(1);
     expect(data[0].rating).toBe(4.75);
+    expect(data[0].beer).toBe("Test");
   });
 
   it("loads partial data", async () => {
@@ -19,5 +20,6 @@ describe("flatstick connector", () => {
     const data = await flatstick.execute();
     expect(data).toHaveLength(1);
     expect(data[0].beer).toBe("Test Partial");
+    expect(data[0].rating).toBe(4.75);
   });
 });

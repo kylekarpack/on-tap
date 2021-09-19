@@ -2,6 +2,9 @@ import "@testing-library/jest-dom";
 import "@testing-library/jest-dom/extend-expect";
 import axios from "axios";
 import xray from "x-ray";
+import fetch from "node-fetch";
+
+global.fetch = fetch;
 
 jest.mock("x-ray");
 xray.mockImplementation(() => () => [

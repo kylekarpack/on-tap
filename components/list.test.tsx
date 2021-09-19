@@ -58,7 +58,10 @@ describe("list component", () => {
         ...{
           result: {
             data: {
-              beers: [new Beer()]
+              beers: [
+                new Beer({ id: 1, rating: 4.1, ratings: 10, beer: "Test", brewery: "Test Brewery", abv: 4, ibu: 15 }),
+                new Beer({ beer: "Test Partial" })
+              ]
             }
           }
         }
