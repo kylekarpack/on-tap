@@ -1,5 +1,5 @@
 import { MockedProvider, MockedResponse } from "@apollo/react-testing";
-import { act, cleanup, render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import { GraphQLError } from "graphql";
 import React from "react";
 import { GET_BEERS } from "utilities/queries";
@@ -20,8 +20,7 @@ const emptyMock: MockedResponse<Record<string, Beer[]>> = {
   }
 };
 
-describe.skip("list component", () => {
-  afterEach(cleanup);
+describe("list component", () => {
 
   it("renders", () => {
     const mocks = [emptyMock];
