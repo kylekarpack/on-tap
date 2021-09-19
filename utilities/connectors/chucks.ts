@@ -2,7 +2,7 @@ import ConnectorBase from "./connectorBase";
 import axios from "axios";
 import { Beer } from "utilities/types/beer";
 
-interface ChucksBeer {
+type ChucksBeer = {
 	tap: number;
 	beer: string;
 	shop: string;

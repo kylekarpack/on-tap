@@ -2,7 +2,7 @@ import { Beer } from "utilities/types/beer";
 import xray from "x-ray";
 import UntappdApi from "./untappd";
 
-class ConnectorBase {
+abstract class ConnectorBase {
   protected xray = xray();
   protected untapped = new UntappdApi();
 

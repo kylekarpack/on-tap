@@ -1,6 +1,6 @@
 import FlatstickKirkland from "./flatstickKirkland";
 
-describe("flatstick connector", () => {
+describe("flatstick kirkland connector", () => {
   it("loads data", async () => {
     const flatstick = new FlatstickKirkland();
     const data = await flatstick.execute();

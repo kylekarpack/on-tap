@@ -21,7 +21,7 @@ axios.post.mockResolvedValue({
       {
         beer_name: "Test from Algolia",
         rating_score: 4.75,
-				rating_count: 1
+        rating_count: 1
       }
     ]
   }
