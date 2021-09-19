@@ -1,6 +1,6 @@
-import ConnectorBase from "./connectorBase";
 import axios from "axios";
-import { Beer } from "utilities/types/beer";
+import { Beer } from "utilities/types";
+import ConnectorBase from "./connectorBase";
 
 type ChucksBeer = {
 	tap: number;
