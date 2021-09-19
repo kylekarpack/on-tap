@@ -6,7 +6,7 @@ import Index from "./index";
 describe("index page", () => {
   it("renders", () => {
     const cmp = render(
-      <MockedProvider>
+      <MockedProvider mocks={[]}>
         <Index initialVenue="chucks" />
       </MockedProvider>
     );

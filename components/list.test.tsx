@@ -20,7 +20,7 @@ const emptyMock: MockedResponse<Record<string, Beer[]>> = {
   }
 };
 
-describe("list component", () => {
+describe.skip("list component", () => {
 
   it("renders", () => {
     const mocks = [emptyMock];
