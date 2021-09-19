@@ -1,3 +1,6 @@
+import { ObjectType, Field } from "type-graphql";
+
+@ObjectType()
 export class Beer {
   constructor(source: Partial<Beer>) {
     Object.assign(this, source);
@@ -11,17 +14,40 @@ export class Beer {
     }
   }
 
+	@Field({ nullable: true })
   public beer?: string;
+
+	@Field({ nullable: true })
   public id?: number;
+
+	@Field({ nullable: true })
   public brewery?: string;
+
+	@Field({ nullable: true })
   public style?: string;
+
+	@Field({ nullable: true })
   public amount?: number;
+
+	@Field({ nullable: true })
   public location?: string;
+
+	@Field({ nullable: true })
   public abv?: number;
+
+	@Field({ nullable: true })
   public ibu?: number;
+
+	@Field({ nullable: true })
   public rating?: number;
+
+	@Field({ nullable: true })
   public ratings?: number;
+
+	@Field({ nullable: true })
   public details?: string;
+
+	@Field({ nullable: true })
   public labelImageUrl?: string;
 }
 
