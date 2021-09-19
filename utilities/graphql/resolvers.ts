@@ -9,7 +9,7 @@ export const resolvers = {
       try {
         client = new (await import(`../connectors/${venue}.ts`)).default();
       } catch {
-        throw new Error(`Venue "${venue}" is not registered!`);
+        throw new Error(`No connector found for venue "${venue}"!`);
       }
       return client.execute();
     }

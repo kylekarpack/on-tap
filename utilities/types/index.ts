@@ -1,3 +1,3 @@
-
-export { Beer } from "./beer";
-export type { Sort } from "./sort";
+export * from './algoliaBeer';
+export * from './beer';
+export * from './sort';
