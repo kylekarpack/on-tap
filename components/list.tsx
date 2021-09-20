@@ -45,7 +45,7 @@ export default function List({ venue, sort }: { venue: string; sort: Sort }) {
               <Col xs={18} sm={14} md={10} style={{ lineHeight: 1.1 }}>
                 <div className={styles.title} style={{ fontSize: "1.5em", fontWeight: 500 }}>
                   {beer.id ? (
-                    <a href={`https://untappd.com/beer/${beer.id}`} target="_blank" rel="nofollow noreferrer">
+                    <a href={`https://untappd.com/qr/${beer.id}`} target="_blank" rel="nofollow noreferrer">
                       {beer.beer}
                     </a>
                   ) : (

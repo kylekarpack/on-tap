@@ -22,8 +22,6 @@ function createApolloClient(): ApolloClient<any> {
 export function initializeApollo(initialState: any = null): ApolloClient<any> {
   const _apolloClient = apolloClient ?? createApolloClient();
 
-  // If your page has Next.js data fetching methods that use Apollo Client,
-  // the initial state gets hydrated here
   if (initialState) {
     // Get existing cache, loaded during client side data fetching
     const existingCache = _apolloClient.extract();

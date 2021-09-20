@@ -46,4 +46,5 @@ export class Beer {
   public ratings: number = null;
   public details: string = null;
   public labelImageUrl: string = null;
+  public metadata: AlgoliaBeer = null;
 }
