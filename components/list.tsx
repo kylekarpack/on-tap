@@ -5,6 +5,7 @@ import { Col, Grid, Loader, Message, Panel, PanelGroup, Row } from "rsuite";
 import { GET_BEERS } from "utilities/queries";
 import { Beer, Sort } from "utilities/types";
 import { sortTable } from "utilities/utils";
+import BeerLink from "./beerLink";
 import styles from "./list.module.css";
 
 export default function List({ venue, sort }: { venue: string; sort: Sort }) {
@@ -44,13 +45,7 @@ export default function List({ venue, sort }: { venue: string; sort: Sort }) {
               </Col>
               <Col xs={18} sm={14} md={10} style={{ lineHeight: 1.1 }}>
                 <div className={styles.title} style={{ fontSize: "1.5em", fontWeight: 500 }}>
-                  {beer.id ? (
-                    <a href={`https://untappd.com/qr/beer/${beer.id}`} target="_blank" rel="nofollow noreferrer">
-                      {beer.beer}
-                    </a>
-                  ) : (
-                    beer.beer
-                  )}
+                  <BeerLink beer={beer} />
                 </div>
                 <div className={styles.title} style={{ fontSize: "1.3em" }}>
                   {beer.brewery}
