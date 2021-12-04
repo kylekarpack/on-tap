@@ -10,8 +10,8 @@ export const resolvers = {
       let client: ConnectorBase;
 
       try {
-        const Connector = (await import(`../connectors/${venue}.ts`)).default();
-        client = new Connector();
+        // eslint-disable-next-line new-cap
+        client = new (await import(`../connectors/${venue}.ts`)).default();
       } catch {
         throw new Error(`No connector found for venue "${venue}"!`);
       }
