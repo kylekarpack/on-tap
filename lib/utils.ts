@@ -12,8 +12,8 @@ export const sortTable = (sort: Sort, data: Beer[]) => {
   if (field && dir && Array.isArray(data)) {
     const copy = JSON.parse(JSON.stringify(data));
     return copy.sort((a: Beer, b: Beer) => {
-      let x = (a as any)[field];
-      let y = (b as any)[field];
+      const x = a[field];
+      const y = b[field];
 
       // Put empty values at end
       if (x == null || x === "") {
@@ -22,16 +22,16 @@ export const sortTable = (sort: Sort, data: Beer[]) => {
       if (y == null || y === "") {
         return -1;
       }
-      if (typeof x === "string") {
-        x = x.charCodeAt(0);
-      }
-      if (typeof y === "string") {
-        y = y.charCodeAt(0);
+      if (typeof x === "string" && typeof y === "string") {
+        if (dir === "asc") {
+          return x.localeCompare(y);
+        }
+        return y.localeCompare(x);
       }
       if (dir === "asc") {
-        return x - y;
+        return Number(x) - Number(y);
       }
-      return y - x;
+      return Number(y) - Number(x);
     });
   }
   return data;

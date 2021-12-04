@@ -39,9 +39,9 @@ export class Beer {
    * Augment a beer's data with data from another beer object
    */
   public augment?(beer: Partial<Beer>) {
-    Object.keys(beer).forEach((key) => {
-      if ((beer as any)[key] != null && (this as any)[key] == null) {
-        (this as any)[key] = (beer as any)[key];
+    Object.keys(beer).forEach((key: keyof Beer) => {
+      if (beer[key] != null && this[key] == null) {
+        (this as any)[key] = beer[key];
       }
     });
   }
