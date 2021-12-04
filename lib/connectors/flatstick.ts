@@ -36,7 +36,7 @@ export default class Flatstick extends ConnectorBase {
         beer.amount = parseFloat(amount[0]);
       }
       if (beer.ibu) {
-        beer.ibu = parseFloat(beer.ibu as any);
+        beer.ibu = parseFloat(String(beer.ibu));
       }
       beer.abv = Number(beer.abv) || null;
       beer.style = beer.style?.trim();

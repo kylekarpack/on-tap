@@ -54,7 +54,7 @@ abstract class ConnectorBase implements Connector {
   /**
    * Process the beers array
    */
-  protected process(data: any[]): any[] {
+  protected process(data: unknown[]): Partial<Beer>[] {
     return data;
   }
 
