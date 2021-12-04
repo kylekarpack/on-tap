@@ -1,8 +1,15 @@
-require("dotenv").config();
 import axios from "axios";
-import { Beer, AlgoliaBeer } from "lib/types";
+import { AlgoliaBeer, Beer } from "lib/types";
 
+require("dotenv").config();
+
+/**
+ *
+ */
 export default class Untappd {
+  /**
+   *
+   */
   async getBeer(beer: Beer): Promise<Beer> {
     let searchBeer = beer.beer?.replace(/ (ipa|stout|porter|sour|hazy|cider|tripel)$/gi, "");
     searchBeer = searchBeer.split(" - ")[0];
@@ -16,7 +23,7 @@ export default class Untappd {
           accept: "application/json",
           "accept-language": "en-US,en;q=0.9",
           "content-type": "application/x-www-form-urlencoded",
-          "sec-ch-ua": '" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
+          "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
           "sec-ch-ua-mobile": "?0",
           "sec-fetch-dest": "empty",
           "sec-fetch-mode": "cors",

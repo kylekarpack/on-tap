@@ -1,7 +1,13 @@
 import { Beer } from "lib/types";
 import ConnectorBase from "./connectorBase";
 
+/**
+ *
+ */
 export default class Flatstick extends ConnectorBase {
+  /**
+   *
+   */
   constructor() {
     super();
     this.key = "flatstick";
@@ -20,8 +26,11 @@ export default class Flatstick extends ConnectorBase {
     ];
   }
 
+  /**
+   *
+   */
   process(data: Beer[]): Beer[] {
-    for (let beer of data) {
+    for (const beer of data) {
       const amount = String(beer.amount).match(/\d{1,3}\%/g);
       if (amount) {
         beer.amount = parseFloat(amount[0]);

@@ -1,5 +1,5 @@
-import Flatstick from "./flatstick";
 import xray from "x-ray";
+import Flatstick from "./flatstick";
 
 describe("flatstick connector", () => {
   it("loads data", async () => {

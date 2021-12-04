@@ -33,6 +33,7 @@
     "@typescript-eslint/prefer-nullish-coalescing": "error",
     "@typescript-eslint/prefer-optional-chain": "error",
     "@typescript-eslint/prefer-string-starts-ends-with": "error",
+    "class-methods-use-this": "off",
     "import/extensions": "off",
     "import/no-extraneous-dependencies": [
       "error",

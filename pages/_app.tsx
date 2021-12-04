@@ -5,6 +5,9 @@ import "rsuite/dist/rsuite.min.css";
 import "styles/globals.css";
 import { useApollo } from "../lib/apolloClient";
 
+/**
+ * Layout for all pages
+ */
 function App({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps.initialApolloState);
 

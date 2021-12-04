@@ -3,7 +3,13 @@ import ConnectorBase from "../connectors/connectorBase";
 
 export const resolvers = {
   Query: {
-    beers: async (_: never, { venue }: { venue: string }): Promise<Beer[]> => {
+    /**
+     *
+     */
+    beers: async (_: never, { venue }: { /**
+     *
+     */
+    venue: string }): Promise<Beer[]> => {
       let client: ConnectorBase;
 
       try {

@@ -21,12 +21,21 @@ type ChucksBeer = {
   crowler: number;
 };
 
+/**
+ *
+ */
 export default class Chucks extends ConnectorBase {
+  /**
+   *
+   */
   async read(): Promise<Beer[]> {
     const { data } = await axios.get("https://taplists.web.app/data?menu=GW");
     return data.filter((el: ChucksBeer) => el.price !== "NaN");
   }
 
+  /**
+   *
+   */
   process(data: ChucksBeer[]): Partial<Beer>[] {
     return data.map((d) => {
       const split = d.beer.split(":");

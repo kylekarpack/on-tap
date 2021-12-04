@@ -1,5 +1,8 @@
 import { Beer, Sort } from "./types";
 
+/**
+ * Sort a list of data by a given predicate
+ */
 export const sortTable = (sort: Sort, data: Beer[]) => {
   if (!Array.isArray(data)) {
     throw new Error("List to sort must be an array");
@@ -7,7 +10,7 @@ export const sortTable = (sort: Sort, data: Beer[]) => {
 
   const { field, dir } = sort;
   if (field && dir && Array.isArray(data)) {
-    let copy = JSON.parse(JSON.stringify(data));
+    const copy = JSON.parse(JSON.stringify(data));
     return copy.sort((a: Beer, b: Beer) => {
       let x = (a as any)[field];
       let y = (b as any)[field];
@@ -27,9 +30,8 @@ export const sortTable = (sort: Sort, data: Beer[]) => {
       }
       if (dir === "asc") {
         return x - y;
-      } else {
-        return y - x;
       }
+      return y - x;
     });
   }
   return data;

@@ -1,12 +1,15 @@
-import List from "components/list";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Container, Content, FlexboxGrid, SelectPicker } from "rsuite";
+import List from "components/list";
 import { sorts, venues } from "lib/constants";
 import { Sort } from "lib/types";
 
+/**
+ * The home page for the application
+ */
 export default function Home({ initialVenue }: { initialVenue: string }) {
   const router = useRouter();
   const [venue, setVenue] = useState<string>(initialVenue || venues[0].value);
@@ -52,10 +55,11 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return {
-    props: {
-      initialVenue: context.query.venue ?? null
-    }
-  };
-};
+/**
+ * Get the initial venue from the query, if applicable
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => ({
+  props: {
+    initialVenue: context.query.venue ?? null
+  }
+});

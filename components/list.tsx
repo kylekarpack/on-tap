@@ -8,12 +8,33 @@ import { sortTable } from "lib/utils";
 import BeerLink from "./beerLink";
 import styles from "./list.module.css";
 
-export default function List({ venue, sort }: { venue: string; sort: Sort }) {
+/**
+ *
+ */
+export default function List({ venue, sort }: { /**
+ *
+ */
+venue: string; /**
+ *
+ */
+sort: Sort }) {
   const { loading, error, data } = useQuery(GET_BEERS, {
     variables: {
       venue
     }
-  }) as { data: { beers: Beer[] }; loading: boolean; error: Error };
+  }) as { /**
+   *
+   */
+  data: { /**
+   *
+   */
+  beers: Beer[] }; /**
+   *
+   */
+  loading: boolean; /**
+   *
+   */
+  error: Error };
 
   if (loading) {
     return (
