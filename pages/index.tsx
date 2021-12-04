@@ -4,8 +4,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Container, Content, FlexboxGrid, SelectPicker } from "rsuite";
-import { sorts, venues } from "utilities/constants";
-import { Sort } from "utilities/types";
+import { sorts, venues } from "lib/constants";
+import { Sort } from "lib/types";
 
 export default function Home({ initialVenue }: { initialVenue: string }) {
   const router = useRouter();

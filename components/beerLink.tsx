@@ -1,5 +1,5 @@
 import type { MouseEvent } from "react";
-import { Beer } from "utilities/types";
+import { Beer } from "lib/types";
 
 export default function BeerLink({ beer }: { beer: Beer }) {
   const isIos = navigator.userAgent.match("/iPad|iPhone|iPod//i");

@@ -2,9 +2,9 @@ import { useQuery } from "@apollo/client";
 import Image from "next/image";
 import React from "react";
 import { Col, Grid, Loader, Message, Panel, PanelGroup, Row } from "rsuite";
-import { GET_BEERS } from "utilities/queries";
-import { Beer, Sort } from "utilities/types";
-import { sortTable } from "utilities/utils";
+import { GET_BEERS } from "lib/queries";
+import { Beer, Sort } from "lib/types";
+import { sortTable } from "lib/utils";
 import BeerLink from "./beerLink";
 import styles from "./list.module.css";
 

@@ -3,7 +3,7 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import "rsuite/dist/rsuite.min.css";
 import "styles/globals.css";
-import { useApollo } from "../utilities/apolloClient";
+import { useApollo } from "../lib/apolloClient";
 
 function App({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps.initialApolloState);

@@ -2,8 +2,8 @@ import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { act, render } from "@testing-library/react";
 import { GraphQLError } from "graphql";
 import React from "react";
-import { GET_BEERS } from "utilities/queries";
-import { Beer } from "utilities/types";
+import { GET_BEERS } from "lib/queries";
+import { Beer } from "lib/types";
 import List from "./list";
 
 const emptyMock: MockedResponse<Record<string, Beer[]>> = {
