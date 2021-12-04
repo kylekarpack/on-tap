@@ -2,6 +2,9 @@ import xray from "x-ray";
 import { Beer } from "lib/types";
 import UntappdApi from "./untappd";
 
+/**
+ * The base connector class
+ */
 abstract class ConnectorBase {
   protected xray = xray();
 

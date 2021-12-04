@@ -1,7 +1,6 @@
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { act, render } from "@testing-library/react";
 import { GraphQLError } from "graphql";
-import React from "react";
 import { GET_BEERS } from "lib/queries";
 import { Beer } from "lib/types";
 import List from "./list";
@@ -47,7 +46,12 @@ describe("list component", () => {
       </MockedProvider>
     );
 
-    await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
+    await act(
+      () =>
+        new Promise((resolve) => {
+          setTimeout(resolve, 0);
+        })
+    );
     expect(cmp.getByTestId("error")).toHaveTextContent("Error");
   });
 
@@ -74,7 +78,12 @@ describe("list component", () => {
       </MockedProvider>
     );
 
-    await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
+    await act(
+      () =>
+        new Promise((resolve) => {
+          setTimeout(resolve, 0);
+        })
+    );
     expect(cmp.getByTestId("list")).toBeVisible();
     expect(cmp.getByTestId("list").childElementCount).toEqual(2);
   });

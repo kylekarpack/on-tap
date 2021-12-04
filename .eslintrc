@@ -79,9 +79,10 @@
         }
       }
     ],
+    "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
     "no-underscore-dangle": "off",
     "no-unused-vars": "off",
-    "quotes": ["error", "double"],
+    "quotes": ["error", "double", { "avoidEscape": true }],
     "react/function-component-definition": "off",
     "react/jsx-filename-extension": [
       "error",
@@ -89,6 +90,7 @@
         "extensions": [".tsx"]
       }
     ],
+    "react/jsx-no-useless-fragment": ["error", { "allowExpressions": true }],
     "react/jsx-props-no-spreading": [
       "error",
       {

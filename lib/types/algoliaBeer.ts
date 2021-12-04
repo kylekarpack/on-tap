@@ -1,5 +1,7 @@
+/* eslint-disable camelcase */
+
 /**
- *
+ * A beer as retrieved from Algolia
  */
 export class AlgoliaBeer {
   public bid?: number;

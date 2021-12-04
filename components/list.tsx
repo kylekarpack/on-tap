@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import Image from "next/image";
-import React from "react";
+import { FunctionComponent } from "react";
 import { Col, Grid, Loader, Message, Panel, PanelGroup, Row } from "rsuite";
 import { GET_BEERS } from "lib/queries";
 import { Beer, Sort } from "lib/types";
@@ -9,32 +9,20 @@ import BeerLink from "./beerLink";
 import styles from "./list.module.css";
 
 /**
- *
+ * Render a list of beers
  */
-export default function List({ venue, sort }: { /**
- *
- */
-venue: string; /**
- *
- */
-sort: Sort }) {
+const List: FunctionComponent<{ venue: string; sort: Sort }> = ({ venue, sort }) => {
   const { loading, error, data } = useQuery(GET_BEERS, {
     variables: {
       venue
     }
-  }) as { /**
-   *
-   */
-  data: { /**
-   *
-   */
-  beers: Beer[] }; /**
-   *
-   */
-  loading: boolean; /**
-   *
-   */
-  error: Error };
+  }) as {
+    data: {
+      beers: Beer[];
+    };
+    loading: boolean;
+    error: Error;
+  };
 
   if (loading) {
     return (
@@ -57,8 +45,8 @@ sort: Sort }) {
 
   return (
     <PanelGroup data-testid="list">
-      {listData.map((beer, i) => (
-        <Panel key={i}>
+      {listData.map((beer) => (
+        <Panel key={beer.beer}>
           <Grid fluid>
             <Row gutter={16}>
               <Col xs={6} sm={4} md={2} style={{ marginLeft: "-8px" }}>
@@ -106,4 +94,6 @@ sort: Sort }) {
       ))}
     </PanelGroup>
   );
-}
+};
+
+export default List;

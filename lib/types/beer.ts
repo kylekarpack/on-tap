@@ -46,29 +46,68 @@ export class Beer {
     });
   }
 
+  /**
+   * The name of this beer
+   */
   public beer?: string = null;
 
+  /**
+   * The id of this beer in Untappd
+   */
   public id?: number = null;
 
+  /**
+   * The brewery for this beer
+   */
   public brewery?: string = null;
 
+  /**
+   * The style of this beer
+   */
   public style?: string = null;
 
+  /**
+   * The amount of this beer remaining at the given venue
+   */
   public amount?: number = null;
 
+  /**
+   * The location this beer was brewed
+   */
   public location?: string = null;
 
+  /**
+   * The alcohol by volume percetage of this beer
+   */
   public abv?: number = null;
 
+  /**
+   * The international bitterness units measurement of this beer
+   */
   public ibu?: number = null;
 
+  /**
+   * The Untapped rating of this beer
+   */
   public rating?: number = null;
 
+  /**
+   * The number of ratings received
+   */
   public ratings?: number = null;
 
+  /**
+   * Any details or description of this beer
+   */
   public details?: string = null;
 
+  /**
+   * The URL to the main image for this beer
+   */
   public labelImageUrl?: string = null;
 
+  /**
+   * Metadata properties for this beer
+   */
   public metadata?: AlgoliaBeer = null;
 }

@@ -1,42 +1,36 @@
 import { Beer } from "lib/types";
-import type { MouseEvent } from "react";
+import type { FunctionComponent, MouseEvent } from "react";
 
 /**
- *
+ * Create a link to a beer item in Untappd
  */
-export default function BeerLink({ beer }: { /**
- *
- */
-beer: Beer }) {
+const BeerLink: FunctionComponent<{ beer: Beer }> = ({ beer }) => {
   const isIos = navigator.userAgent.match("/iPad|iPhone|iPod//i");
   const isAndroid = navigator.userAgent.match("Android");
 
-  /**
-   *
-   */
   const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (isIos) {
       e.preventDefault();
       window.location.href = `untappd://beer/${beer.id}`;
       return false;
-    } if (isAndroid) {
+    }
+    if (isAndroid) {
       e.preventDefault();
       window.location.href = `intent://beer/${beer.id}/#Intent;scheme=untappd;package=com.untappdllc.app;end`;
       return false;
-    } 
-      return true;
-    
+    }
+    return true;
   };
 
-  return (
-    <>
-      {beer.id ? (
-        <a href={`https://untappd.com/beer/${beer.id}`} onClick={onClick} target="_blank" rel="nofollow noreferrer">
-          {beer.beer}
-        </a>
-      ) : (
-        beer.beer
-      )}
-    </>
-  );
-}
+  if (beer.id) {
+    return (
+      <a href={`https://untappd.com/beer/${beer.id}`} onClick={onClick} target="_blank" rel="nofollow noreferrer">
+        {beer.beer}
+      </a>
+    );
+  }
+
+  return <>{beer.beer}</>;
+};
+
+export default BeerLink;
