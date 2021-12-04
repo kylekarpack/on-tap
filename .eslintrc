@@ -1,3 +1,112 @@
 {
-  "extends": ["next", "prettier"]
+  "$schema": "https://json.schemastore.org/eslintrc.json",
+  "env": {
+    "jest/globals": true
+  },
+  "extends": [
+    "airbnb",
+    "next/core-web-vitals",
+    "prettier",
+    "plugin:import/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"], // TypeScript files extension
+      "parserOptions": {
+        "project": ["./tsconfig.json"] // Specify it only for TypeScript files
+      }
+    }
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["jest", "@typescript-eslint", "jsdoc"],
+  "rules": {
+    "@typescript-eslint/array-type": [
+      "error",
+      {
+        "default": "array"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/prefer-for-of": "error",
+    "@typescript-eslint/prefer-includes": "error",
+    "@typescript-eslint/prefer-nullish-coalescing": "error",
+    "@typescript-eslint/prefer-optional-chain": "error",
+    "@typescript-eslint/prefer-string-starts-ends-with": "error",
+    "import/extensions": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": ["**/*.test.ts", "**/*.test.tsx"]
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "caseInsensitive": true,
+          "order": "asc"
+        },
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"],
+        "newlines-between": "never"
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "jsdoc/check-line-alignment": "warn",
+    "jsdoc/multiline-blocks": [
+      "warn",
+      {
+        "noSingleLineBlocks": true
+      }
+    ],
+    "jsdoc/require-jsdoc": [
+      "warn",
+      {
+        "contexts": ["TSInterfaceDeclaration", "TSMethodSignature", "TSPropertySignature"],
+        "enableFixer": true,
+        "publicOnly": {
+          "ancestorsOnly": false,
+          "esm": true
+        },
+        "require": {
+          "ArrowFunctionExpression": true,
+          "ClassDeclaration": true,
+          "ClassExpression": true,
+          "FunctionDeclaration": true,
+          "FunctionExpression": true,
+          "MethodDefinition": true
+        }
+      }
+    ],
+    "no-underscore-dangle": "off",
+    "no-unused-vars": "off",
+    "quotes": ["error", "double"],
+    "react/function-component-definition": "off",
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [".tsx"]
+      }
+    ],
+    "react/jsx-props-no-spreading": [
+      "error",
+      {
+        "custom": "ignore"
+      }
+    ],
+    "react/no-danger": "off",
+    "react/require-default-props": "off",
+    "react/self-closing-comp": [
+      "error",
+      {
+        "html": false
+      }
+    ],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreDeclarationSort": true
+      }
+    ]
+  }
 }
