@@ -5,7 +5,7 @@ import type { FunctionComponent, MouseEvent } from "react";
  * Create a link to a beer item in Untappd
  */
 const BeerLink: FunctionComponent<{ beer: Beer }> = ({ beer }) => {
-  const isIos = navigator.userAgent.match("/iPad|iPhone|iPod//i");
+  const isIos = navigator.userAgent.match(/iPad|iPhone|iPod/i);
   const isAndroid = navigator.userAgent.match("Android");
 
   const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
