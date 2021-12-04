@@ -1,5 +1,5 @@
 import { Beer } from "lib/types";
-import ConnectorBase from "../connectors/connectorBase";
+import { Connector, ConnectorConstructor } from "../connectors/connectorBase";
 
 /**
  * Resolvers for GraphQL querties
@@ -7,11 +7,11 @@ import ConnectorBase from "../connectors/connectorBase";
 export const resolvers = {
   Query: {
     beers: async (_: never, { venue }: { venue: string }): Promise<Beer[]> => {
-      let client: ConnectorBase;
+      let client: Connector;
 
       try {
-        // eslint-disable-next-line new-cap
-        client = new (await import(`../connectors/${venue}.ts`)).default();
+        const { default: Constructor }: { default: ConnectorConstructor } = await import(`../connectors/${venue}.ts`);
+        client = new Constructor();
       } catch {
         throw new Error(`No connector found for venue "${venue}"!`);
       }
