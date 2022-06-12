@@ -1,9 +1,10 @@
 {
+  "$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/web-manifest.json",
   "name": "On Tap Seattle",
   "short_name": "On Tap Sea",
   "theme_color": "#8bd7f8",
   "background_color": "#004740",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
@@ -48,6 +49,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "splash_pages": null
+  ]
 }
