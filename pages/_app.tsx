@@ -25,6 +25,7 @@ function App({ Component, pageProps }: AppProps) {
         <meta name="theme-color" content="#8bd7f8" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
 
+        <link rel="icon" type="image/png" sizes="196x196" href="icons/favicon-196.png" />
         <link rel="apple-touch-icon" href="icons/apple-icon-180.png" />
         <link
           rel="apple-touch-startup-image"
