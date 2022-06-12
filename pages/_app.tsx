@@ -24,7 +24,6 @@ function App({ Component, pageProps }: AppProps) {
         <link href="/icons/16.png" rel="icon" type="image/png" sizes="16x16" />
         <link href="/icons/32.png" rel="icon" type="image/png" sizes="32x32" />
         <link rel="apple-touch-icon" href="/128.png"></link>
-        <link rel="stylesheet" href="https://use.typekit.net/kia0axj.css" />
         <meta name="theme-color" content="#8bd7f8" />
       </Head>
       <ApolloProvider client={apolloClient}>
