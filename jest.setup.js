@@ -3,8 +3,10 @@ import "@testing-library/jest-dom/extend-expect";
 import axios from "axios";
 import xray from "x-ray";
 import fetch from "node-fetch";
+import React from "react";
 
 global.fetch = fetch;
+global.React = React; // For SWC Jest
 
 jest.mock("x-ray");
 xray.mockImplementation(() => () => [
