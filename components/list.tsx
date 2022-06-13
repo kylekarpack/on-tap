@@ -59,7 +59,7 @@ const BeerList: FunctionComponent<{ venue: string; sort: Sort }> = ({ venue, sor
             </ListItemAvatar>
             <ListItemText
               primary={
-                <Typography sx={{ fontSize: "1.4em", lineHeight: 1.1 }} variant="subtitle1">
+                <Typography sx={{ fontSize: "1.35em", lineHeight: 1.1 }} variant="subtitle1">
                   <BeerLink beer={beer} />
                 </Typography>
               }

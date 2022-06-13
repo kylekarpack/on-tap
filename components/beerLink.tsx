@@ -1,3 +1,4 @@
+import { Link } from "@mui/material";
 import { Beer } from "lib/types";
 import type { FunctionComponent, MouseEvent } from "react";
 
@@ -24,9 +25,15 @@ const BeerLink: FunctionComponent<{ beer: Beer }> = ({ beer }) => {
 
   if (beer.id) {
     return (
-      <a href={`https://untappd.com/beer/${beer.id}`} onClick={onClick} target="_blank" rel="nofollow noreferrer">
+      <Link
+        href={`https://untappd.com/beer/${beer.id}`}
+        onClick={onClick}
+        target="_blank"
+        rel="nofollow noreferrer"
+        underline="hover"
+      >
         {beer.beer}
-      </a>
+      </Link>
     );
   }
 
