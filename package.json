@@ -17,6 +17,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.20",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/material": "^5.8.3",
     "apollo-server-micro": "^2.25.1",
     "axios": "^0.27.2",
     "dotenv": "^8.2.0",
