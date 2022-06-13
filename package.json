@@ -27,7 +27,6 @@
     "next": "^12.1.6",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "rsuite": "^5.15.0",
     "x-ray": "^2.3.3"
   },
   "devDependencies": {
