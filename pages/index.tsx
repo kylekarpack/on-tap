@@ -74,7 +74,7 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
             <InputLabel id="sortLabel">Sort</InputLabel>
             <Select size="small" labelId="sortLabel" label="Sort" value={JSON.stringify(sort)} onChange={changeSort}>
               {sorts.map((el) => (
-                <MenuItem key={el.field} value={JSON.stringify(el)}>
+                <MenuItem key={el.field + el.dir} value={JSON.stringify(el)}>
                   {el.label}
                 </MenuItem>
               ))}

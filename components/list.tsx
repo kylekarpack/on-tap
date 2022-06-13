@@ -13,7 +13,7 @@ import {
   Typography
 } from "@mui/material";
 import Image from "next/image";
-import { Fragment, FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { GET_BEERS } from "lib/queries";
 import { Beer, Sort } from "lib/types";
 import { sortTable } from "lib/utils";
@@ -53,7 +53,7 @@ const BeerList: FunctionComponent<{ venue: string; sort: Sort }> = ({ venue, sor
   return (
     <List data-testid="list" sx={{ width: "100%", bgcolor: "background.paper" }}>
       {listData.map((beer) => (
-        <Fragment key={beer.beer}>
+        <div key={beer.beer}>
           <ListItem alignItems="flex-start">
             <ListItemAvatar sx={{ mr: 2 }}>
               <Image width={50} height={50} src={beer.labelImageUrl || "/badge-beer-default.png"} alt={beer.beer} />
@@ -104,7 +104,7 @@ const BeerList: FunctionComponent<{ venue: string; sort: Sort }> = ({ venue, sor
             </ListItemText>
           </ListItem>
           <Divider variant="inset" component="li" />
-        </Fragment>
+        </div>
       ))}
     </List>
   );
