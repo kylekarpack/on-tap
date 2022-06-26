@@ -10,9 +10,11 @@ export const resolvers = {
       let client: Connector;
 
       try {
+        console.log(venue);
         const { default: Constructor }: { default: ConnectorConstructor } = await import(`../connectors/${venue}.ts`);
         client = new Constructor();
-      } catch {
+      } catch (e) {
+        console.log(e);
         throw new Error(`No connector found for venue "${venue}"!`);
       }
       return client.execute();
