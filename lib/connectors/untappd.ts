@@ -12,7 +12,11 @@ export default class Untappd {
    * Get a beer information
    */
   async getBeer(beer: Beer): Promise<Beer> {
-    let searchBeer = beer.beer?.replace(/ (ipa|stout|porter|sour|hazy|cider|tripel)$/gi, "");
+    let searchBeer = beer.beer?.replace(
+      / (ipa|stout|porter|sour|hazy|cider|tripel|pale|iipa|pilsner|brown|ale|lager)$/gi,
+      ""
+    );
+    searchBeer = searchBeer.trim();
     [searchBeer] = searchBeer.split(" - ");
     const search = await axios.post(
       `https://${process.env.NEXT_PUBLIC_ALGOLIA_SERVER}.algolia.net/1/indexes/beer/query?x-algolia-agent=Algolia%20for%20vanilla%20JavaScript%203.24.8&x-algolia-application-id=${process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID}&x-algolia-api-key=${process.env.NEXT_PUBLIC_ALGOLIA_API_KEY}`,

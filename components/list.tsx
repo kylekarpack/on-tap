@@ -52,8 +52,8 @@ const BeerList: FunctionComponent<{ venue: string; sort: Sort }> = ({ venue, sor
 
   return (
     <List data-testid="list" sx={{ width: "100%", bgcolor: "background.paper" }}>
-      {listData.map((beer) => (
-        <div key={beer.beer}>
+      {listData.map((beer, i: number) => (
+        <div key={beer.beer || i}>
           <ListItem alignItems="flex-start">
             <ListItemAvatar sx={{ mr: 2 }}>
               <Image width={50} height={50} src={beer.labelImageUrl || "/badge-beer-default.png"} alt={beer.beer} />
@@ -65,39 +65,38 @@ const BeerList: FunctionComponent<{ venue: string; sort: Sort }> = ({ venue, sor
                     <BeerLink beer={beer} />
                   </Typography>
                   <Typography sx={{ my: 1, opacity: 0.75 }} component="div" variant="body2" color="text.primary">
-                    {beer.brewery} - {beer.style}
+                    {beer.brewery} {beer.style ? "-" : ""} {beer.style}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Grid container spacing={2}>
-                    {beer.rating && (
+                    {beer.rating ? (
                       <Grid item xs={4}>
                         <div className={styles.slim}>Rating</div>
                         <div className={styles.data}>
                           {beer.rating?.toFixed(2)}
                           {beer.ratings && (
-                            <small style={{ opacity: 0.5 }}>
-                              &nbsp;
-                              <CompactNumber value={beer.ratings} />
+                            <small style={{ opacity: 0.5, fontSize: "0.6em" }}>
+                              &nbsp; (<CompactNumber value={beer.ratings} />)
                             </small>
                           )}
                         </div>
                       </Grid>
-                    )}
-                    {beer.abv && (
+                    ) : null}
+                    {beer.abv && beer.abv !== 0 ? (
                       <Grid item xs={4}>
                         <div className={styles.slim}>ABV</div>
                         <div className={styles.data}>
                           <Percentage value={beer.abv} />
                         </div>
                       </Grid>
-                    )}
-                    {beer.ibu && (
+                    ) : null}
+                    {beer.ibu && beer.ibu !== 0 ? (
                       <Grid item xs={4}>
                         <div className={styles.slim}>IBU</div>
                         <div className={styles.data}>{beer.ibu}</div>
                       </Grid>
-                    )}
+                    ) : null}
                   </Grid>
                 </Grid>
               </Grid>
