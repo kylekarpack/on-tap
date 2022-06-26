@@ -27,7 +27,6 @@ export default class Pinebox extends ConnectorBase {
    * Process the beers received from The Pinebox
    */
   process(data: Beer[]): Beer[] {
-    console.log(data);
     for (const beer of data) {
       beer.abv = parseFloat(beer.abv?.toString()) ?? null;
     }

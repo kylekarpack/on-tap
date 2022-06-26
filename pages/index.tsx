@@ -45,7 +45,7 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
         <title>On Tap Seattle</title>
       </Head>
 
-      <AppBar position="sticky" sx={{ top: 0 }}>
+      <AppBar position="sticky" sx={{ top: 0, width: "100%" }}>
         <Toolbar>
           <IconButton
             sx={{ mr: 2, display: { xs: "none", sm: "block" } }}
