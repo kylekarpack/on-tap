@@ -13,5 +13,5 @@ export type BeersParams = {
   /**
    *
    */
-  params: OptionalParams;
+  params?: OptionalParams;
 };

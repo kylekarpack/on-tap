@@ -13,7 +13,7 @@ mockedAxios.get.mockResolvedValue({
 
 describe("chucks connector", () => {
   it("loads data", async () => {
-    const chucks = new Chucks();
+    const chucks = new Chucks({ venueId: "GW" });
     const data = await chucks.execute();
     expect(data).toHaveLength(1);
   });

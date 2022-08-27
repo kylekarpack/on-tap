@@ -2,14 +2,23 @@ import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { act, render } from "@testing-library/react";
 import { GraphQLError } from "graphql";
 import { GET_BEERS } from "lib/queries";
-import { Beer } from "lib/types";
+import { Beer, Venue } from "lib/types";
 import List from "./list";
+
+const testSelectValue: Venue = {
+  label: "Chucks",
+  value: "chucks",
+  params: {
+    venueId: "GW"
+  }
+};
 
 const emptyMock: MockedResponse<Record<string, Beer[]>> = {
   request: {
     query: GET_BEERS,
     variables: {
-      venue: "chucks"
+      venue: testSelectValue.value,
+      params: testSelectValue.params
     }
   },
   result: {
@@ -25,7 +34,7 @@ describe("list component", () => {
 
     const cmp = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <List venue="chucks" sort={{ dir: "asc", field: "beer" }} />
+        <List venue={testSelectValue} sort={{ dir: "asc", field: "beer" }} />
       </MockedProvider>
     );
 
@@ -42,7 +51,7 @@ describe("list component", () => {
 
     const cmp = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <List venue="chucks" sort={{ dir: "asc", field: "beer" }} />
+        <List venue={testSelectValue} sort={{ dir: "asc", field: "beer" }} />
       </MockedProvider>
     );
 
@@ -74,7 +83,7 @@ describe("list component", () => {
 
     const cmp = render(
       <MockedProvider mocks={mocks} addTypename={false} cache={null}>
-        <List venue="chucks" sort={{ dir: "asc", field: "beer" }} />
+        <List venue={testSelectValue} sort={{ dir: "asc", field: "beer" }} />
       </MockedProvider>
     );
 

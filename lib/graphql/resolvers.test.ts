@@ -13,7 +13,7 @@ mockedAxios.get.mockResolvedValue({
 
 describe("resolvers", () => {
   it("loads resolvers", async () => {
-    const result = resolvers.Query.beers(null as never, { venue: "chucks" });
+    const result = resolvers.Query.beers(null as never, { venue: "chucks", params: { venueId: "GW" } });
     await expect(result).resolves.toBeTruthy();
     expect(mockedAxios.get).toHaveBeenCalledTimes(1);
   });

@@ -18,8 +18,7 @@ describe("beer object", () => {
   });
 
   it("merges with algoila", () => {
-    const beer = new Beer();
-    const augmented = beer.fromAlgoliaBeer({
+    const augmented = Beer.fromAlgoliaBeer({
       rating_score: 4.222,
       rating_count: 10
     });
@@ -29,8 +28,7 @@ describe("beer object", () => {
   });
 
   it("merges with algolia with only some properties", () => {
-    const beer = new Beer();
-    const augmented = beer.fromAlgoliaBeer({
+    const augmented = Beer.fromAlgoliaBeer({
       beer_name: "Test",
       brewery_name: "Test Brewery"
     });
@@ -41,8 +39,7 @@ describe("beer object", () => {
   });
 
   it("merges with algoila if source is null", () => {
-    const beer = new Beer();
-    const augmented = beer.fromAlgoliaBeer(null);
+    const augmented = Beer.fromAlgoliaBeer(null);
     expect(augmented).toEqual(new Beer());
   });
 });
