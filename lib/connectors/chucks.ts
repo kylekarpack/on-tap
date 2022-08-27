@@ -28,8 +28,15 @@ export default class Chucks extends ConnectorBase {
   /**
    *
    */
-  async read(params: OptionalParams): Promise<Beer[]> {
-    const { data } = await axios.get(`https://taplists.web.app/data?menu=${params.venueId}`);
+  constructor(protected params: OptionalParams) {
+    super();
+  }
+
+  /**
+   *
+   */
+  async read(): Promise<Beer[]> {
+    const { data } = await axios.get(`https://taplists.web.app/data?menu=${this.params.venueId}`);
     return data.filter((el: ChucksBeer) => el.price !== "NaN");
   }
 

@@ -1,4 +1,4 @@
-import { Beer } from "lib/types";
+import { Beer, OptionalParams } from "lib/types";
 import ConnectorBase from "./connectorBase";
 
 /**
@@ -8,10 +8,9 @@ export default class Flatstick extends ConnectorBase {
   /**
    * Build the connector
    */
-  constructor() {
+  constructor(protected params: OptionalParams) {
     super();
     this.key = "flatstick";
-    this.url = "https://flatstickpub.com/pioneer-square/";
     this.selector = ".tap-list .item";
     this.selectors = [
       {
@@ -24,6 +23,13 @@ export default class Flatstick extends ConnectorBase {
         ibu: ".details .ibu"
       }
     ];
+  }
+
+  /**
+   * Get the URL from which to fetch Flatstick beers
+   */
+  protected get url(): string {
+    return `https://flatstickpub.com/${this.params.venueId}/`;
   }
 
   /**

@@ -15,7 +15,7 @@ export const resolvers = {
       } catch (e) {
         throw new Error(`No connector found for venue "${venue}"!`);
       }
-      return client.execute(params);
+      return client.execute();
     }
   }
 };

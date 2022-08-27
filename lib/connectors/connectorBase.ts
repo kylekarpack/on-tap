@@ -9,7 +9,7 @@ export interface Connector {
   /**
    * Execute the connector's function to get beers
    */
-  execute: (params?: OptionalParams) => Promise<Beer[]>;
+  execute: () => Promise<Beer[]>;
 }
 
 /**
@@ -17,7 +17,7 @@ export interface Connector {
  */
 export interface ConnectorConstructor {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  new (params?: any): Connector;
+  new (params?: OptionalParams): Connector;
 }
 
 /**
@@ -28,7 +28,21 @@ abstract class ConnectorBase implements Connector {
 
   protected untapped = new UntappdApi();
 
-  protected url: string;
+  private _url: string;
+
+  /**
+   * Get the URL from which to set beers
+   */
+  protected get url(): string {
+    return this._url;
+  }
+
+  /**
+   * Set the URL from which to fetch beers
+   */
+  protected set url(url: string) {
+    this._url = url;
+  }
 
   protected selector: string;
 
@@ -39,8 +53,8 @@ abstract class ConnectorBase implements Connector {
   /**
    * Execute the read function to get beers
    */
-  public async execute(params?: OptionalParams): Promise<Beer[]> {
-    const pageData = await this.read(params);
+  public async execute(): Promise<Beer[]> {
+    const pageData = await this.read();
     const beers = this.process(pageData);
     return this.compare(beers);
   }
@@ -48,8 +62,7 @@ abstract class ConnectorBase implements Connector {
   /**
    * Provide logic to read beers
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected async read(params?: OptionalParams): Promise<Beer[]> {
+  protected async read(): Promise<Beer[]> {
     return this.xray(this.url, this.selector, this.selectors);
   }
 
