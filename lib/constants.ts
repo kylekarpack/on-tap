@@ -12,7 +12,17 @@ export const venues: Venue[] = [
   },
   {
     label: "Chuck's Greenwood",
-    value: "chucks"
+    value: "chucks",
+    params: {
+      venueId: "GW"
+    }
+  },
+  {
+    label: "Chuck's Seward",
+    value: "chucks",
+    params: {
+      venueId: "SP"
+    }
   },
   {
     label: "The Pinebox",

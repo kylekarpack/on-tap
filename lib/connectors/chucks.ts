@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Beer } from "lib/types";
+import { Beer, OptionalParams } from "lib/types";
 import ConnectorBase from "./connectorBase";
 
 type ChucksBeer = {
@@ -28,8 +28,8 @@ export default class Chucks extends ConnectorBase {
   /**
    *
    */
-  async read(): Promise<Beer[]> {
-    const { data } = await axios.get("https://taplists.web.app/data?menu=GW");
+  async read(params: OptionalParams): Promise<Beer[]> {
+    const { data } = await axios.get(`https://taplists.web.app/data?menu=${params.venueId}`);
     return data.filter((el: ChucksBeer) => el.price !== "NaN");
   }
 

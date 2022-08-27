@@ -1,5 +1,5 @@
 import xray from "x-ray";
-import { Beer } from "lib/types";
+import { Beer, OptionalParams } from "lib/types";
 import UntappdApi from "./untappd";
 
 /**
@@ -9,14 +9,15 @@ export interface Connector {
   /**
    * Execute the connector's function to get beers
    */
-  execute: () => Promise<Beer[]>;
+  execute: (params?: OptionalParams) => Promise<Beer[]>;
 }
 
 /**
  * Interface for a constructable connector
  */
 export interface ConnectorConstructor {
-  new (): Connector;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  new (params?: any): Connector;
 }
 
 /**
@@ -38,8 +39,8 @@ abstract class ConnectorBase implements Connector {
   /**
    * Execute the read function to get beers
    */
-  public async execute(): Promise<Beer[]> {
-    const pageData = await this.read();
+  public async execute(params?: OptionalParams): Promise<Beer[]> {
+    const pageData = await this.read(params);
     const beers = this.process(pageData);
     return this.compare(beers);
   }
@@ -47,7 +48,8 @@ abstract class ConnectorBase implements Connector {
   /**
    * Provide logic to read beers
    */
-  protected async read(): Promise<Beer[]> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected async read(params?: OptionalParams): Promise<Beer[]> {
     return this.xray(this.url, this.selector, this.selectors);
   }
 
