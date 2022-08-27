@@ -69,7 +69,7 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
               onChange={changeVenue}
             >
               {venues.map((el) => (
-                <MenuItem key={el.value} value={JSON.stringify(el)}>
+                <MenuItem key={JSON.stringify(el)} value={JSON.stringify(el)}>
                   {el.label}
                 </MenuItem>
               ))}

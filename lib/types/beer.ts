@@ -1,5 +1,5 @@
+import crypto from "crypto";
 import { AlgoliaBeer } from "./algoliaBeer";
-
 /**
  * Beer data container
  */
@@ -55,6 +55,11 @@ export class Beer {
    * The id of this beer in Untappd
    */
   public id?: number = null;
+
+  /**
+   * A unique ID for this beer
+   */
+  public guid?: string = crypto.randomUUID();
 
   /**
    * The brewery for this beer

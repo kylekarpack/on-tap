@@ -12,7 +12,7 @@ function createApolloClient(): ApolloClient<any> {
     cache: new InMemoryCache({
       typePolicies: {
         Beer: {
-          keyFields: ["id", "beer", "brewery"]
+          keyFields: ["guid"]
         }
       }
     })

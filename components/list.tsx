@@ -52,11 +52,10 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
   }
 
   const listData: Beer[] = sortTable(sort, data?.beers) ?? [];
-
   return (
     <List data-testid="list" sx={{ width: "100%", bgcolor: "background.paper" }}>
-      {listData.map((beer, i: number) => (
-        <div key={beer.beer || i}>
+      {listData.map((beer) => (
+        <div key={beer.guid}>
           <ListItem alignItems="flex-start">
             <ListItemAvatar sx={{ mr: 2 }}>
               <Image width={50} height={50} src={beer.labelImageUrl || "/badge-beer-default.png"} alt={beer.beer} />
