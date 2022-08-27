@@ -40,6 +40,6 @@ export default class Untappd {
 
     const { data } = search;
     const result: AlgoliaBeer = data.hits[0];
-    return new Beer().fromAlgoliaBeer(result);
+    return Beer.fromAlgoliaBeer(result);
   }
 }
