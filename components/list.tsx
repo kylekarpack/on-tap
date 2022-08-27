@@ -15,7 +15,7 @@ import {
 import Image from "next/image";
 import { FunctionComponent } from "react";
 import { GET_BEERS } from "lib/queries";
-import { Beer, Sort } from "lib/types";
+import { Beer, Sort, Venue } from "lib/types";
 import { sortTable } from "lib/utils";
 import BeerLink from "./beerLink";
 import styles from "./list.module.css";
@@ -24,10 +24,13 @@ import { CompactNumber, Percentage } from "./number";
 /**
  * Render a list of beers
  */
-const BeerList: FunctionComponent<{ venue: string; sort: Sort }> = ({ venue, sort }) => {
+const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort }) => {
   const { loading, error, data } = useQuery<{ beers: Beer[] }>(GET_BEERS, {
     variables: {
-      venue
+      venue: venue.value,
+      params: {
+        venueId: venue.params?.venueId
+      }
     }
   });
 

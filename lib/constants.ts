@@ -4,11 +4,17 @@ import { Sort, Venue } from "./types";
 export const venues: Venue[] = [
   {
     label: "Flatstick Pioneer Square",
-    value: "flatstick"
+    value: "flatstick",
+    params: {
+      venueId: "pioneer-square"
+    }
   },
   {
     label: "Flatstick Kirkland",
-    value: "flatstickKirkland"
+    value: "flatstick",
+    params: {
+      venueId: "kirkland"
+    }
   },
   {
     label: "Chuck's Greenwood",

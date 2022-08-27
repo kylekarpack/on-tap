@@ -16,7 +16,7 @@ export class Beer {
   /**
    * Create a beer from an Algolia beer search result
    */
-  public fromAlgoliaBeer?(source: AlgoliaBeer) {
+  public static fromAlgoliaBeer?(source: AlgoliaBeer) {
     if (source == null) {
       return new Beer();
     }
@@ -29,7 +29,7 @@ export class Beer {
       rating: Math.round(source.rating_score * 100) / 100 || null,
       ratings: Number(source.rating_count) || null,
       abv: source.beer_abv,
-      labelImageUrl: source.beer_label
+      labelImageUrl: source.beer_label?.replace("untappd.akamaized.net", "assets.untappd.com")
     };
 
     return new Beer(beer);

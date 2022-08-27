@@ -16,20 +16,20 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import List from "components/list";
 import { sorts, venues } from "lib/constants";
-import { Sort } from "lib/types";
+import { Sort, Venue } from "lib/types";
 
 /**
  * The home page for the application
  */
-export default function Home({ initialVenue }: { initialVenue: string }) {
+export default function Home({ initialVenue }: { initialVenue: Venue }) {
   const router = useRouter();
-  const [venue, setVenue] = useState<string>(initialVenue || venues[0].value);
+  const [venue, setVenue] = useState<Venue>(initialVenue || venues[0]);
   const [sort, setSort] = useState<Sort>(sorts[0]);
 
   const changeVenue = (e: SelectChangeEvent): void => {
-    const newVenue = e.target.value;
+    const newVenue: Venue = JSON.parse(e.target.value);
     router.push({
-      query: { venue: newVenue }
+      query: { venue: newVenue.value, venueId: newVenue.params?.venueId }
     });
     setVenue(newVenue);
   };
@@ -61,9 +61,15 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
           </Typography>
           <FormControl>
             <InputLabel id="venueLabel">Venue</InputLabel>
-            <Select size="small" labelId="venueLabel" label="Venue" value={venue} onChange={changeVenue}>
+            <Select
+              size="small"
+              labelId="venueLabel"
+              label="Venue"
+              value={JSON.stringify(venue)}
+              onChange={changeVenue}
+            >
               {venues.map((el) => (
-                <MenuItem key={el.value} value={el.value}>
+                <MenuItem key={el.value} value={JSON.stringify(el)}>
                   {el.label}
                 </MenuItem>
               ))}
@@ -91,8 +97,17 @@ export default function Home({ initialVenue }: { initialVenue: string }) {
 /**
  * Get the initial venue from the query, if applicable
  */
-export const getServerSideProps: GetServerSideProps = async (context) => ({
-  props: {
-    initialVenue: context.query.venue ?? null
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  let initialVenue: Venue = null;
+  if (context.query.venue) {
+    const { venueId } = context.query;
+    initialVenue = venues.find(
+      (el) => el.value === context.query.venue && (!venueId || el.params?.venueId === venueId)
+    );
   }
-});
+  return {
+    props: {
+      initialVenue
+    }
+  };
+};
