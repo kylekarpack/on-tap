@@ -40,6 +40,11 @@ describe("beer object", () => {
 
   it("merges with algoila if source is null", () => {
     const augmented = Beer.fromAlgoliaBeer(null);
-    expect(augmented).toEqual(new Beer());
+    augmented.guid = expect.any(String);
+
+    const beer = new Beer();
+    beer.guid = expect.any(String);
+
+    expect(augmented).toEqual(beer);
   });
 });
