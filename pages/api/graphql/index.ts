@@ -4,8 +4,7 @@ import { resolvers, typeDefs } from "lib/graphql";
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  introspection: true,
-  playground: true
+  introspection: true
 });
 
 export const config = {
@@ -14,4 +13,7 @@ export const config = {
   }
 };
 
-export default apolloServer.createHandler({ path: "/api/graphql" });
+export default apolloServer.start().then(() => {
+  const handler = apolloServer.createHandler({ path: "/api/graphql" });
+  return handler;
+});
