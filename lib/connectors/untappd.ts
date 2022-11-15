@@ -1,8 +1,8 @@
 import axios from "axios";
+import dotenv from "dotenv";
 import { AlgoliaBeer, Beer } from "lib/types";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require("dotenv").config();
+dotenv.config();
 
 /**
  * Main connector to query Untappd
@@ -18,21 +18,26 @@ export default class Untappd {
     );
     searchBeer = searchBeer.trim();
     [searchBeer] = searchBeer.split(" - ");
+
+    const formData = new URLSearchParams();
+    formData.append("query", `${beer.brewery}%20${searchBeer}`);
+    formData.append("hitsPerPage", "1");
+
+    const postBody = JSON.stringify({ params: formData.toString() });
+
     const search = await axios.post(
-      `https://${process.env.NEXT_PUBLIC_ALGOLIA_SERVER}.algolia.net/1/indexes/beer/query?x-algolia-agent=Algolia%20for%20vanilla%20JavaScript%203.24.8&x-algolia-application-id=${process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID}&x-algolia-api-key=${process.env.NEXT_PUBLIC_ALGOLIA_API_KEY}`,
+      `https://${process.env.NEXT_PUBLIC_ALGOLIA_SERVER}.algolia.net/1/indexes/beer/query`,
+      postBody,
       {
-        params: `query=${encodeURIComponent(beer.brewery)}%20${encodeURIComponent(searchBeer)}&hitsPerPage=1`
-      },
-      {
+        params: {
+          "x-algolia-agent": "Algolia for vanilla JavaScript 3.24.8",
+          "x-algolia-application-id": process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
+          "x-algolia-api-key": process.env.NEXT_PUBLIC_ALGOLIA_API_KEY
+        },
         headers: {
           accept: "application/json",
           "accept-language": "en-US,en;q=0.9",
           "content-type": "application/x-www-form-urlencoded",
-          "sec-ch-ua": '" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
-          "sec-ch-ua-mobile": "?0",
-          "sec-fetch-dest": "empty",
-          "sec-fetch-mode": "cors",
-          "sec-fetch-site": "cross-site",
           referrer: process.env.NEXT_PUBLIC_ALGOLIA_REFERRER
         }
       }
