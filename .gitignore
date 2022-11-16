@@ -86,3 +86,5 @@ typings/
 
 __snapshots__/
 test-report.xml
+
+.DS_Store
