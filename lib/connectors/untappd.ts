@@ -1,6 +1,5 @@
 import axios from "axios";
 import dotenv from "dotenv";
-import qs from "qs";
 import { AlgoliaBeer, Beer } from "lib/types";
 
 dotenv.config();
@@ -21,7 +20,9 @@ export default class Untappd {
     [searchBeer] = searchBeer.split(" - ");
     searchBeer = searchBeer.trim();
 
-    const brewery = beer.brewery?.trim();
+    let brewery = beer.brewery?.trim();
+    [brewery] = brewery.split("/"); // Remove any collabs
+    brewery = brewery.trim();
 
     const queryParams = {
       "x-algolia-agent": "Algolia for vanilla JavaScript 3.24.8",
