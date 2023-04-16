@@ -59,7 +59,7 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
           <Typography variant="h6" component="div" sx={{ display: { xs: "none", sm: "block" }, flexGrow: 1 }}>
             On Tap Sea
           </Typography>
-          <FormControl>
+          <FormControl color="info">
             <InputLabel id="venueLabel">Venue</InputLabel>
             <Select
               size="small"
@@ -76,7 +76,7 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
             </Select>
           </FormControl>
           &nbsp;
-          <FormControl>
+          <FormControl color="info">
             <InputLabel id="sortLabel">Sort</InputLabel>
             <Select size="small" labelId="sortLabel" label="Sort" value={JSON.stringify(sort)} onChange={changeSort}>
               {sorts.map((el) => (
