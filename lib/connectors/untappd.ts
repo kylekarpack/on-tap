@@ -13,7 +13,7 @@ export default class Untappd {
    */
   async getBeer(beer: Beer): Promise<Beer> {
     let searchBeer = beer.beer?.replace(
-      / (ipa|hazy|stout|porter|sour|hazy|cider|tripel|pale|iipa|pilsner|brown|ale|lager)$/gi,
+      / (ipa|hazy|stout|porter|sour|hazy|cider|tripel|pale|iipa|pilsner|brown|ale|lager|bba|nitro)$/gi,
       ""
     );
     searchBeer = searchBeer.trim();
