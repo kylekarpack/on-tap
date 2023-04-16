@@ -20,7 +20,7 @@ export default class Untappd {
     [searchBeer] = searchBeer.split(" - ");
     searchBeer = searchBeer.trim();
 
-    let brewery = beer.brewery?.trim();
+    let brewery = beer.brewery?.trim() ?? "";
     [brewery] = brewery.split("/"); // Remove any collabs
     brewery = brewery.trim();
 
@@ -36,23 +36,23 @@ export default class Untappd {
       params: `query=${beerQuery}&hitsPerPage=1`
     });
 
-    const search = await axios({
-      method: "POST",
-      url: `https://${process.env.NEXT_PUBLIC_ALGOLIA_SERVER}.algolia.net/1/indexes/beer/query`,
-      data: postData,
-      params: queryParams,
-      headers: {
-        accept: "application/json",
-        "accept-language": "en-US,en;q=0.9",
-        "content-type": "application/x-www-form-urlencoded",
-        referrer: process.env.NEXT_PUBLIC_ALGOLIA_REFERRER
+    const search = await axios.post(
+      `https://${process.env.NEXT_PUBLIC_ALGOLIA_SERVER}.algolia.net/1/indexes/beer/query`,
+      postData,
+      {
+        params: queryParams,
+        headers: {
+          accept: "application/json",
+          "accept-language": "en-US,en;q=0.9",
+          "content-type": "application/x-www-form-urlencoded",
+          referrer: process.env.NEXT_PUBLIC_ALGOLIA_REFERRER
+        }
       }
-    });
+    );
 
     const { data } = search;
     const result: AlgoliaBeer = data.hits[0];
 
-    console.log(result);
     return Beer.fromAlgoliaBeer(result);
   }
 }

@@ -10,7 +10,7 @@ export const resolvers = {
       let client: Connector;
 
       try {
-        const { default: Constructor }: { default: ConnectorConstructor } = await import(`../connectors/${venue}.ts`);
+        const { default: Constructor }: { default: ConnectorConstructor } = await import(`../connectors/${venue}`);
         client = new Constructor(params);
       } catch (e) {
         throw new Error(`No connector found for venue "${venue}"!`);
