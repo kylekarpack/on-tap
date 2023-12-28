@@ -9,6 +9,15 @@ import {
   Toolbar,
   Typography
 } from "@mui/material";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle
+} from "@nextui-org/react";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -45,8 +54,8 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
         <title>On Tap Seattle</title>
       </Head>
 
-      <AppBar position="sticky" sx={{ top: 0, width: "100%" }}>
-        <Toolbar>
+      <Navbar position="sticky">
+        <NavbarBrand>
           <IconButton
             sx={{ mr: 2, display: { xs: "none", sm: "block" } }}
             size="large"
@@ -59,6 +68,9 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
           <Typography variant="h6" component="div" sx={{ display: { xs: "none", sm: "block" }, flexGrow: 1 }}>
             On Tap Sea
           </Typography>
+        </NavbarBrand>
+
+        <NavbarContent>
           <FormControl color="info">
             <InputLabel id="venueLabel">Venue</InputLabel>
             <Select
@@ -86,8 +98,8 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
               ))}
             </Select>
           </FormControl>
-        </Toolbar>
-      </AppBar>
+        </NavbarContent>
+      </Navbar>
 
       <List venue={venue} sort={sort} />
     </>

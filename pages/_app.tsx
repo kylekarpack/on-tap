@@ -1,19 +1,11 @@
 /* eslint-disable react/no-invalid-html-attribute */
 import { ApolloProvider } from "@apollo/client";
-import { ThemeProvider, createTheme } from "@mui/material";
+import { NextUIProvider } from "@nextui-org/react";
 import Head from "next/head";
 import Meta from "components/Meta";
-import "styles/globals.css";
 import { useApollo } from "../lib/apolloClient";
 import type { AppProps } from "next/app";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#8bd7f8"
-    }
-  }
-});
+import "../styles/globals.css";
 
 /**
  * Layout for all pages
@@ -27,9 +19,9 @@ function App({ Component, pageProps }: AppProps) {
         <Meta />
       </Head>
       <ApolloProvider client={apolloClient}>
-        <ThemeProvider theme={theme}>
+        <NextUIProvider>
           <Component {...pageProps} />
-        </ThemeProvider>
+        </NextUIProvider>
       </ApolloProvider>
     </>
   );
