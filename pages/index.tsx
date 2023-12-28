@@ -1,23 +1,4 @@
-import {
-  AppBar,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Toolbar,
-  Typography
-} from "@mui/material";
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenu,
-  NavbarMenuItem,
-  NavbarMenuToggle
-} from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Select, SelectItem } from "@nextui-org/react";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -35,7 +16,7 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
   const [venue, setVenue] = useState<Venue>(initialVenue || venues[0]);
   const [sort, setSort] = useState<Sort>(sorts[0]);
 
-  const changeVenue = (e: SelectChangeEvent): void => {
+  const changeVenue = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const newVenue: Venue = JSON.parse(e.target.value);
     router.push({
       query: { venue: newVenue.value, venueId: newVenue.params?.venueId }
@@ -43,7 +24,7 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
     setVenue(newVenue);
   };
 
-  const changeSort = (e: SelectChangeEvent): void => {
+  const changeSort = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const newSort: Sort = JSON.parse(e.target.value);
     setSort(newSort);
   };
@@ -54,50 +35,31 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
         <title>On Tap Seattle</title>
       </Head>
 
-      <Navbar position="sticky">
+      <Navbar position="sticky" isBordered isBlurred maxWidth="full">
         <NavbarBrand>
-          <IconButton
-            sx={{ mr: 2, display: { xs: "none", sm: "block" } }}
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-          >
-            <Image width={24} height={24} src="/icons/favicon-196.png" alt="Main logo" />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ display: { xs: "none", sm: "block" }, flexGrow: 1 }}>
-            On Tap Sea
-          </Typography>
+          <Image width={32} height={32} src="/icons/favicon-196.png" alt="Main logo" />
+          <div className="px-2 text-gray-50">On Tap Sea</div>
         </NavbarBrand>
 
         <NavbarContent>
-          <FormControl color="info">
-            <InputLabel id="venueLabel">Venue</InputLabel>
-            <Select
-              size="small"
-              labelId="venueLabel"
-              label="Venue"
-              value={JSON.stringify(venue)}
-              onChange={changeVenue}
-            >
-              {venues.map((el) => (
-                <MenuItem key={JSON.stringify(el)} value={JSON.stringify(el)}>
-                  {el.label}
-                </MenuItem>
-              ))}
+          <NavbarItem className="w-1/2">
+            <Select label="Venue" value={JSON.stringify(venue)} onChange={changeVenue} items={venues} size="sm">
+              {(item) => (
+                <SelectItem key={JSON.stringify(item)} value={JSON.stringify(item)}>
+                  {item.label}
+                </SelectItem>
+              )}
             </Select>
-          </FormControl>
-          &nbsp;
-          <FormControl color="info">
-            <InputLabel id="sortLabel">Sort</InputLabel>
-            <Select size="small" labelId="sortLabel" label="Sort" value={JSON.stringify(sort)} onChange={changeSort}>
-              {sorts.map((el) => (
-                <MenuItem key={el.field + el.dir} value={JSON.stringify(el)}>
-                  {el.label}
-                </MenuItem>
-              ))}
+          </NavbarItem>
+          <NavbarItem className="w-1/2">
+            <Select label="Sort" value={JSON.stringify(sort)} onChange={changeSort} items={sorts} size="sm">
+              {(item) => (
+                <SelectItem key={item.field + item.dir} value={JSON.stringify(item)} textValue={item.label}>
+                  {item.label}
+                </SelectItem>
+              )}
             </Select>
-          </FormControl>
+          </NavbarItem>
         </NavbarContent>
       </Navbar>
 
