@@ -5,7 +5,7 @@ import { Head, Html, Main, NextScript } from "next/document";
  */
 export default function Document() {
   return (
-    <Html lang="en" className="dark dark:bg-slate-600">
+    <Html lang="en" className="dark dark:bg-gray-800">
       <Head />
       <body>
         <Main />

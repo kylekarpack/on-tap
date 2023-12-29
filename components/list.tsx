@@ -42,8 +42,8 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
   return (
     <div data-testid="list">
       {listData.map((beer) => (
-        <Card isBlurred isPressable shadow="sm" className="m-2" key={beer.guid}>
-          <CardBody className="p-4">
+        <Card isBlurred isPressable shadow="none" radius="none" className="border-b-1 border-gray-700" key={beer.guid}>
+          <CardBody className="px-4 py-6">
             <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-12 items-center justify-center">
               <div className="grid grid-cols-5 col-span-7 gap-4 md:gap-12 items-center md:items-start">
                 <div className="relative col-span-1">
@@ -56,7 +56,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
                   />
                 </div>
                 <div className="col-span-4">
-                  <div className="text-xl font-semibold">
+                  <div className="text-md sm:text-xl font-semibold">
                     <BeerLink beer={beer} />
                   </div>
                   <div className="text-gray-100 text-sm">

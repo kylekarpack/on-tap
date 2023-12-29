@@ -1,9 +1,8 @@
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Select, SelectItem } from "@nextui-org/react";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import NavBar from "@/components/NavBar";
 import List from "components/list";
 import { sorts, venues } from "lib/constants";
 import { Sort, Venue } from "lib/types";
@@ -35,33 +34,7 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
         <title>On Tap Seattle</title>
       </Head>
 
-      <Navbar position="sticky" isBordered isBlurred maxWidth="full">
-        <NavbarBrand>
-          <Image width={32} height={32} src="/icons/favicon-196.png" alt="Main logo" />
-          <div className="px-2 text-gray-50">On Tap Sea</div>
-        </NavbarBrand>
-
-        <NavbarContent>
-          <NavbarItem className="w-1/2">
-            <Select label="Venue" value={JSON.stringify(venue)} onChange={changeVenue} items={venues} size="sm">
-              {(item) => (
-                <SelectItem key={JSON.stringify(item)} value={JSON.stringify(item)}>
-                  {item.label}
-                </SelectItem>
-              )}
-            </Select>
-          </NavbarItem>
-          <NavbarItem className="w-1/2">
-            <Select label="Sort" value={JSON.stringify(sort)} onChange={changeSort} items={sorts} size="sm">
-              {(item) => (
-                <SelectItem key={item.field + item.dir} value={JSON.stringify(item)} textValue={item.label}>
-                  {item.label}
-                </SelectItem>
-              )}
-            </Select>
-          </NavbarItem>
-        </NavbarContent>
-      </Navbar>
+      <NavBar venue={venue} changeVenue={changeVenue} sort={sort} changeSort={changeSort} />
 
       <List venue={venue} sort={sort} />
     </>
