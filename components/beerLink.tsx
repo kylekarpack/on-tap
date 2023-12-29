@@ -1,4 +1,4 @@
-import { Link } from "@nextui-org/react";
+import Link from "next/link";
 import { Beer } from "lib/types";
 import type { FunctionComponent, MouseEvent } from "react";
 
@@ -30,7 +30,7 @@ const BeerLink: FunctionComponent<{ beer: Beer }> = ({ beer }) => {
         onClick={onClick}
         target="_blank"
         rel="nofollow noreferrer"
-        className="text-xl text-blue-300 font-semibold"
+        className="text-blue-300"
       >
         {beer.beer}
       </Link>

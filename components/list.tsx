@@ -6,7 +6,6 @@ import { GET_BEERS } from "lib/queries";
 import { Beer, Sort, Venue } from "lib/types";
 import { sortTable } from "lib/utils";
 import BeerLink from "./beerLink";
-import styles from "./list.module.css";
 import { CompactNumber, Percentage } from "./number";
 
 /**
@@ -57,7 +56,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
                   />
                 </div>
                 <div className="col-span-4">
-                  <div className="text-3xl">
+                  <div className="text-xl font-semibold">
                     <BeerLink beer={beer} />
                   </div>
                   <div className="text-gray-100 text-sm">
@@ -71,7 +70,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
                   {beer.rating ? (
                     <div className="col-span-1">
                       <div className="font-light text-sm text-gray-300">Rating</div>
-                      <div className={styles.data}>
+                      <div className="text-xl">
                         {beer.rating?.toFixed(2)}
                         {beer.ratings && (
                           <small className="text-gray-400 text-xs">
@@ -84,7 +83,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
                   {beer.abv && beer.abv !== 0 ? (
                     <div className="col-span-1">
                       <div className="font-light text-sm text-gray-300">ABV</div>
-                      <div className={styles.data}>
+                      <div className="text-xl">
                         <Percentage value={beer.abv} />
                       </div>
                     </div>
@@ -92,7 +91,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
                   {beer.ibu && beer.ibu !== 0 ? (
                     <div className="col-span-1">
                       <div className="font-light text-sm text-gray-300">IBU</div>
-                      <div className={styles.data}>{beer.ibu}</div>
+                      <div className="text-xl">{beer.ibu}</div>
                     </div>
                   ) : null}
                 </div>
