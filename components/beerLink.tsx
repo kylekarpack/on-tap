@@ -30,7 +30,7 @@ const BeerLink: FunctionComponent<{ beer: Beer }> = ({ beer }) => {
         onClick={onClick}
         target="_blank"
         rel="nofollow noreferrer"
-        className="text-xl text-blue-300"
+        className="text-xl text-blue-300 font-semibold"
       >
         {beer.beer}
       </Link>

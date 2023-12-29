@@ -19,7 +19,7 @@ function App({ Component, pageProps }: AppProps) {
         <Meta />
       </Head>
       <ApolloProvider client={apolloClient}>
-        <NextUIProvider className="dark h-full bg-gradient-to-tr from-[#8bd6f8] to-[#fbd458]">
+        <NextUIProvider>
           <Component {...pageProps} />
         </NextUIProvider>
       </ApolloProvider>
