@@ -42,7 +42,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
   return (
     <div data-testid="list">
       {listData.map((beer) => (
-        <Card isBlurred shadow="sm" className="m-2" key={beer.guid}>
+        <Card isBlurred isPressable shadow="sm" className="m-2" key={beer.guid}>
           <CardBody className="p-4">
             <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-12 items-center justify-center">
               <div className="grid grid-cols-5 col-span-7 gap-4 md:gap-12 items-center md:items-start">
