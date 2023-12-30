@@ -19,7 +19,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
   if (loading) {
     return (
       <div className="flex justify-center mt-32">
-        <CircularProgress />
+        <CircularProgress aria-label="Loading" />
       </div>
     );
   }

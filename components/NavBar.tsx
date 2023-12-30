@@ -81,7 +81,13 @@ const NavBar: FunctionComponent<NavBarProps> = ({ searchState, setSearchState })
               </SelectItem>
             )}
           </Select>
-          <Button isIconOnly onPress={() => setSortDir(sortDir === "asc" ? "desc" : "asc")} size="sm" variant="faded">
+          <Button
+            isIconOnly
+            onPress={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}
+            size="sm"
+            variant="faded"
+            aria-label="Sort order"
+          >
             {sortDir === "asc" ? "↑" : "↓"}
           </Button>
         </NavbarItem>
