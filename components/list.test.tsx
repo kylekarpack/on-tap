@@ -3,7 +3,7 @@ import { act, render } from "@testing-library/react";
 import { GraphQLError } from "graphql";
 import { GET_BEERS } from "lib/queries";
 import { Beer, Venue } from "lib/types";
-import List from "./list";
+import List from "./List";
 
 const testSelectValue: Venue = {
   label: "Chucks",

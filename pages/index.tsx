@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useState } from "react";
-import List from "components/list";
+import List from "@/components/List";
 import NavBar from "components/NavBar";
 import { venues } from "lib/constants";
 import { Venue } from "lib/types";

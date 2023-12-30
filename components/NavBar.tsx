@@ -43,15 +43,22 @@ const NavBar: FunctionComponent<NavBarProps> = ({ searchState, setSearchState })
   }, [venue, sort, sortDir]);
 
   return (
-    <Navbar position="sticky" isBordered isBlurred maxWidth="full">
-      <NavbarBrand className="flex-1 md:flex-1">
+    <Navbar position="sticky" isBordered isBlurred maxWidth="full" className="flex">
+      <NavbarBrand className="flex-1 min-w-8">
         <Image width={40} height={40} src="/icons/favicon-196.png" alt="Main logo" className="rounded" />
         <div className="px-4 text-gray-50 text-xl font-bold hidden md:block">On Tap Sea</div>
       </NavbarBrand>
 
-      <NavbarContent className="flex-5 md:flex-1">
+      <NavbarContent className="flex-auto" justify="center">
         <NavbarItem className="w-1/2">
-          <Select label="Venue" selectedKeys={venue} onSelectionChange={setVenue} items={venues} size="sm">
+          <Select
+            label="Venue"
+            selectedKeys={venue}
+            onSelectionChange={setVenue as any}
+            items={venues}
+            size="sm"
+            classNames={{ popoverContent: "min-w-48" }}
+          >
             {(item) => (
               <SelectItem key={item.value} value={item.value}>
                 {item.label}
@@ -59,17 +66,22 @@ const NavBar: FunctionComponent<NavBarProps> = ({ searchState, setSearchState })
             )}
           </Select>
         </NavbarItem>
-        <NavbarItem className="w-1/2">
-          <Select label="Sort" selectedKeys={sort} onSelectionChange={setSort} items={sorts} size="sm">
+        <NavbarItem className="w-1/2 flex items-center gap-2">
+          <Select
+            label="Sort"
+            selectedKeys={sort}
+            onSelectionChange={setSort as any}
+            items={sorts}
+            size="sm"
+            classNames={{ popoverContent: "min-w-36 float-right" }}
+          >
             {(item) => (
               <SelectItem key={item.field} value={item.field}>
                 {item.label}
               </SelectItem>
             )}
-          </Select>{" "}
-        </NavbarItem>
-        <NavbarItem>
-          <Button isIconOnly onPress={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}>
+          </Select>
+          <Button isIconOnly onPress={() => setSortDir(sortDir === "asc" ? "desc" : "asc")} size="sm" variant="faded">
             {sortDir === "asc" ? "↑" : "↓"}
           </Button>
         </NavbarItem>

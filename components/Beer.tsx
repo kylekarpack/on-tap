@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FunctionComponent } from "react";
 import { usePress } from "react-aria";
 import useBeerLink from "lib/hooks/useBeerLink";
-import { CompactNumber, Percentage } from "./number";
+import { CompactNumber, Percentage } from "./Number";
 import type { Beer as BeerType } from "lib/types";
 
 /**
@@ -23,7 +23,7 @@ const Beer: FunctionComponent<{ beer: BeerType }> = ({ beer }) => {
       isPressable
       shadow="none"
       radius="none"
-      className="border-b-1 border-gray-700"
+      className="border-b-1 border-gray-700 w-full"
       key={beer.guid}
       onPress={() => onClick(true)}
     >
