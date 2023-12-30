@@ -7,18 +7,14 @@ import List from "./List";
 
 const testSelectValue: Venue = {
   label: "Chucks",
-  value: "chucks",
-  params: {
-    venueId: "GW"
-  }
+  value: "chucks-greenwood"
 };
 
 const emptyMock: MockedResponse<Record<string, Beer[]>> = {
   request: {
     query: GET_BEERS,
     variables: {
-      venue: testSelectValue.value,
-      params: testSelectValue.params
+      venue: testSelectValue.value
     }
   },
   result: {
@@ -87,13 +83,7 @@ describe("list component", () => {
       </MockedProvider>
     );
 
-    await act(
-      () =>
-        new Promise((resolve) => {
-          setTimeout(resolve, 0);
-        })
-    );
-    expect(cmp.getByTestId("list")).toBeVisible();
-    expect(cmp.getByTestId("list").childElementCount).toEqual(2);
+    expect(await cmp.findByTestId("list")).toBeVisible();
+    expect((await cmp.findByTestId("list")).childElementCount).toEqual(2);
   });
 });
