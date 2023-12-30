@@ -1,4 +1,4 @@
-import { MouseEvent, useMemo } from "react";
+import { useMemo } from "react";
 import { Beer } from "lib/types";
 
 /**
@@ -8,15 +8,17 @@ const useBeerLink = (beer: Beer) => {
   const isIos = useMemo(() => navigator.userAgent.match(/iPad|iPhone|iPod/i), []);
   const isAndroid = useMemo(() => navigator.userAgent.match("Android"), []);
 
-  const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
+  const onClick = (shouldNavigate = false) => {
     if (isIos) {
-      e.preventDefault();
       window.location.href = `untappd://beer/${beer.id}`;
       return false;
     }
     if (isAndroid) {
-      e.preventDefault();
       window.location.href = `intent://beer/${beer.id}/#Intent;scheme=untappd;package=com.untappdllc.app;end`;
+      return false;
+    }
+    if (shouldNavigate) {
+      window.open(`https://untappd.com/beer/${beer.id}`, "_blank");
       return false;
     }
     return true;

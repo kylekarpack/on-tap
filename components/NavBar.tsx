@@ -27,7 +27,7 @@ const NavBar: FunctionComponent<NavBarProps> = ({ searchState, setSearchState })
       },
       sort: {
         field: [...sort][0],
-        dir: sortDir
+        dir: sortDirSW
       }
     });
   }, [venue, sort, sortDir, setSearchState]);

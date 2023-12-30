@@ -2,6 +2,7 @@ import { Card, CardBody } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { FunctionComponent } from "react";
+import { usePress } from "react-aria";
 import useBeerLink from "lib/hooks/useBeerLink";
 import { CompactNumber, Percentage } from "./number";
 import type { Beer as BeerType } from "lib/types";
@@ -12,8 +13,20 @@ import type { Beer as BeerType } from "lib/types";
 const Beer: FunctionComponent<{ beer: BeerType }> = ({ beer }) => {
   const { onClick, beerLink } = useBeerLink(beer);
 
+  const { pressProps } = usePress({
+    onPress: () => onClick(false)
+  });
+
   return (
-    <Card isBlurred isPressable shadow="none" radius="none" className="border-b-1 border-gray-700" key={beer.guid}>
+    <Card
+      isBlurred
+      isPressable
+      shadow="none"
+      radius="none"
+      className="border-b-1 border-gray-700"
+      key={beer.guid}
+      onPress={() => onClick(true)}
+    >
       <CardBody className="px-4 py-6">
         <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-12 items-center justify-center">
           <div className="grid grid-cols-5 col-span-7 gap-4 md:gap-12 items-center">
@@ -31,10 +44,10 @@ const Beer: FunctionComponent<{ beer: BeerType }> = ({ beer }) => {
                 {beerLink ? (
                   <Link
                     href={beerLink}
-                    onClick={onClick}
                     target="_blank"
                     rel="nofollow noreferrer"
                     className="text-blue-300"
+                    {...pressProps}
                   >
                     {beer.beer}
                   </Link>
