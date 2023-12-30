@@ -4,20 +4,14 @@ import { useState } from "react";
 import List from "@/components/List";
 import NavBar from "components/NavBar";
 import { venues } from "lib/constants";
-import { Venue } from "lib/types";
+import { Beer, Venue } from "lib/types";
 import { SearchState } from "lib/types/searchState";
 
 /**
  * The home page for the application
  */
-export default function Home({ initialVenue }: { initialVenue: Venue }) {
-  const [searchState, setSearchState] = useState<SearchState>({
-    sort: {
-      field: "rating",
-      dir: "desc"
-    },
-    venue: initialVenue
-  });
+export default function Home(initialState: SearchState) {
+  const [searchState, setSearchState] = useState<SearchState>(initialState);
 
   return (
     <>
@@ -40,9 +34,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (context.query.venue) {
     initialVenue = venues.find((el) => el.value === context.query.venue);
   }
-  return {
-    props: {
-      initialVenue
+
+  const props: SearchState = {
+    venue: initialVenue,
+    sort: {
+      field: (context.query.sortField as keyof Beer) ?? "rating",
+      dir: (context.query.sortDir as "asc" | "desc") ?? "desc"
     }
+  };
+
+  return {
+    props
   };
 };
