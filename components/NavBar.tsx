@@ -16,30 +16,31 @@ type NavBarProps = {
 const NavBar: FunctionComponent<NavBarProps> = ({ searchState, setSearchState }) => {
   const router = useRouter();
   const [venue, setVenue] = useState(new Set([searchState.venue?.value || venues[0]?.value]));
-  const [sort, setSort] = useState(new Set([searchState?.sort?.field]));
-  const [sortDir, setSortDir] = useState<"asc" | "desc">();
+  const [sort, setSort] = useState(new Set([searchState.sort?.field]));
+  const [sortDir, setSortDir] = useState<"asc" | "desc">(searchState.sort?.dir);
 
   useEffect(() => {
+    const value = [...venue][0];
+    const currentVenue = venues.find((el) => el.value === value);
+    const sortField = [...sort][0];
+
     setSearchState({
-      venue: {
-        value: [...venue][0],
-        label: "test"
-      },
+      venue: currentVenue,
       sort: {
-        field: [...sort][0],
-        dir: sortDirSW
+        field: sortField,
+        dir: sortDir
       }
     });
-  }, [venue, sort, sortDir, setSearchState]);
 
-  const changeVenue = (e: any): void => {
     router.push({
       query: {
-        venue: e.currentKey
+        venue: currentVenue?.value,
+        sortField,
+        sortDir
       }
     });
-    setVenue(e);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [venue, sort, sortDir]);
 
   return (
     <Navbar position="sticky" isBordered isBlurred maxWidth="full">
@@ -50,7 +51,7 @@ const NavBar: FunctionComponent<NavBarProps> = ({ searchState, setSearchState })
 
       <NavbarContent className="flex-5 md:flex-1">
         <NavbarItem className="w-1/2">
-          <Select label="Venue" selectedKeys={venue} onSelectionChange={changeVenue} items={venues} size="sm">
+          <Select label="Venue" selectedKeys={venue} onSelectionChange={setVenue} items={venues} size="sm">
             {(item) => (
               <SelectItem key={item.value} value={item.value}>
                 {item.label}

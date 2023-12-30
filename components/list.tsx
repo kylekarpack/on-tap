@@ -34,6 +34,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
   }
 
   const listData: BeerType[] = sortTable(sort, data?.beers) ?? [];
+
   return (
     <div data-testid="list">
       {listData.map((beer) => (

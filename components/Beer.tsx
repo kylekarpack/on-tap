@@ -46,7 +46,7 @@ const Beer: FunctionComponent<{ beer: BeerType }> = ({ beer }) => {
                     href={beerLink}
                     target="_blank"
                     rel="nofollow noreferrer"
-                    className="text-blue-300"
+                    className="text-blue-300 hover:underline"
                     {...pressProps}
                   >
                     {beer.beer}
