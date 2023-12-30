@@ -4,31 +4,19 @@ import { Sort, Venue } from "./types";
 export const venues: Venue[] = [
   {
     label: "Flatstick Pioneer Square",
-    value: "flatstick",
-    params: {
-      venueId: "pioneer-square"
-    }
+    value: "flatstick-pioneer-square"
   },
   {
     label: "Flatstick Kirkland",
-    value: "flatstick",
-    params: {
-      venueId: "kirkland"
-    }
+    value: "flatstick-kirkland"
   },
   {
     label: "Chuck's Greenwood",
-    value: "chucks",
-    params: {
-      venueId: "GW"
-    }
+    value: "chucks-greenwood"
   },
   {
     label: "Chuck's Seward",
-    value: "chucks",
-    params: {
-      venueId: "SP"
-    }
+    value: "chucks-seward"
   },
   {
     label: "The Pinebox",
@@ -38,53 +26,23 @@ export const venues: Venue[] = [
 
 export const sorts: Sort[] = [
   {
-    label: "Rating (High to Low)",
-    field: "rating",
-    dir: "desc"
+    label: "Rating",
+    field: "rating"
   },
   {
-    label: "Rating (Low to High)",
-    field: "rating",
-    dir: "asc"
+    label: "Name",
+    field: "beer"
   },
   {
-    label: "Name (A to Z)",
-    field: "beer",
-    dir: "asc"
+    label: "Style",
+    field: "style"
   },
   {
-    label: "Name (Z to A)",
-    field: "beer",
-    dir: "desc"
+    label: "ABV",
+    field: "abv"
   },
   {
-    label: "Style (A to Z)",
-    field: "style",
-    dir: "asc"
-  },
-  {
-    label: "Style (Z to A)",
-    field: "style",
-    dir: "desc"
-  },
-  {
-    label: "ABV (High to Low)",
-    field: "abv",
-    dir: "desc"
-  },
-  {
-    label: "ABV (Low to High)",
-    field: "abv",
-    dir: "asc"
-  },
-  {
-    label: "IBU (High to Low)",
-    field: "ibu",
-    dir: "desc"
-  },
-  {
-    label: "IBU (Low to High)",
-    field: "ibu",
-    dir: "asc"
+    label: "IBU",
+    field: "ibu"
   }
 ];

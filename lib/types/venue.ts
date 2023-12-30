@@ -1,5 +1,3 @@
-import { OptionalParams } from "./beersParams";
-
 export type Venue = {
   /**
    *
@@ -9,9 +7,4 @@ export type Venue = {
    *
    */
   value: string;
-
-  /**
-   *
-   */
-  params?: OptionalParams;
 };

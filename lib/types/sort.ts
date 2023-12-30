@@ -14,5 +14,5 @@ export type Sort = {
   /**
    * The direction to sort
    */
-  dir: "asc" | "desc";
+  dir?: "asc" | "desc";
 };

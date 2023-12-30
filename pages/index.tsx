@@ -1,32 +1,23 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useState } from "react";
-import NavBar from "@/components/NavBar";
 import List from "components/list";
-import { sorts, venues } from "lib/constants";
-import { Sort, Venue } from "lib/types";
+import NavBar from "components/NavBar";
+import { venues } from "lib/constants";
+import { Venue } from "lib/types";
+import { SearchState } from "lib/types/searchState";
 
 /**
  * The home page for the application
  */
 export default function Home({ initialVenue }: { initialVenue: Venue }) {
-  const router = useRouter();
-  const [venue, setVenue] = useState<Venue>(initialVenue || venues[0]);
-  const [sort, setSort] = useState<Sort>(sorts[0]);
-
-  const changeVenue = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    const newVenue: Venue = JSON.parse(e.target.value);
-    router.push({
-      query: { venue: newVenue.value, venueId: newVenue.params?.venueId }
-    });
-    setVenue(newVenue);
-  };
-
-  const changeSort = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    const newSort: Sort = JSON.parse(e.target.value);
-    setSort(newSort);
-  };
+  const [searchState, setSearchState] = useState<SearchState>({
+    sort: {
+      field: "rating",
+      dir: "desc"
+    },
+    venue: initialVenue
+  });
 
   return (
     <>
@@ -34,9 +25,9 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
         <title>On Tap Seattle</title>
       </Head>
 
-      <NavBar venue={venue} changeVenue={changeVenue} sort={sort} changeSort={changeSort} />
+      <NavBar searchState={searchState} setSearchState={setSearchState} />
 
-      <List venue={venue} sort={sort} />
+      <List venue={searchState.venue} sort={searchState.sort} />
     </>
   );
 }
@@ -47,10 +38,7 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let initialVenue: Venue = null;
   if (context.query.venue) {
-    const { venueId } = context.query;
-    initialVenue = venues.find(
-      (el) => el.value === context.query.venue && (!venueId || el.params?.venueId === venueId)
-    );
+    initialVenue = venues.find((el) => el.value === context.query.venue);
   }
   return {
     props: {
