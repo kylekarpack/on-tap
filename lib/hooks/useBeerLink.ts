@@ -1,11 +1,10 @@
-import Link from "next/link";
-import { type FunctionComponent, type MouseEvent, useMemo } from "react";
+import { MouseEvent, useMemo } from "react";
 import { Beer } from "lib/types";
 
 /**
- * Create a link to a beer item in Untappd
+ * Beer link hook
  */
-const BeerLink: FunctionComponent<{ beer: Beer }> = ({ beer }) => {
+const useBeerLink = (beer: Beer) => {
   const isIos = useMemo(() => navigator.userAgent.match(/iPad|iPhone|iPod/i), []);
   const isAndroid = useMemo(() => navigator.userAgent.match("Android"), []);
 
@@ -23,21 +22,10 @@ const BeerLink: FunctionComponent<{ beer: Beer }> = ({ beer }) => {
     return true;
   };
 
-  if (beer.id) {
-    return (
-      <Link
-        href={`https://untappd.com/beer/${beer.id}`}
-        onClick={onClick}
-        target="_blank"
-        rel="nofollow noreferrer"
-        className="text-blue-300"
-      >
-        {beer.beer}
-      </Link>
-    );
-  }
-
-  return <>{beer.beer}</>;
+  return {
+    onClick,
+    beerLink: beer.id ? `https://untappd.com/beer/${beer.id}` : null
+  };
 };
 
-export default BeerLink;
+export default useBeerLink;
