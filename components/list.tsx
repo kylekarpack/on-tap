@@ -12,10 +12,7 @@ import Beer from "./Beer";
 const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort }) => {
   const { loading, error, data } = useQuery<{ beers: BeerType[] }>(GET_BEERS, {
     variables: {
-      venue: venue.value,
-      params: {
-        venueId: venue.params?.venueId
-      }
+      venue: venue.value
     }
   });
 

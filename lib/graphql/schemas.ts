@@ -18,11 +18,7 @@ export const typeDefs = gql`
     labelImageUrl: String
   }
 
-  input Params {
-    venueId: String
-  }
-
   type Query {
-    beers(venue: String!, params: Params): [Beer]
+    beers(venue: String!): [Beer]
   }
 `;

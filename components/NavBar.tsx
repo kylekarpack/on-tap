@@ -1,18 +1,8 @@
-import {
-  Button,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  Select,
-  SelectItem,
-  Selection
-} from "@nextui-org/react";
+import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem, Select, SelectItem } from "@nextui-org/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FunctionComponent, Key, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { sorts, venues } from "lib/constants";
-import { Venue } from "lib/types";
 import { SearchState } from "lib/types/searchState";
 
 type NavBarProps = {
@@ -40,7 +30,7 @@ const NavBar: FunctionComponent<NavBarProps> = ({ searchState, setSearchState })
         dir: sortDir
       }
     });
-  }, [venue, sort, sortDir]);
+  }, [venue, sort, sortDir, setSearchState]);
 
   const changeVenue = (e: any): void => {
     router.push({
@@ -71,7 +61,7 @@ const NavBar: FunctionComponent<NavBarProps> = ({ searchState, setSearchState })
         <NavbarItem className="w-1/2">
           <Select label="Sort" selectedKeys={sort} onSelectionChange={setSort} items={sorts} size="sm">
             {(item) => (
-              <SelectItem key={item.field + item.dir} value={item.field}>
+              <SelectItem key={item.field} value={item.field}>
                 {item.label}
               </SelectItem>
             )}
