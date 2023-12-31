@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const props: SearchState = {
-    venue: initialVenue,
+    venue: initialVenue ?? venues[0],
     sort: {
       field: (context.query.sortField as keyof Beer) ?? "rating",
       dir: (context.query.sortDir as "asc" | "desc") ?? "desc"
