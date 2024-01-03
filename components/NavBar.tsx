@@ -43,10 +43,19 @@ const NavBar: FunctionComponent<NavBarProps> = ({ searchState, setSearchState })
   }, [venue, sort, sortDir]);
 
   return (
-    <Navbar position="sticky" isBordered isBlurred maxWidth="full" className="flex">
-      <NavbarBrand className="flex-1 min-w-8">
+    <Navbar
+      position="sticky"
+      isBordered
+      isBlurred
+      maxWidth="full"
+      className="flex"
+      classNames={{
+        wrapper: "px-2 sm:px-6"
+      }}
+    >
+      <NavbarBrand className="hidden md:flex flex-1 min-w-8">
         <Image width={40} height={40} src="/icons/favicon-196.png" alt="Main logo" className="rounded" />
-        <div className="px-4 text-gray-50 text-xl font-bold hidden md:block">On Tap Sea</div>
+        <div className="px-4 text-gray-50 text-xl font-bold">On Tap Sea</div>
       </NavbarBrand>
 
       <NavbarContent className="flex-auto" justify="center">
