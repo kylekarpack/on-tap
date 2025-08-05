@@ -54,6 +54,11 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
   const listData: Beer[] = sortTable(sort, data?.beers) ?? [];
   return (
     <List data-testid="list" sx={{ width: "100%", bgcolor: "background.paper" }}>
+      {listData.length === 0 ? (
+        <ListItem>
+          <ListItemText>No beers found</ListItemText>
+        </ListItem>
+      ) : null}
       {listData.map((beer) => (
         <div key={beer.guid}>
           <ListItem alignItems="flex-start">
