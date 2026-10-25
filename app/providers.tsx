@@ -3,6 +3,7 @@
 import { MantineProvider } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experimental";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { useState, type ReactNode } from "react";
 import { theme } from "styles/mantineTheme";
 
@@ -16,12 +17,14 @@ export default function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({ defaultOptions: { queries: { staleTime: 60_000 } } }));
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryStreamedHydration>
-        <MantineProvider theme={theme} defaultColorScheme="auto">
-          {children}
-        </MantineProvider>
-      </ReactQueryStreamedHydration>
-    </QueryClientProvider>
+    <NuqsAdapter>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryStreamedHydration>
+          <MantineProvider theme={theme} defaultColorScheme="auto">
+            {children}
+          </MantineProvider>
+        </ReactQueryStreamedHydration>
+      </QueryClientProvider>
+    </NuqsAdapter>
   );
 }

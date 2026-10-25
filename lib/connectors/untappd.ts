@@ -245,7 +245,6 @@ export default class Untappd {
     return Array.from(queries).filter((query) => query.trim().length > 0);
   }
 
-
   /**
    * Run an Untappd search
    */

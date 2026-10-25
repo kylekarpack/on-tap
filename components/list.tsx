@@ -4,7 +4,7 @@ import { orpc } from "lib/orpc/client";
 import { Beer, Sort, Venue } from "lib/types";
 import { sortTable } from "lib/utils";
 import Image from "next/image";
-import { Component, FunctionComponent, ReactNode } from "react";
+import { Component, FunctionComponent, ReactNode, useMemo } from "react";
 import BeerLink from "./beerLink";
 import { CompactNumber, Percentage } from "./number";
 
@@ -89,7 +89,9 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
     })
   );
 
-  const listData: Beer[] = sortTable(sort, data) ?? [];
+  // Memoize so re-sorting only recomputes when the sort or the data actually
+  // change, instead of on every render of the (streamed) list.
+  const listData: Beer[] = useMemo(() => sortTable(sort, data) ?? [], [sort, data]);
   return (
     <SimpleGrid data-testid="list" cols={{ base: 1, sm: 2 }} spacing="sm">
       {listData.length === 0 ? (

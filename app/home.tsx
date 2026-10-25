@@ -6,6 +6,7 @@ import { sorts, venues } from "lib/constants";
 import { Sort, Venue } from "lib/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useQueryStates, parseAsString, parseAsStringLiteral } from "nuqs";
 import { Suspense, useState } from "react";
 import styles from "./index.module.css";
 
@@ -15,7 +16,19 @@ import styles from "./index.module.css";
 export default function Home({ initialVenue, initialSort }: { initialVenue: Venue | null; initialSort: Sort | null }) {
   const router = useRouter();
   const [venue, setVenue] = useState<Venue>(initialVenue || venues[0]);
-  const [sort, setSort] = useState<Sort>(initialSort || sorts[0]);
+
+  // Sort lives in the URL via nuqs, which updates it with a shallow
+  // (client-only) replace so changing the sort never triggers a server
+  // round-trip or re-streams the tap list.
+  const [urlSort, setUrlSort] = useQueryStates(
+    {
+      sort: parseAsString.withDefault(initialSort?.field ?? sorts[0].field),
+      dir: parseAsStringLiteral(["asc", "desc"] as const).withDefault(initialSort?.dir ?? sorts[0].dir)
+    },
+    { shallow: true, history: "replace" }
+  );
+
+  const sort: Sort = sorts.find((el) => el.field === urlSort.sort && el.dir === urlSort.dir) ?? sorts[0];
 
   /**
    * Push the new query params, and scroll to top if changed
@@ -26,20 +39,19 @@ export default function Home({ initialVenue, initialSort }: { initialVenue: Venu
     if (newVenue.params?.venueId) {
       query.set("venueId", newVenue.params.venueId);
     }
-    query.set("sort", `${sort.field}:${sort.dir}`);
+    if (urlSort.sort) {
+      query.set("sort", urlSort.sort);
+    }
+    if (urlSort.dir) {
+      query.set("dir", urlSort.dir);
+    }
     router.push(`/?${query.toString()}`);
     setVenue(newVenue);
   };
 
   const changeSort = (value: string): void => {
     const newSort: Sort = JSON.parse(value);
-    setSort(newSort);
-    const query = new URLSearchParams({ venue: venue.value });
-    if (venue.params?.venueId) {
-      query.set("venueId", venue.params.venueId);
-    }
-    query.set("sort", `${newSort.field}:${newSort.dir}`);
-    router.push(`/?${query.toString()}`);
+    setUrlSort({ sort: newSort.field, dir: newSort.dir });
   };
 
   return (
