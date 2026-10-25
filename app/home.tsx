@@ -46,6 +46,10 @@ export default function Home({ initialVenue }: { initialVenue: Venue | null }) {
           <div className={styles.controls}>
             <Select
               id="venueSelect"
+              // A button input keeps iOS from offering text selection/autofill
+              type="button"
+              autoComplete="off"
+              onContextMenu={(event) => event.preventDefault()}
               className={styles.select}
               classNames={{ option: styles.selectOption }}
               label="Venue"
@@ -61,6 +65,10 @@ export default function Home({ initialVenue }: { initialVenue: Venue | null }) {
             />
             <Select
               id="sortSelect"
+              // A button input keeps iOS from offering text selection/autofill
+              type="button"
+              autoComplete="off"
+              onContextMenu={(event) => event.preventDefault()}
               className={styles.select}
               classNames={{ option: styles.selectOption }}
               label="Sort"
