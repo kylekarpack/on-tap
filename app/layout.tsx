@@ -2,7 +2,23 @@ import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
 import Meta from "components/Meta";
 import type { Metadata, Viewport } from "next";
 import Providers from "./providers";
-import "@mantine/core/styles.css";
+// Import only the Mantine styles we actually use instead of the full bundle.
+// Base styles (variables/reset/global) are provided by MantineProvider's own
+// side-effect imports; the rest are the components rendered in the app.
+import "@mantine/core/styles/default-css-variables.css";
+import "@mantine/core/styles/baseline.css";
+import "@mantine/core/styles/global.css";
+import "@mantine/core/styles/Alert.css";
+import "@mantine/core/styles/Anchor.css";
+import "@mantine/core/styles/Card.css";
+import "@mantine/core/styles/Combobox.css";
+import "@mantine/core/styles/Group.css";
+import "@mantine/core/styles/Input.css";
+import "@mantine/core/styles/Popover.css";
+import "@mantine/core/styles/SimpleGrid.css";
+import "@mantine/core/styles/Skeleton.css";
+import "@mantine/core/styles/Stack.css";
+import "@mantine/core/styles/Text.css";
 import "styles/globals.css";
 
 export const metadata: Metadata = {
