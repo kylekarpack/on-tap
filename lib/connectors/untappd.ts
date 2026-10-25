@@ -47,11 +47,7 @@ export default class Untappd {
     // Remove an echo of the brewery name from the start of non-collab names,
     // e.g. "Bizarre Cemetery Polka Pint" with brewery "Bizarre"
     let partial = name;
-    if (
-      segments.length === 1 &&
-      brewery &&
-      name.toLowerCase().startsWith(`${brewery.toLowerCase()} `)
-    ) {
+    if (segments.length === 1 && brewery && name.toLowerCase().startsWith(`${brewery.toLowerCase()} `)) {
       partial = name.slice(brewery.length).trim();
     }
 
@@ -146,10 +142,7 @@ export default class Untappd {
    */
   stripStyles(name: string): string {
     return name
-      .replace(
-        /(\s+(?:hazy|ipa|ale|stout|pilsner|porter|sour|lager|pale|tripel|nitro|cider))+\s*$/gi,
-        ""
-      )
+      .replace(/(\s+(?:hazy|ipa|ale|stout|pilsner|porter|sour|lager|pale|tripel|nitro|cider))+\s*$/gi, "")
       .trim();
   }
 }

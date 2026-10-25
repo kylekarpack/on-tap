@@ -61,7 +61,6 @@ export default function Home({ initialVenue }: { initialVenue: Venue | null }) {
                 }
               }}
               allowDeselect={false}
-              style={{ flexBasis: 200, flexGrow: 1, flexShrink: 1, maxWidth: 260 }}
             />
             <Select
               id="sortSelect"
@@ -80,7 +79,6 @@ export default function Home({ initialVenue }: { initialVenue: Venue | null }) {
                 }
               }}
               allowDeselect={false}
-              style={{ flexBasis: 200, flexGrow: 1, flexShrink: 1, maxWidth: 260 }}
             />
           </div>
         </div>

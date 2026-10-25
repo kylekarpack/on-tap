@@ -28,11 +28,11 @@ const Stat: FunctionComponent<{ label: string; children?: ReactNode }> = ({ labe
 const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort }) => {
   const { isPending, error, data } = useQuery(
     orpc.beers.queryOptions({
+      // Keep the input canonical: `params` omitted entirely when there is no
+      // venue id, so equivalent queries share the same hashed query key
       input: {
         venue: venue.value,
-        params: {
-          venueId: venue.params?.venueId
-        }
+        params: venue.params?.venueId ? { venueId: venue.params.venueId } : undefined
       }
     })
   );
@@ -40,7 +40,6 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
   if (isPending) {
     return <ListSkeleton />;
   }
-
   if (error) {
     return (
       <Alert
