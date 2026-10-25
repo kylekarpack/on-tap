@@ -1,0 +1,4 @@
+allowBuilds:
+  '@apollo/protobufjs': true
+  '@swc/core': true
+  unrs-resolver: true
