@@ -48,12 +48,41 @@ export default class Pinebox extends ConnectorBase {
       throw new Error("Unexpected pinebox embed script!");
     }
 
-    // Skip the opening quote of the string literal if present
     const raw = script.slice(start + marker.length);
-    const body = raw[0] === '"' ? raw.slice(1) : raw;
-    const end = body.lastIndexOf('";');
 
-    return JSON.parse(`"${body.slice(0, end)}"`);
+    if (raw[0] !== '"') {
+      throw new Error("Unexpected pinebox embed script!");
+    }
+
+    // Locate the end of the string literal (the first unescaped quote)
+    let cursor = 1;
+    while (cursor < raw.length) {
+      if (raw[cursor] === "\\") {
+        cursor += 2;
+      } else if (raw[cursor] === '"') {
+        break;
+      } else {
+        cursor += 1;
+      }
+    }
+
+    return this.unescape(raw.slice(1, cursor));
+  }
+
+  /**
+   * Unescape a JavaScript string literal body
+   */
+  unescape(body: string): string {
+    return body.replace(/\\(.)/g, (_, char) => {
+      switch (char) {
+        case "n":
+          return "\n";
+        case "t":
+          return "\t";
+        default:
+          return char;
+      }
+    });
   }
 
   /**
