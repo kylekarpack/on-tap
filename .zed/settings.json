@@ -1,0 +1,28 @@
+{
+	"languages": {
+		"JavaScript": {
+			"format_on_save": "on",
+			"formatter": {
+				"language_server": {
+					"name": "oxc_language_server",
+				},
+			},
+		},
+		"TypeScript": {
+			"format_on_save": "on",
+			"formatter": {
+				"language_server": {
+					"name": "oxc_language_server",
+				},
+			},
+		},
+		"TSX": {
+			"format_on_save": "on",
+			"formatter": {
+				"language_server": {
+					"name": "oxc_language_server",
+				},
+			},
+		},
+	},
+}

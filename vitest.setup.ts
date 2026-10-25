@@ -1,13 +1,13 @@
 import "@testing-library/jest-dom/vitest";
 import axios from "axios";
 import fetch from "node-fetch";
-import { vi } from "vitest";
+import { vi, type Mock } from "vitest";
 import xray from "x-ray";
 
-global.fetch = fetch;
+global.fetch = fetch as unknown as typeof globalThis.fetch;
 
 vi.mock("x-ray");
-xray.mockImplementation(() => () => [
+(xray as unknown as Mock).mockImplementation(() => () => [
   {
     beer: "Test",
     amount: "12%",
@@ -18,7 +18,7 @@ xray.mockImplementation(() => () => [
 ]);
 
 vi.mock("axios");
-axios.post.mockResolvedValue({
+(axios.post as Mock).mockResolvedValue({
   data: {
     hits: [
       {

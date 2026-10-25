@@ -3,10 +3,6 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [tsconfigPaths()],
-  esbuild: {
-    // Match Next.js' automatic JSX runtime, obsoleting the old `global.React` shim
-    jsx: "automatic"
-  },
   test: {
     environment: "jsdom",
     globals: true, // Mirrors jest's implicit globals; @testing-library/react hooks auto-cleanup onto global afterEach
