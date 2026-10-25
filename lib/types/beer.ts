@@ -112,6 +112,11 @@ export class Beer {
   public labelImageUrl?: string = null;
 
   /**
+   * The position of this beer in the venue's menu, in fetch order
+   */
+  public order?: number = null;
+
+  /**
    * Metadata properties for this beer
    */
   public metadata?: AlgoliaBeer = null;

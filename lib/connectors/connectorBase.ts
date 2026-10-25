@@ -49,6 +49,15 @@ abstract class ConnectorBase implements Connector {
   public async execute(): Promise<Beer[]> {
     const pageData = await this.read();
     const beers = this.process(pageData);
+
+    // Number the beers in the order they were fetched so the tap list can be
+    // restored to its menu order after sorting by other fields
+    beers.forEach((beer, index) => {
+      if (beer.order == null) {
+        beer.order = index;
+      }
+    });
+
     return this.compare(beers);
   }
 
