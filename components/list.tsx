@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client";
 import { Alert, Card, Group, SimpleGrid, Skeleton, Stack, Text } from "@mantine/core";
-import { TriangleAlert } from "lucide-react";
 import { GET_BEERS } from "lib/queries";
 import { Beer, Sort, Venue } from "lib/types";
 import { sortTable } from "lib/utils";
@@ -47,7 +46,24 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
         title="Error"
         color="red"
         variant="light"
-        icon={<TriangleAlert size={18} aria-hidden />}
+        icon={
+          <svg
+            width={18}
+            height={18}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            {/* Triangle alert glyph (from Lucide, ISC licensed) */}
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 20h16a2 2 0 0 0 1.73-2" />
+            <path d="M12 9v4" />
+            <path d="M12 17h.01" />
+          </svg>
+        }
         withCloseButton={false}
         role="alert"
         aria-live="polite"
