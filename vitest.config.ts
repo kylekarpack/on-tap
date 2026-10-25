@@ -4,7 +4,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [tsconfigPaths()],
   test: {
-    environment: "jsdom",
+    environment: "happy-dom",
     globals: true, // Mirrors jest's implicit globals; @testing-library/react hooks auto-cleanup onto global afterEach
     clearMocks: false, // Jest's default; resolvers.test persists mock call counts across tests
     setupFiles: ["./vitest.setup.ts"],
