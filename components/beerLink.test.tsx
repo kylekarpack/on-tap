@@ -1,4 +1,5 @@
 import { fireEvent, render } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from "vitest";
 import BeerLink from "./beerLink";
 
 const beer = { id: 1, beer: "Test Beer Name" };
@@ -10,13 +11,12 @@ const renderAndClick = () => {
 };
 
 describe("beer link componenent tests", () => {
-  let userAgent: jest.SpyInstance<string>;
-  const assignMock = jest.fn();
+  let userAgent: MockInstance<() => string>;
+  const assignMock = vi.fn();
 
   beforeEach(() => {
-    userAgent = jest.spyOn(window.navigator, "userAgent", "get");
+    userAgent = vi.spyOn(window.navigator, "userAgent", "get");
     delete window.location;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).location = { assign: assignMock };
   });
 

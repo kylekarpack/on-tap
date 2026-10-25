@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { Beer, Sort } from "./types";
 import { sortTable } from "./utils";
 

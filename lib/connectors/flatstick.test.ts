@@ -1,8 +1,9 @@
 import axios from "axios";
+import { describe, expect, it, type Mocked } from "vitest";
 import Flatstick from "./flatstick";
 
-jest.mock("axios");
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+// axios is auto-mocked globally in vitest.setup.ts
+const mockedAxios = axios as Mocked<typeof axios>;
 mockedAxios.get.mockResolvedValue({
   data: [
     {

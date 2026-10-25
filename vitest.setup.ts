@@ -1,14 +1,12 @@
-import "@testing-library/jest-dom";
-import "@testing-library/jest-dom/extend-expect";
+import "@testing-library/jest-dom/vitest";
 import axios from "axios";
 import fetch from "node-fetch";
-import React from "react";
+import { vi } from "vitest";
 import xray from "x-ray";
 
 global.fetch = fetch;
-global.React = React; // For SWC Jest
 
-jest.mock("x-ray");
+vi.mock("x-ray");
 xray.mockImplementation(() => () => [
   {
     beer: "Test",
@@ -19,7 +17,7 @@ xray.mockImplementation(() => () => [
   }
 ]);
 
-jest.mock("axios");
+vi.mock("axios");
 axios.post.mockResolvedValue({
   data: {
     hits: [

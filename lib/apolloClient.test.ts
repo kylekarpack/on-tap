@@ -1,6 +1,7 @@
+import { describe, expect, it, vi } from "vitest";
 import { initializeApollo, useApollo } from "./apolloClient";
 
-jest.mock("react", () => ({
+vi.mock("react", () => ({
   useMemo: (): any => null
 }));
 

@@ -5,7 +5,7 @@
     "correctness": "error"
   },
   "env": {
-    "jest": true
+    "vitest": true
   },
   "rules": {
     "typescript/array-type": ["error", { "default": "array" }],
