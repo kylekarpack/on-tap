@@ -31,10 +31,10 @@ export default class Pinebox extends ConnectorBase {
   /**
    * Provide logic to read beers
    */
-  protected async read(): Promise<Partial<Beer>[]> {
+  protected async read(): Promise<unknown[]> {
     const { data } = await axios.get<string>(this.url);
     const html = this.extractHtml(data);
-    return this.process(html);
+    return this.parse(html);
   }
 
   /**
@@ -48,19 +48,21 @@ export default class Pinebox extends ConnectorBase {
       throw new Error("Unexpected pinebox embed script!");
     }
 
+    // Skip the opening quote of the string literal if present
     const raw = script.slice(start + marker.length);
-    const end = raw.lastIndexOf('";');
+    const body = raw[0] === '"' ? raw.slice(1) : raw;
+    const end = body.lastIndexOf('";');
 
-    return JSON.parse(`"${raw.slice(0, end)}"`);
+    return JSON.parse(`"${body.slice(0, end)}"`);
   }
 
   /**
-   * Process the beers received from Untappd
+   * Parse the menu HTML for beers
    */
-  process(html: string): Partial<Beer>[] {
+  parse(html: string): Partial<Beer>[] {
     const $ = cheerio.load(html);
 
-    // Only scrape the first menu tab (Today's tap offerings)
+    // Only parse the first menu tab (Today's tap offerings)
     const $menu = $("div[id^='menu-']").first();
 
     return $(".menu-item .item", $menu)
