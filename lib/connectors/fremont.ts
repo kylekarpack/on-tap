@@ -9,6 +9,6 @@ export default class Fremont extends ConnectorBase {
    */
   constructor() {
     super();
-    throw new Error("Not implemented");
+    this.key = "fremont";
   }
 }

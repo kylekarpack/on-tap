@@ -1,5 +1,4 @@
 import { Beer, OptionalParams } from "lib/types";
-import xray from "x-ray";
 import UntappdApi from "./untappd";
 
 /**
@@ -24,8 +23,6 @@ export interface ConnectorConstructor {
  * The base connector class
  */
 abstract class ConnectorBase implements Connector {
-  protected xray = xray();
-
   protected untapped = new UntappdApi();
 
   private _url: string;
@@ -44,10 +41,6 @@ abstract class ConnectorBase implements Connector {
     this._url = url;
   }
 
-  protected selector: string;
-
-  protected selectors: { [key: string]: string }[];
-
   protected key: string;
 
   /**
@@ -62,8 +55,8 @@ abstract class ConnectorBase implements Connector {
   /**
    * Provide logic to read beers
    */
-  protected async read(): Promise<Beer[]> {
-    return this.xray(this.url, this.selector, this.selectors);
+  protected async read(): Promise<unknown[]> {
+    throw new Error("Not implemented");
   }
 
   /**
