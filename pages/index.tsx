@@ -1,22 +1,13 @@
-import {
-  AppBar,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Toolbar,
-  Typography
-} from "@mui/material";
 import List from "components/list";
 import { sorts, venues } from "lib/constants";
 import { Sort, Venue } from "lib/types";
+import { Select } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import styles from "./index.module.css";
 
 /**
  * The home page for the application
@@ -26,16 +17,16 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
   const [venue, setVenue] = useState<Venue>(initialVenue || venues[0]);
   const [sort, setSort] = useState<Sort>(sorts[0]);
 
-  const changeVenue = (e: SelectChangeEvent): void => {
-    const newVenue: Venue = JSON.parse(e.target.value);
+  const changeVenue = (value: string): void => {
+    const newVenue: Venue = JSON.parse(value);
     router.push({
       query: { venue: newVenue.value, venueId: newVenue.params?.venueId }
     });
     setVenue(newVenue);
   };
 
-  const changeSort = (e: SelectChangeEvent): void => {
-    const newSort: Sort = JSON.parse(e.target.value);
+  const changeSort = (value: string): void => {
+    const newSort: Sort = JSON.parse(value);
     setSort(newSort);
   };
 
@@ -45,51 +36,52 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
         <title>On Tap Seattle</title>
       </Head>
 
-      <AppBar position="sticky" sx={{ top: 0, width: "100%" }}>
-        <Toolbar>
-          <IconButton
-            sx={{ mr: 2, display: { xs: "none", sm: "block" } }}
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-          >
-            <Image width={24} height={24} src="/icons/favicon-196.png" alt="Main logo" />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ display: { xs: "none", sm: "block" }, flexGrow: 1 }}>
-            On Tap Sea
-          </Typography>
-          <FormControl color="info">
-            <InputLabel id="venueLabel">Venue</InputLabel>
+      <header className={styles.header}>
+        <div className={styles.inner}>
+          <div className={styles.brand}>
+            <Image
+              width={28}
+              height={28}
+              src="/icons/favicon-196.png"
+              alt="Main logo"
+              style={{ borderRadius: 8 }}
+            />
+            <span className={styles.wordmark}>On Tap</span>
+          </div>
+          <div className={styles.controls}>
             <Select
-              size="small"
-              labelId="venueLabel"
+              id="venueSelect"
               label="Venue"
+              data={venues.map((el) => ({ value: JSON.stringify(el), label: el.label }))}
               value={JSON.stringify(venue)}
-              onChange={changeVenue}
-            >
-              {venues.map((el) => (
-                <MenuItem key={JSON.stringify(el)} value={JSON.stringify(el)}>
-                  {el.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          &nbsp;
-          <FormControl color="info">
-            <InputLabel id="sortLabel">Sort</InputLabel>
-            <Select size="small" labelId="sortLabel" label="Sort" value={JSON.stringify(sort)} onChange={changeSort}>
-              {sorts.map((el) => (
-                <MenuItem key={el.field + el.dir} value={JSON.stringify(el)}>
-                  {el.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Toolbar>
-      </AppBar>
+              onChange={(value) => {
+                if (value) {
+                  changeVenue(value);
+                }
+              }}
+              allowDeselect={false}
+              style={{ flexBasis: 200, flexGrow: 1, flexShrink: 1, maxWidth: 260 }}
+            />
+            <Select
+              id="sortSelect"
+              label="Sort"
+              data={sorts.map((el) => ({ value: JSON.stringify(el), label: el.label }))}
+              value={JSON.stringify(sort)}
+              onChange={(value) => {
+                if (value) {
+                  changeSort(value);
+                }
+              }}
+              allowDeselect={false}
+              style={{ flexBasis: 200, flexGrow: 1, flexShrink: 1, maxWidth: 260 }}
+            />
+          </div>
+        </div>
+      </header>
 
-      <List venue={venue} sort={sort} />
+      <main className={styles.main}>
+        <List venue={venue} sort={sort} />
+      </main>
     </>
   );
 }

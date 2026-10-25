@@ -1,19 +1,12 @@
-/* eslint-disable react/no-invalid-html-attribute */
 import { ApolloProvider } from "@apollo/client";
-import { ThemeProvider, createTheme } from "@mui/material";
+import { MantineProvider } from "@mantine/core";
 import Meta from "components/Meta";
 import type { AppProps } from "next/app";
+import "@mantine/core/styles.css";
 import "styles/globals.css";
+import { theme } from "styles/mantineTheme";
 import Head from "next/head";
 import { useApollo } from "../lib/apolloClient";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#8bd7f8"
-    }
-  }
-});
 
 /**
  * Layout for all pages
@@ -27,9 +20,9 @@ function App({ Component, pageProps }: AppProps) {
         <Meta />
       </Head>
       <ApolloProvider client={apolloClient}>
-        <ThemeProvider theme={theme}>
+        <MantineProvider theme={theme} defaultColorScheme="light">
           <Component {...pageProps} />
-        </ThemeProvider>
+        </MantineProvider>
       </ApolloProvider>
     </>
   );

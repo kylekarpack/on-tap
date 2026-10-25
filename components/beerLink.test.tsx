@@ -1,11 +1,16 @@
 import { fireEvent, render } from "@testing-library/react";
+import { MantineProvider } from "@mantine/core";
 import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from "vitest";
 import BeerLink from "./beerLink";
 
 const beer = { id: 1, beer: "Test Beer Name" };
 
 const renderAndClick = () => {
-  const { getByText } = render(<BeerLink beer={beer} />);
+  const { getByText } = render(
+    <MantineProvider>
+      <BeerLink beer={beer} />
+    </MantineProvider>
+  );
   const link = getByText(beer.beer);
   fireEvent.click(link);
 };
@@ -26,12 +31,20 @@ describe("beer link componenent tests", () => {
   });
 
   it("renders empty", () => {
-    const { container } = render(<BeerLink beer={{}} />);
+    const { container } = render(
+      <MantineProvider>
+        <BeerLink beer={{}} />
+      </MantineProvider>
+    );
     expect(container).toBeInTheDocument();
   });
 
   it("renders with id", () => {
-    const { getByText } = render(<BeerLink beer={beer} />);
+    const { getByText } = render(
+      <MantineProvider>
+        <BeerLink beer={beer} />
+      </MantineProvider>
+    );
     expect(getByText(beer.beer)).toHaveAttribute("target", "_blank");
   });
 

@@ -1,4 +1,4 @@
-import { Link } from "@mui/material";
+import { Anchor } from "@mantine/core";
 import { Beer } from "lib/types";
 import type { FunctionComponent, MouseEvent } from "react";
 
@@ -25,15 +25,17 @@ const BeerLink: FunctionComponent<{ beer: Beer }> = ({ beer }) => {
 
   if (beer.id) {
     return (
-      <Link
+      <Anchor
         href={`https://untappd.com/beer/${beer.id}`}
         onClick={onClick}
         target="_blank"
         rel="nofollow noreferrer"
         underline="hover"
+        c="brand.7"
+        fw={600}
       >
         {beer.beer}
-      </Link>
+      </Anchor>
     );
   }
 

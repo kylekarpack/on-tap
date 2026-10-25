@@ -1,4 +1,5 @@
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
+import { MantineProvider } from "@mantine/core";
 import { act, render } from "@testing-library/react";
 import { GraphQLError } from "graphql";
 import { GET_BEERS } from "lib/queries";
@@ -34,9 +35,11 @@ describe("list component", () => {
     const mocks = [emptyMock];
 
     const cmp = render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <List venue={testSelectValue} sort={{ dir: "asc", field: "beer" }} />
-      </MockedProvider>
+      <MantineProvider>
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <List venue={testSelectValue} sort={{ dir: "asc", field: "beer" }} />
+        </MockedProvider>
+      </MantineProvider>
     );
 
     expect(cmp.container).toBeVisible();
@@ -51,9 +54,11 @@ describe("list component", () => {
     ];
 
     const cmp = render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <List venue={testSelectValue} sort={{ dir: "asc", field: "beer" }} />
-      </MockedProvider>
+      <MantineProvider>
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <List venue={testSelectValue} sort={{ dir: "asc", field: "beer" }} />
+        </MockedProvider>
+      </MantineProvider>
     );
 
     await act(
@@ -89,9 +94,11 @@ describe("list component", () => {
     ];
 
     const cmp = render(
-      <MockedProvider mocks={mocks} addTypename={false} cache={null}>
-        <List venue={testSelectValue} sort={{ dir: "asc", field: "beer" }} />
-      </MockedProvider>
+      <MantineProvider>
+        <MockedProvider mocks={mocks} addTypename={false} cache={null}>
+          <List venue={testSelectValue} sort={{ dir: "asc", field: "beer" }} />
+        </MockedProvider>
+      </MantineProvider>
     );
 
     await act(

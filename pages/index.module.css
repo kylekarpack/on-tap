@@ -1,0 +1,60 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  width: 100%;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.82);
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 1024px;
+  margin-inline: auto;
+  padding: 10px 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+}
+
+.brand:focus-visible {
+  outline: none;
+}
+
+@media (max-width: 599px) {
+  .brand {
+    display: none;
+  }
+}
+
+.wordmark {
+  font-size: 1.12rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--mantine-color-text);
+}
+
+.main {
+  max-width: 1024px;
+  margin-inline: auto;
+  padding: 20px 16px 48px;
+  width: 100%;
+}
+
+.controls {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  gap: 10px;
+  justify-content: flex-end;
+}
+

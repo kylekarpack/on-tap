@@ -4,3 +4,4 @@ packages:
 allowBuilds:
   "@apollo/protobufjs": true
   unrs-resolver: true
+  "@swc/core": true
