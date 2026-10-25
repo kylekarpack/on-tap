@@ -5,6 +5,7 @@
   "license": "MIT",
   "author": "Kyle Karpack <kylekarpack@gmail.com>",
   "repository": "https://github.com/kylekarpack/on-tap.git",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
