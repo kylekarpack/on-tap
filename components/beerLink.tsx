@@ -31,8 +31,8 @@ const BeerLink: FunctionComponent<{ beer: Beer }> = ({ beer }) => {
         target="_blank"
         rel="nofollow noreferrer"
         underline="hover"
-        c="brand.7"
         fw={600}
+        style={{ color: "var(--link-ink)" }}
       >
         {beer.beer}
       </Anchor>

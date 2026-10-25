@@ -20,7 +20,7 @@ function App({ Component, pageProps }: AppProps) {
         <Meta />
       </Head>
       <ApolloProvider client={apolloClient}>
-        <MantineProvider theme={theme} defaultColorScheme="light">
+        <MantineProvider theme={theme} defaultColorScheme="auto">
           <Component {...pageProps} />
         </MantineProvider>
       </ApolloProvider>

@@ -76,7 +76,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
               alt={beer.beer ?? ""}
               style={{
                 borderRadius: 12,
-                backgroundColor: "var(--mantine-color-gray-1)",
+                backgroundColor: "var(--mantine-color-default)",
                 objectFit: "contain"
               }}
             />

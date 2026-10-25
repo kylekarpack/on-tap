@@ -12,7 +12,8 @@ const Meta: FunctionComponent = () => (
       content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
     />
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#8bd7f8" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#8bd7f8" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1b1e" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
     <link rel="icon" type="image/png" sizes="196x196" href="icons/favicon-196.png" />
