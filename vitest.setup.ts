@@ -1,9 +1,6 @@
 import "@testing-library/jest-dom/vitest";
 import axios from "axios";
-import fetch from "node-fetch";
 import { vi, type Mock } from "vitest";
-
-global.fetch = fetch as unknown as typeof globalThis.fetch;
 
 vi.mock("axios");
 (axios.post as Mock).mockResolvedValue({

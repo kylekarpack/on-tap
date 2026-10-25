@@ -1,8 +1,9 @@
-import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  plugins: [tsconfigPaths()],
+  resolve: {
+    tsconfigPaths: true
+  },
   test: {
     environment: "happy-dom",
     globals: true, // Mirrors jest's implicit globals; @testing-library/react hooks auto-cleanup onto global afterEach
@@ -17,7 +18,7 @@ export default defineConfig({
     coverage: {
       reporter: ["lcov", "text"],
       include: ["components/**", "lib/**"],
-      exclude: ["**/*.test.*", "**/*.spec.*", "next-env.d.ts"]
+      exclude: ["**/*.test.*", "**/*.spec.*", "**/.DS_Store", "next-env.d.ts"]
     }
   }
 });
