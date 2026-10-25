@@ -1,5 +1,6 @@
 import { os, type } from "@orpc/server";
 import { Beer, BeersParams } from "lib/types";
+import Bottleworks from "../connectors/bottleworks";
 import Chucks from "../connectors/chucks";
 import { ConnectorConstructor } from "../connectors/connectorBase";
 import Flatstick from "../connectors/flatstick";
@@ -10,6 +11,7 @@ import Pinebox from "../connectors/pinebox";
  * Statically register all venue connectors
  */
 const connectors: Record<string, ConnectorConstructor> = {
+  bottleworks: Bottleworks,
   chucks: Chucks,
   flatstick: Flatstick,
   fremont: Fremont,
@@ -26,6 +28,9 @@ export const beers = os
     }
   })
   .input(type<BeersParams>())
+  // Flatten the Beer class instances to plain objects so the handler output can
+  // cross the RSC boundary without Next.js complaining about class prototypes
+  .output(type<Beer[]>((load) => load.map((beer) => ({ ...beer }))))
   .handler(async ({ input, errors }): Promise<Beer[]> => {
     const Constructor = connectors[input.venue];
 

@@ -33,6 +33,10 @@ export const venues: Venue[] = [
   {
     label: "The Pinebox",
     value: "pinebox"
+  },
+  {
+    label: "Bottleworks",
+    value: "bottleworks"
   }
 ];
 
