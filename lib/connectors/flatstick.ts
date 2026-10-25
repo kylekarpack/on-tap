@@ -33,10 +33,6 @@ const apiKey = "56ec4bd35e0033085c5b86db";
 
 /**
  * The connector for Flatstick venues
- *
- * The flatstickpub.com website no longer publishes a tap list; it lives in
- * the Flatstick mobile app, which is backed by DigitalPour. Query the
- * DigitalPour patron API directly.
  */
 export default class Flatstick extends ConnectorBase {
   /**
