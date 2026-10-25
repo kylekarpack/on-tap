@@ -12,14 +12,14 @@ import {
   ListItemText,
   Typography
 } from "@mui/material";
-import Image from "next/image";
-import { FunctionComponent } from "react";
 import { GET_BEERS } from "lib/queries";
 import { Beer, Sort, Venue } from "lib/types";
 import { sortTable } from "lib/utils";
+import Image from "next/image";
+import { FunctionComponent } from "react";
 import BeerLink from "./beerLink";
-import styles from "./list.module.css";
 import { CompactNumber, Percentage } from "./number";
+import styles from "./list.module.css";
 
 /**
  * Render a list of beers

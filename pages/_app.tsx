@@ -1,11 +1,11 @@
 /* eslint-disable react/no-invalid-html-attribute */
 import { ApolloProvider } from "@apollo/client";
 import { ThemeProvider, createTheme } from "@mui/material";
-import Head from "next/head";
 import Meta from "components/Meta";
-import "styles/globals.css";
-import { useApollo } from "../lib/apolloClient";
 import type { AppProps } from "next/app";
+import "styles/globals.css";
+import Head from "next/head";
+import { useApollo } from "../lib/apolloClient";
 
 const theme = createTheme({
   palette: {

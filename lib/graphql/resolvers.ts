@@ -12,7 +12,7 @@ export const resolvers = {
       try {
         const { default: Constructor }: { default: ConnectorConstructor } = await import(`../connectors/${venue}`);
         client = new Constructor(params);
-      } catch (e) {
+      } catch {
         throw new Error(`No connector found for venue "${venue}"!`);
       }
       return client.execute();

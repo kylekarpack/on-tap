@@ -16,8 +16,8 @@ describe("table sort functions", () => {
   ];
 
   it("handles error conditions", () => {
-    expect(sortTable).toThrow();
-    expect(() => sortTable(defaultSort, null)).toThrow();
+    expect(sortTable).toThrow(expect.anything());
+    expect(() => sortTable(defaultSort, null)).toThrow(expect.anything());
   });
 
   it("passes through array with no criteria", () => {
@@ -41,7 +41,15 @@ describe("table sort functions", () => {
       }
     ]);
 
-    expect(sortTable({ ...defaultSort, ...{ dir: "asc" } }, defaultData)).toEqual([
+    expect(
+      sortTable(
+        {
+          ...defaultSort,
+          dir: "asc"
+        },
+        defaultData
+      )
+    ).toEqual([
       {
         rating: 4
       },

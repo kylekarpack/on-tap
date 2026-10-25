@@ -1,5 +1,5 @@
-import xray from "x-ray";
 import { Beer, OptionalParams } from "lib/types";
+import xray from "x-ray";
 import UntappdApi from "./untappd";
 
 /**

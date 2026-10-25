@@ -9,14 +9,14 @@ import {
   Toolbar,
   Typography
 } from "@mui/material";
+import List from "components/list";
+import { sorts, venues } from "lib/constants";
+import { Sort, Venue } from "lib/types";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import List from "components/list";
-import { sorts, venues } from "lib/constants";
-import { Sort, Venue } from "lib/types";
 
 /**
  * The home page for the application

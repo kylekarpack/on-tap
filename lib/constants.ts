@@ -6,14 +6,14 @@ export const venues: Venue[] = [
     label: "Flatstick Pioneer Square",
     value: "flatstick",
     params: {
-      venueId: "pioneer-square-old"
+      venueId: "2"
     }
   },
   {
     label: "Flatstick Kirkland",
     value: "flatstick",
     params: {
-      venueId: "kirkland-old"
+      venueId: "1"
     }
   },
   {

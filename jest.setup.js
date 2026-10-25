@@ -1,9 +1,9 @@
 import "@testing-library/jest-dom";
 import "@testing-library/jest-dom/extend-expect";
 import axios from "axios";
-import xray from "x-ray";
 import fetch from "node-fetch";
 import React from "react";
+import xray from "x-ray";
 
 global.fetch = fetch;
 global.React = React; // For SWC Jest
