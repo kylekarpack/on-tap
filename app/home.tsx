@@ -1,27 +1,32 @@
+"use client";
+
 import List from "components/list";
 import { sorts, venues } from "lib/constants";
 import { Sort, Venue } from "lib/types";
 import { Select } from "@mantine/core";
-import { GetServerSideProps } from "next";
-import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./index.module.css";
 
 /**
  * The home page for the application
  */
-export default function Home({ initialVenue }: { initialVenue: Venue }) {
+export default function Home({ initialVenue }: { initialVenue: Venue | null }) {
   const router = useRouter();
   const [venue, setVenue] = useState<Venue>(initialVenue || venues[0]);
   const [sort, setSort] = useState<Sort>(sorts[0]);
 
+  /**
+   * Push the new query params, and scroll to top if changed
+   */
   const changeVenue = (value: string): void => {
     const newVenue: Venue = JSON.parse(value);
-    router.push({
-      query: { venue: newVenue.value, venueId: newVenue.params?.venueId }
-    });
+    const query = new URLSearchParams({ venue: newVenue.value });
+    if (newVenue.params?.venueId) {
+      query.set("venueId", newVenue.params.venueId);
+    }
+    router.push(`/?${query.toString()}`);
     setVenue(newVenue);
   };
 
@@ -32,10 +37,6 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
 
   return (
     <>
-      <Head>
-        <title>On Tap Seattle</title>
-      </Head>
-
       <header className={styles.header}>
         <div className={styles.inner}>
           <div className={styles.brand}>
@@ -85,21 +86,3 @@ export default function Home({ initialVenue }: { initialVenue: Venue }) {
     </>
   );
 }
-
-/**
- * Get the initial venue from the query, if applicable
- */
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  let initialVenue: Venue = null;
-  if (context.query.venue) {
-    const { venueId } = context.query;
-    initialVenue = venues.find(
-      (el) => el.value === context.query.venue && (!venueId || el.params?.venueId === venueId)
-    );
-  }
-  return {
-    props: {
-      initialVenue
-    }
-  };
-};
