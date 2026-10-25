@@ -1,10 +1,10 @@
 import { Alert, Card, Group, SimpleGrid, Skeleton, Stack, Text } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { orpc } from "lib/orpc/client";
 import { Beer, Sort, Venue } from "lib/types";
 import { sortTable } from "lib/utils";
 import Image from "next/image";
-import { FunctionComponent, ReactNode } from "react";
+import { Component, FunctionComponent, ReactNode } from "react";
 import BeerLink from "./beerLink";
 import { CompactNumber, Percentage } from "./number";
 
@@ -23,10 +23,62 @@ const Stat: FunctionComponent<{ label: string; children?: ReactNode }> = ({ labe
 );
 
 /**
+ * Error banner for a failed tap list load
+ */
+const ErrorAlert: FunctionComponent<{ error: unknown }> = ({ error }) => (
+  <Alert
+    data-testid="error"
+    title="Error"
+    color="red"
+    variant="light"
+    icon={
+      <svg
+        width={18}
+        height={18}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+      >
+        {/* Triangle alert glyph (from Lucide, ISC licensed) */}
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 20h16a2 2 0 0 0 1.73-2" />
+        <path d="M12 9v4" />
+        <path d="M12 17h.01" />
+      </svg>
+    }
+    withCloseButton={false}
+    role="alert"
+    aria-live="polite"
+  >
+    {error instanceof Error ? error.message : String(error)}
+  </Alert>
+);
+
+/**
+ * Catches query errors thrown by useSuspenseQuery
+ */
+class ListErrorBoundary extends Component<{ children: ReactNode }, { error?: unknown }> {
+  state = { error: undefined as unknown };
+
+  static getDerivedStateFromError(error: unknown) {
+    return { error };
+  }
+
+  render() {
+    return this.state.error === undefined ? this.props.children : <ErrorAlert error={this.state.error} />;
+  }
+}
+
+/**
  * Render a list of beers
  */
 const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort }) => {
-  const { isPending, error, data } = useQuery(
+  // Suspends during SSR and streams the resolved cards into the response;
+  // errors are caught by the boundary above
+  const { data } = useSuspenseQuery(
     orpc.beers.queryOptions({
       // Keep the input canonical: `params` omitted entirely when there is no
       // venue id, so equivalent queries share the same hashed query key
@@ -36,43 +88,6 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
       }
     })
   );
-
-  if (isPending) {
-    return <ListSkeleton />;
-  }
-  if (error) {
-    return (
-      <Alert
-        data-testid="error"
-        title="Error"
-        color="red"
-        variant="light"
-        icon={
-          <svg
-            width={18}
-            height={18}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-          >
-            {/* Triangle alert glyph (from Lucide, ISC licensed) */}
-            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 20h16a2 2 0 0 0 1.73-2" />
-            <path d="M12 9v4" />
-            <path d="M12 17h.01" />
-          </svg>
-        }
-        withCloseButton={false}
-        role="alert"
-        aria-live="polite"
-      >
-        {error.message}
-      </Alert>
-    );
-  }
 
   const listData: Beer[] = sortTable(sort, data) ?? [];
   return (
@@ -128,9 +143,9 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
 };
 
 /**
- * Skeleton cards shown while the tap list loads
+ * Skeleton cards shown while the tap list streams in
  */
-const ListSkeleton: FunctionComponent = () => (
+export const ListSkeleton: FunctionComponent = () => (
   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
     {[...Array(6)].map((_, i) => (
       <Skeleton key={i} h={96} radius="lg" />
@@ -138,4 +153,13 @@ const ListSkeleton: FunctionComponent = () => (
   </SimpleGrid>
 );
 
-export default BeerList;
+/**
+ * Tap list for a venue
+ */
+const BeerListWithBoundary: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort }) => (
+  <ListErrorBoundary>
+    <BeerList venue={venue} sort={sort} />
+  </ListErrorBoundary>
+);
+
+export default BeerListWithBoundary;

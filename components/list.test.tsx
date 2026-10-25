@@ -3,8 +3,9 @@ import { createTanstackQueryUtils } from "@orpc/tanstack-query";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, waitFor } from "@testing-library/react";
 import { Beer, Venue } from "lib/types";
+import { Component, ReactNode, Suspense } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import List from "./list";
+import List, { ListSkeleton } from "./list";
 
 /**
  * Mutable response state read by the wire-mock client, re-declared per domain below
@@ -43,11 +44,33 @@ const testVenue: Venue = {
 
 const testSort = { dir: "asc" as const, field: "beer" as const };
 
+/**
+ * Catches errors thrown by useSuspenseQuery for assertion, re-rendering nothing
+ */
+class TestErrorBoundary extends Component<{ children: ReactNode }, { error?: unknown }> {
+  state = { error: undefined as unknown };
+
+  static getDerivedStateFromError(error: unknown) {
+    return { error };
+  }
+
+  render() {
+    if (this.state.error !== undefined) {
+      return <div data-testid="boundary-error">{String(this.state.error)}</div>;
+    }
+    return this.props.children;
+  }
+}
+
 function renderList() {
   return render(
     <MantineProvider>
       <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-        <List venue={testVenue} sort={testSort} />
+        <TestErrorBoundary>
+          <Suspense fallback={<ListSkeleton />}>
+            <List venue={testVenue} sort={testSort} />
+          </Suspense>
+        </TestErrorBoundary>
       </QueryClientProvider>
     </MantineProvider>
   );

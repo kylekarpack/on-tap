@@ -1,12 +1,12 @@
 "use client";
 
 import { Select } from "@mantine/core";
-import List from "components/list";
+import List, { ListSkeleton } from "components/list";
 import { sorts, venues } from "lib/constants";
 import { Sort, Venue } from "lib/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import styles from "./index.module.css";
 
 /**
@@ -85,7 +85,9 @@ export default function Home({ initialVenue }: { initialVenue: Venue | null }) {
       </header>
 
       <main className={styles.main}>
-        <List venue={venue} sort={sort} />
+        <Suspense fallback={<ListSkeleton />}>
+          <List venue={venue} sort={sort} />
+        </Suspense>
       </main>
     </>
   );

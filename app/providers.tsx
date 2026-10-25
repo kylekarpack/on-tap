@@ -2,6 +2,7 @@
 
 import { MantineProvider } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experimental";
 import { useState, type ReactNode } from "react";
 import { theme } from "styles/mantineTheme";
 
@@ -10,14 +11,17 @@ import { theme } from "styles/mantineTheme";
  */
 export default function Providers({ children }: { children: ReactNode }) {
   // Create the client in state rather than module scope so each server render
-  // and browser tab gets its own isolated cache
-  const [queryClient] = useState(() => new QueryClient());
+  // and browser tab gets its own isolated cache. staleTime keeps server-streamed
+  // data from being refetched the instant hydration lands.
+  const [queryClient] = useState(() => new QueryClient({ defaultOptions: { queries: { staleTime: 60_000 } } }));
 
   return (
     <QueryClientProvider client={queryClient}>
-      <MantineProvider theme={theme} defaultColorScheme="auto">
-        {children}
-      </MantineProvider>
+      <ReactQueryStreamedHydration>
+        <MantineProvider theme={theme} defaultColorScheme="auto">
+          {children}
+        </MantineProvider>
+      </ReactQueryStreamedHydration>
     </QueryClientProvider>
   );
 }
