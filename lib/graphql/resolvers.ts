@@ -1,5 +1,19 @@
 import { Beer, BeersParams } from "lib/types";
-import { Connector, ConnectorConstructor } from "../connectors/connectorBase";
+import Chucks from "../connectors/chucks";
+import { ConnectorConstructor } from "../connectors/connectorBase";
+import Flatstick from "../connectors/flatstick";
+import Fremont from "../connectors/fremont";
+import Pinebox from "../connectors/pinebox";
+
+/**
+ * Statically register all venue connectors
+ */
+const connectors: Record<string, ConnectorConstructor> = {
+  chucks: Chucks,
+  flatstick: Flatstick,
+  fremont: Fremont,
+  pinebox: Pinebox
+};
 
 /**
  * Resolvers for GraphQL querties
@@ -7,15 +21,13 @@ import { Connector, ConnectorConstructor } from "../connectors/connectorBase";
 export const resolvers = {
   Query: {
     beers: async (_: never, { venue, params }: BeersParams): Promise<Beer[]> => {
-      let client: Connector;
+      const Constructor = connectors[venue];
 
-      try {
-        const { default: Constructor }: { default: ConnectorConstructor } = await import(`../connectors/${venue}`);
-        client = new Constructor(params);
-      } catch {
+      if (!Constructor) {
         throw new Error(`No connector found for venue "${venue}"!`);
       }
-      return client.execute();
+
+      return new Constructor(params).execute();
     }
   }
 };
