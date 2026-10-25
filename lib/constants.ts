@@ -42,11 +42,6 @@ export const venues: Venue[] = [
 
 export const sorts: Sort[] = [
   {
-    label: "Menu Order",
-    field: "order",
-    dir: "asc"
-  },
-  {
     label: "Rating (High to Low)",
     field: "rating",
     dir: "desc"
@@ -54,6 +49,11 @@ export const sorts: Sort[] = [
   {
     label: "Rating (Low to High)",
     field: "rating",
+    dir: "asc"
+  },
+  {
+    label: "Menu Order",
+    field: "order",
     dir: "asc"
   },
   {

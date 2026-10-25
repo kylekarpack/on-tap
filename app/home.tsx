@@ -12,10 +12,10 @@ import styles from "./index.module.css";
 /**
  * The home page for the application
  */
-export default function Home({ initialVenue }: { initialVenue: Venue | null }) {
+export default function Home({ initialVenue, initialSort }: { initialVenue: Venue | null; initialSort: Sort | null }) {
   const router = useRouter();
   const [venue, setVenue] = useState<Venue>(initialVenue || venues[0]);
-  const [sort, setSort] = useState<Sort>(sorts[0]);
+  const [sort, setSort] = useState<Sort>(initialSort || sorts[0]);
 
   /**
    * Push the new query params, and scroll to top if changed
@@ -26,6 +26,7 @@ export default function Home({ initialVenue }: { initialVenue: Venue | null }) {
     if (newVenue.params?.venueId) {
       query.set("venueId", newVenue.params.venueId);
     }
+    query.set("sort", `${sort.field}:${sort.dir}`);
     router.push(`/?${query.toString()}`);
     setVenue(newVenue);
   };
@@ -33,6 +34,12 @@ export default function Home({ initialVenue }: { initialVenue: Venue | null }) {
   const changeSort = (value: string): void => {
     const newSort: Sort = JSON.parse(value);
     setSort(newSort);
+    const query = new URLSearchParams({ venue: venue.value });
+    if (venue.params?.venueId) {
+      query.set("venueId", venue.params.venueId);
+    }
+    query.set("sort", `${newSort.field}:${newSort.dir}`);
+    router.push(`/?${query.toString()}`);
   };
 
   return (
