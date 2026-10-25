@@ -41,10 +41,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" {...mantineHtmlProps}>
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
+        <Meta />
       </head>
       <body>
         <Providers>{children}</Providers>
-        <Meta />
       </body>
     </html>
   );
