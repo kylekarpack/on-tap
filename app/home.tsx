@@ -52,6 +52,8 @@ export default function Home({ initialVenue }: { initialVenue: Venue | null }) {
           <div className={styles.controls}>
             <Select
               id="venueSelect"
+              className={styles.select}
+              classNames={{ option: styles.selectOption }}
               label="Venue"
               data={venues.map((el) => ({ value: JSON.stringify(el), label: el.label }))}
               value={JSON.stringify(venue)}
@@ -65,6 +67,8 @@ export default function Home({ initialVenue }: { initialVenue: Venue | null }) {
             />
             <Select
               id="sortSelect"
+              className={styles.select}
+              classNames={{ option: styles.selectOption }}
               label="Sort"
               data={sorts.map((el) => ({ value: JSON.stringify(el), label: el.label }))}
               value={JSON.stringify(sort)}
