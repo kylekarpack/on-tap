@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Tree-shake barrel imports from Mantine so only used components ship
+    optimizePackageImports: ["@mantine/core"]
+  },
   images: {
     remotePatterns: [
       {

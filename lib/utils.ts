@@ -10,7 +10,9 @@ export const sortTable = (sort: Sort, data: Beer[]) => {
 
   const { field, dir } = sort;
   if (field && dir && Array.isArray(data)) {
-    const copy = JSON.parse(JSON.stringify(data));
+    // Shallow copy is enough: sorting only reorders the array, it never mutates
+    // the beer objects themselves, and avoids the cost of a deep clone.
+    const copy = [...data];
     return copy.sort((a: Beer, b: Beer) => {
       const x = a[field];
       const y = b[field];

@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import { AlgoliaBeer } from "./algoliaBeer";
 /**
  * Beer data container
@@ -59,7 +58,7 @@ export class Beer {
   /**
    * A unique ID for this beer
    */
-  public guid?: string = crypto.randomUUID();
+  public guid?: string = globalThis.crypto.randomUUID();
 
   /**
    * The brewery for this beer
