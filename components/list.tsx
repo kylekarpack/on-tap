@@ -8,7 +8,6 @@ import Image from "next/image";
 import { FunctionComponent, ReactNode } from "react";
 import BeerLink from "./beerLink";
 import { CompactNumber, Percentage } from "./number";
-import styles from "./list.module.css";
 
 /**
  * The generic stat layout shared by rating, abv and ibu
@@ -67,7 +66,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
         </Text>
       ) : null}
       {listData.map((beer) => (
-        <Card key={beer.guid} radius="lg" shadow="sm" padding="md" className={styles.card}>
+        <Card key={beer.guid} radius="lg" shadow="sm" padding="md">
           <Group wrap="nowrap" align="flex-start" gap="md">
             <Image
               width={48}
