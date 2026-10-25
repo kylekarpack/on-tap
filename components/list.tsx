@@ -1,6 +1,6 @@
-import { useQuery } from "@apollo/client";
 import { Alert, Card, Group, SimpleGrid, Skeleton, Stack, Text } from "@mantine/core";
-import { GET_BEERS } from "lib/queries";
+import { useQuery } from "@tanstack/react-query";
+import { orpc } from "lib/orpc/client";
 import { Beer, Sort, Venue } from "lib/types";
 import { sortTable } from "lib/utils";
 import Image from "next/image";
@@ -26,16 +26,18 @@ const Stat: FunctionComponent<{ label: string; children?: ReactNode }> = ({ labe
  * Render a list of beers
  */
 const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort }) => {
-  const { loading, error, data } = useQuery<{ beers: Beer[] }>(GET_BEERS, {
-    variables: {
-      venue: venue.value,
-      params: {
-        venueId: venue.params?.venueId
+  const { isPending, error, data } = useQuery(
+    orpc.beers.queryOptions({
+      input: {
+        venue: venue.value,
+        params: {
+          venueId: venue.params?.venueId
+        }
       }
-    }
-  });
+    })
+  );
 
-  if (loading) {
+  if (isPending) {
     return <ListSkeleton />;
   }
 
@@ -73,7 +75,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
     );
   }
 
-  const listData: Beer[] = sortTable(sort, data?.beers) ?? [];
+  const listData: Beer[] = sortTable(sort, data) ?? [];
   return (
     <SimpleGrid data-testid="list" cols={{ base: 1, sm: 2 }} spacing="sm">
       {listData.length === 0 ? (
@@ -116,11 +118,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
                     <Percentage value={beer.abv} />
                   </Stat>
                 ) : null}
-                {beer.ibu && beer.ibu !== 0 ? (
-                  <Stat label="IBU">
-                    {beer.ibu}
-                  </Stat>
-                ) : null}
+                {beer.ibu && beer.ibu !== 0 ? <Stat label="IBU">{beer.ibu}</Stat> : null}
               </Group>
             </Stack>
           </Group>

@@ -1,9 +1,9 @@
 "use client";
 
+import { Select } from "@mantine/core";
 import List from "components/list";
 import { sorts, venues } from "lib/constants";
 import { Sort, Venue } from "lib/types";
-import { Select } from "@mantine/core";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -40,13 +40,7 @@ export default function Home({ initialVenue }: { initialVenue: Venue | null }) {
       <header className={styles.header}>
         <div className={styles.inner}>
           <div className={styles.brand}>
-            <Image
-              width={28}
-              height={28}
-              src="/icons/favicon-196.png"
-              alt="Main logo"
-              style={{ borderRadius: 8 }}
-            />
+            <Image width={28} height={28} src="/icons/favicon-196.png" alt="Main logo" style={{ borderRadius: 8 }} />
             <span className={styles.wordmark}>On Tap</span>
           </div>
           <div className={styles.controls}>

@@ -1,5 +1,5 @@
-import { fireEvent, render } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
+import { fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from "vitest";
 import BeerLink from "./beerLink";
 

@@ -19,21 +19,21 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@apollo/client": "^3.14.1",
-    "@apollo/server": "^4.13.0",
-    "@as-integrations/next": "^3.2.0",
     "@mantine/core": "^9.7.3",
     "@mantine/hooks": "^9.7.3",
+    "@orpc/client": "2.0.0-beta.46",
+    "@orpc/next": "2.0.0-beta.46",
+    "@orpc/server": "2.0.0-beta.46",
+    "@orpc/tanstack-query": "2.0.0-beta.46",
+    "@tanstack/react-query": "^5.104.5",
     "axios": "^1.20.0",
     "cheerio": "^1.2.0",
     "dotenv": "^16.6.1",
-    "graphql": "^16.14.2",
     "next": "^16.4.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@apollo/react-testing": "^4.0.0",
     "@testing-library/dom": "^8.20.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^13.4.0",

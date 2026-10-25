@@ -1,22 +1,23 @@
 "use client";
 
-import { ApolloProvider } from "@apollo/client";
 import { MantineProvider } from "@mantine/core";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState, type ReactNode } from "react";
 import { theme } from "styles/mantineTheme";
-import type { ReactNode } from "react";
-import { useApollo } from "../lib/apolloClient";
 
 /**
  * Layout for all pages
  */
 export default function Providers({ children }: { children: ReactNode }) {
-  const apolloClient = useApollo(undefined);
+  // Create the client in state rather than module scope so each server render
+  // and browser tab gets its own isolated cache
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <ApolloProvider client={apolloClient}>
+    <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme} defaultColorScheme="auto">
         {children}
       </MantineProvider>
-    </ApolloProvider>
+    </QueryClientProvider>
   );
 }

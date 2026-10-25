@@ -1,13 +1,39 @@
-import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { MantineProvider } from "@mantine/core";
-import { act, render } from "@testing-library/react";
-import { GraphQLError } from "graphql";
-import { GET_BEERS } from "lib/queries";
+import { createTanstackQueryUtils } from "@orpc/tanstack-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, waitFor } from "@testing-library/react";
 import { Beer, Venue } from "lib/types";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import List from "./list";
 
-const testSelectValue: Venue = {
+/**
+ * Mutable response state read by the wire-mock client, re-declared per domain below
+ */
+const state = vi.hoisted(() => ({
+  data: [] as unknown[],
+  error: undefined as unknown
+}));
+
+/**
+ * Replace the oRPC client with a proxy that answers any procedure path with the
+ * test state, then build the real TanStack Query utils on top of it
+ */
+vi.mock("lib/orpc/client", () => {
+  const invocation = async () => {
+    if (state.error) {
+      throw state.error;
+    }
+    return state.data;
+  };
+
+  const client = new Proxy(invocation, {
+    get: (_target, prop) => (typeof prop === "symbol" || prop === "then" ? undefined : client)
+  });
+
+  return { orpc: createTanstackQueryUtils(client as never) };
+});
+
+const testVenue: Venue = {
   label: "Chucks",
   value: "chucks",
   params: {
@@ -15,99 +41,61 @@ const testSelectValue: Venue = {
   }
 };
 
-const emptyMock: MockedResponse<Record<string, Beer[]>> = {
-  request: {
-    query: GET_BEERS,
-    variables: {
-      venue: testSelectValue.value,
-      params: testSelectValue.params
-    }
-  },
-  result: {
-    data: {
-      beers: []
-    }
-  }
-};
+const testSort = { dir: "asc" as const, field: "beer" as const };
+
+function renderList() {
+  return render(
+    <MantineProvider>
+      <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
+        <List venue={testVenue} sort={testSort} />
+      </QueryClientProvider>
+    </MantineProvider>
+  );
+}
 
 describe("list component", () => {
-  it("renders", () => {
-    const mocks = [emptyMock];
+  beforeEach(() => {
+    state.data = [];
+    state.error = undefined;
+  });
 
-    const cmp = render(
-      <MantineProvider>
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <List venue={testSelectValue} sort={{ dir: "asc", field: "beer" }} />
-        </MockedProvider>
-      </MantineProvider>
-    );
+  it("renders an empty list", async () => {
+    const cmp = renderList();
 
-    expect(cmp.container).toBeVisible();
+    await waitFor(() => {
+      expect(cmp.getByTestId("list")).toHaveTextContent("No beers on tap right now");
+    });
   });
 
   it("renders error", async () => {
-    const mocks = [
-      {
-        ...emptyMock,
-        error: new GraphQLError("Bad")
-      }
-    ];
+    state.error = new Error("Bad");
 
-    const cmp = render(
-      <MantineProvider>
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <List venue={testSelectValue} sort={{ dir: "asc", field: "beer" }} />
-        </MockedProvider>
-      </MantineProvider>
-    );
+    const cmp = renderList();
 
-    await act(
-      () =>
-        new Promise((resolve) => {
-          setTimeout(resolve, 0);
-        })
-    );
-    expect(cmp.getByTestId("error")).toHaveTextContent("Error");
+    await waitFor(() => {
+      expect(cmp.getByTestId("error")).toHaveTextContent("Error");
+    });
   });
 
   it("renders list", async () => {
-    const mocks = [
-      {
-        ...emptyMock,
-        result: {
-          data: {
-            beers: [
-              new Beer({
-                id: 1,
-                rating: 4.1,
-                ratings: 10,
-                beer: "Test",
-                brewery: "Test Brewery",
-                abv: 4,
-                ibu: 15
-              }),
-              new Beer({ beer: "Test Partial" })
-            ]
-          }
-        }
-      }
+    state.data = [
+      new Beer({
+        id: 1,
+        rating: 4.1,
+        ratings: 10,
+        beer: "Test",
+        brewery: "Test Brewery",
+        abv: 4,
+        ibu: 15
+      }),
+      new Beer({ beer: "Test Partial" })
     ];
 
-    const cmp = render(
-      <MantineProvider>
-        <MockedProvider mocks={mocks} addTypename={false} cache={null}>
-          <List venue={testSelectValue} sort={{ dir: "asc", field: "beer" }} />
-        </MockedProvider>
-      </MantineProvider>
-    );
+    const cmp = renderList();
 
-    await act(
-      () =>
-        new Promise((resolve) => {
-          setTimeout(resolve, 0);
-        })
-    );
-    expect(cmp.getByTestId("list")).toBeVisible();
-    expect(cmp.getByTestId("list").childElementCount).toEqual(2);
+    await waitFor(() => {
+      expect(cmp.getByTestId("list")).toBeVisible();
+      expect(cmp.getByTestId("list").childElementCount).toEqual(2);
+    });
   });
 });

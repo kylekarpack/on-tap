@@ -1,6 +1,6 @@
-import Home from "./home";
 import { venues } from "lib/constants";
 import { Venue } from "lib/types";
+import Home from "./home";
 
 type PageProps = {
   searchParams: Promise<{ venue?: string; venueId?: string }>;
