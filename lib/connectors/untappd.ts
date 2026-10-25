@@ -59,6 +59,14 @@ export default class Untappd {
       return { missing, matched, extra, length: (result.beer_name ?? "").length };
     };
 
+    const inputYearMatch = (beer.beer ?? "").match(/\b(19|20)\d{2}\b/);
+    const inputYear = inputYearMatch ? parseInt(inputYearMatch[0], 10) : null;
+
+    const resultYear = (result: AlgoliaBeer): number => {
+      const m = (result.beer_name ?? "").match(/\b(19|20)\d{2}\b/);
+      return m ? parseInt(m[0], 10) : 0;
+    };
+
     candidates.sort((a, b) => {
       const sa = score(a);
       const sb = score(b);
@@ -70,6 +78,22 @@ export default class Untappd {
       }
       if (sa.extra !== sb.extra) {
         return sa.extra - sb.extra;
+      }
+      if (inputYear != null) {
+        const ya = resultYear(a);
+        const yb = resultYear(b);
+        const da = ya === inputYear ? 0 : 1;
+        const db = yb === inputYear ? 0 : 1;
+        if (da !== db) {
+          return da - db;
+        }
+      } else {
+        // Prefer the latest year when the venue did not specify one
+        const ya = resultYear(a);
+        const yb = resultYear(b);
+        if (ya !== yb) {
+          return yb - ya;
+        }
       }
       return sa.length - sb.length;
     });
@@ -94,6 +118,11 @@ export default class Untappd {
     const name = beer.beer ?? "";
     const segments = name.split(" + ");
     if (segments.length > 1) {
+      return true;
+    }
+
+    // Slash-separated collaborations (e.g. "A / B") may resolve to either brewery
+    if ((beer.brewery ?? "").includes("/")) {
       return true;
     }
 
@@ -131,8 +160,11 @@ export default class Untappd {
    * record, so try progressively shorter and simpler variants
    */
   queries(beer: Beer): string[] {
-    const brewery = this.normalizeBrewery(beer.brewery);
-    const breweryShort = brewery.split(" ")[0];
+    const breweries = (beer.brewery ?? "")
+      .split("/")
+      .map((b) => this.normalizeBrewery(b))
+      .filter(Boolean);
+    const breweryList = breweries.length ? breweries : [""];
 
     const withSynonyms = (beer.beer ?? "").replace(/\bextra special bitter\b/gi, "esb");
     let name = withSynonyms.replace(
@@ -146,63 +178,73 @@ export default class Untappd {
     const segments = name.split(" + ");
     const core = segments[segments.length - 1].trim();
 
-    // Remove an echo of the brewery name from the start of non-collab names,
-    // e.g. "Bizarre Cemetery Polka Pint" with brewery "Bizarre"
-    let partial = name;
-    if (segments.length === 1 && brewery && name.toLowerCase().startsWith(`${brewery.toLowerCase()} `)) {
-      partial = name.slice(brewery.length).trim();
-    }
-
-    const cleaned = this.clean(partial);
-
     const queries = new Set<string>();
 
-    for (const candidate of [name, cleaned]) {
-      if (!candidate) {
-        continue;
+    for (const brewery of breweryList) {
+      // Remove an echo of this brewery name from the start of non-collab names
+      let partial = name;
+      if (segments.length === 1 && brewery && name.toLowerCase().startsWith(`${brewery.toLowerCase()} `)) {
+        partial = name.slice(brewery.length).trim();
       }
 
-      if (brewery) {
-        queries.add(`${brewery} ${candidate}`.trim());
-      }
+      const cleaned = this.clean(partial);
 
-      if (breweryShort) {
-        queries.add(`${breweryShort} ${candidate}`.trim());
-      }
-
-      // Collab segment only: the other breweries' names need not match
-      if (segments.length > 1) {
-        const cleanedCore = this.clean(core);
-        if (cleanedCore) {
-          if (brewery) {
-            queries.add(`${brewery} ${cleanedCore}`.trim());
-          }
-          if (breweryShort) {
-            queries.add(`${breweryShort} ${cleanedCore}`.trim());
-          }
-          if (!brewery) {
-            queries.add(cleanedCore);
-          }
+      for (const candidate of [name, cleaned]) {
+        if (!candidate) {
+          continue;
         }
-      }
 
-      // Trailing style words Untappd may not carry in the beer name
-      const stripped = this.stripStyles(candidate).trim();
-      if (stripped) {
+        const breweryShort = brewery.split(" ")[0];
+
         if (brewery) {
-          queries.add(`${brewery} ${stripped}`.trim());
+          queries.add(`${brewery} ${candidate}`.trim());
         }
-        if (breweryShort) {
-          queries.add(`${breweryShort} ${stripped}`.trim());
+        if (breweryShort && breweryShort !== brewery) {
+          queries.add(`${breweryShort} ${candidate}`.trim());
         }
-        if (!brewery) {
-          queries.add(stripped);
+
+        // Collab segment only: the other breweries' names need not match
+        if (segments.length > 1) {
+          const cleanedCore = this.clean(core);
+          if (cleanedCore) {
+            if (brewery) {
+              queries.add(`${brewery} ${cleanedCore}`.trim());
+            }
+            if (breweryShort && breweryShort !== brewery) {
+              queries.add(`${breweryShort} ${cleanedCore}`.trim());
+            }
+          }
         }
+
+        // Trailing style words Untappd may not carry in the beer name
+        const stripped = this.stripStyles(candidate).trim();
+        if (stripped) {
+          if (brewery) {
+            queries.add(`${brewery} ${stripped}`.trim());
+          }
+          if (breweryShort && breweryShort !== brewery) {
+            queries.add(`${breweryShort} ${stripped}`.trim());
+          }
+        }
+      }
+    }
+
+    // Bare-name fallback only when no brewery is known
+    if (breweryList.every((b) => !b)) {
+      const partial = name;
+      const cleaned = this.clean(partial);
+      const stripped = this.stripStyles(name).trim();
+      if (stripped) {
+        queries.add(stripped);
+      }
+      if (cleaned) {
+        queries.add(cleaned);
       }
     }
 
     return Array.from(queries).filter((query) => query.trim().length > 0);
   }
+
 
   /**
    * Run an Untappd search
@@ -244,7 +286,7 @@ export default class Untappd {
    * marker) and take the first segment of a collaboration.
    */
   normalizeBrewery(brewery: string | null | undefined): string {
-    let raw = brewery?.trim().split("/")[0].trim() ?? "";
+    let raw = brewery?.trim() ?? "";
     raw = raw.replace(/\([^)]*\)/g, " ");
     raw = raw.replace(/^[^\p{L}\p{N}]+/u, "").trim();
     if (/leaked|cooler|see note/i.test(raw)) {
