@@ -9,15 +9,72 @@ export default class Untappd {
    * Get a beer information
    */
   async getBeer(beer: Beer): Promise<Beer> {
-    for (const query of this.queries(beer)) {
-      const result = await this.search(query);
+    const candidates: AlgoliaBeer[] = [];
 
-      if (result && this.isMatch(beer, result)) {
-        return Beer.fromAlgoliaBeer(result);
+    for (const query of this.queries(beer)) {
+      const results = await this.search(query);
+
+      for (const result of results) {
+        if (result && this.isMatch(beer, result)) {
+          candidates.push(result);
+        }
       }
     }
 
-    return new Beer();
+    if (candidates.length === 0) {
+      return new Beer();
+    }
+
+    const inputTokens = new Set(this.distinctiveTokens(beer.beer ?? ""));
+
+    const rawTokens = (value: string): string[] =>
+      value
+        .toLowerCase()
+        .split(/[^\p{L}\p{N}]+/u)
+        .filter((token) => token.length >= 2);
+
+    const inputRaw = rawTokens(beer.beer ?? "");
+
+    const score = (result: AlgoliaBeer): { missing: number; matched: number; extra: number; length: number } => {
+      const resultTokens = new Set(this.distinctiveTokens(result.beer_name ?? ""));
+      let missing = 0;
+      for (const token of inputTokens) {
+        if (!resultTokens.has(token)) {
+          missing++;
+        }
+      }
+      let extra = 0;
+      for (const token of resultTokens) {
+        if (!inputTokens.has(token)) {
+          extra++;
+        }
+      }
+      const resultRaw = new Set(rawTokens(result.beer_name ?? ""));
+      let matched = 0;
+      for (const token of inputRaw) {
+        if (resultRaw.has(token)) {
+          matched++;
+        }
+      }
+      return { missing, matched, extra, length: (result.beer_name ?? "").length };
+    };
+
+    candidates.sort((a, b) => {
+      const sa = score(a);
+      const sb = score(b);
+      if (sa.missing !== sb.missing) {
+        return sa.missing - sb.missing;
+      }
+      if (sa.matched !== sb.matched) {
+        return sb.matched - sa.matched;
+      }
+      if (sa.extra !== sb.extra) {
+        return sa.extra - sb.extra;
+      }
+      return sa.length - sb.length;
+    });
+
+    return Beer.fromAlgoliaBeer(candidates[0]);
   }
 
   /**
@@ -29,7 +86,7 @@ export default class Untappd {
    * the collaboration.
    */
   isMatch(beer: Beer, result: AlgoliaBeer): boolean {
-    const inputBrewery = beer.brewery?.trim().split("/")[0].trim() ?? "";
+    const inputBrewery = this.normalizeBrewery(beer.brewery);
     if (!inputBrewery) {
       return true;
     }
@@ -41,10 +98,30 @@ export default class Untappd {
     }
 
     const resultBrewery = (result.brewery_name ?? "").toLowerCase();
-    const inputFirst = inputBrewery.split(" ")[0].toLowerCase();
-    const resultFirst = resultBrewery.split(" ")[0];
+    const inputWords = inputBrewery.toLowerCase().split(/\s+/).filter(Boolean);
+    const inputToken = inputWords[inputWords.length - 1] ?? "";
+    const resultBeerLower = (result.beer_name ?? "").toLowerCase();
+    const breweryOk =
+      (inputToken.length >= 2 && resultBrewery.includes(inputToken)) ||
+      (inputToken.length >= 2 && resultBeerLower.includes(inputToken));
 
-    return resultBrewery.includes(inputFirst) || inputBrewery.toLowerCase().includes(resultFirst);
+    if (!breweryOk) {
+      return false;
+    }
+
+    const resultBeer = (result.beer_name ?? "").toLowerCase();
+    if (resultBeer) {
+      const inputTokens = this.distinctiveTokens(beer.beer ?? "");
+      if (inputTokens.length > 0) {
+        const resultTokens = new Set(this.distinctiveTokens(resultBeer));
+        const overlap = inputTokens.some((token) => resultTokens.has(token));
+        if (!overlap) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   /**
@@ -54,14 +131,15 @@ export default class Untappd {
    * record, so try progressively shorter and simpler variants
    */
   queries(beer: Beer): string[] {
-    const brewery = beer.brewery?.trim().split("/")[0].trim() ?? "";
+    const brewery = this.normalizeBrewery(beer.brewery);
     const breweryShort = brewery.split(" ")[0];
 
-    let name = beer.beer?.replace(
-      / (ipa|hazy|stout|porter|sour|hazy|iipa|pilsner|brown|tripel|ale|lager|bba|nitro)$/gi,
+    const withSynonyms = (beer.beer ?? "").replace(/\bextra special bitter\b/gi, "esb");
+    let name = withSynonyms.replace(
+      / (ipa|hazy|stout|porter|sour|hazy|iipa|diipa|dipa|pilsner|pils|brown|tripel|ale|lager|bba|nitro|cider|hefeweizen|dunkel|bitter|saison|modern|honey|pub|hard|extra|special|kombucha|seltzer)$/gi,
       ""
     );
-    name = name.trim().split(" - ").shift().trim();
+    name = name.trim().split(/\s+-/).shift().trim();
 
     // Separate the collaborating breweries: "BreakThru + Tall Trees Feasting
     // of Flowers" becomes "Feasting of Flowers"
@@ -95,24 +173,31 @@ export default class Untappd {
       // Collab segment only: the other breweries' names need not match
       if (segments.length > 1) {
         const cleanedCore = this.clean(core);
-        if (brewery) {
-          queries.add(`${brewery} ${cleanedCore}`.trim());
-        }
-        if (breweryShort) {
-          queries.add(`${breweryShort} ${cleanedCore}`.trim());
+        if (cleanedCore) {
+          if (brewery) {
+            queries.add(`${brewery} ${cleanedCore}`.trim());
+          }
+          if (breweryShort) {
+            queries.add(`${breweryShort} ${cleanedCore}`.trim());
+          }
+          if (!brewery) {
+            queries.add(cleanedCore);
+          }
         }
       }
 
       // Trailing style words Untappd may not carry in the beer name
       const stripped = this.stripStyles(candidate).trim();
-      if (brewery) {
-        queries.add(`${brewery} ${stripped}`.trim());
-      }
-      if (breweryShort) {
-        queries.add(`${breweryShort} ${stripped}`.trim());
-      }
-      if (!brewery) {
-        queries.add(stripped);
+      if (stripped) {
+        if (brewery) {
+          queries.add(`${brewery} ${stripped}`.trim());
+        }
+        if (breweryShort) {
+          queries.add(`${breweryShort} ${stripped}`.trim());
+        }
+        if (!brewery) {
+          queries.add(stripped);
+        }
       }
     }
 
@@ -122,7 +207,7 @@ export default class Untappd {
   /**
    * Run an Untappd search
    */
-  async search(query: string): Promise<AlgoliaBeer | undefined> {
+  async search(query: string): Promise<AlgoliaBeer[]> {
     const queryParams = {
       "x-algolia-agent": "Algolia for vanilla JavaScript 3.24.8",
       "x-algolia-application-id": process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
@@ -132,7 +217,7 @@ export default class Untappd {
     const beerQuery = encodeURIComponent(query);
 
     const postData = JSON.stringify({
-      params: `query=${beerQuery}&hitsPerPage=1`
+      params: `query=${beerQuery}&hitsPerPage=5`
     });
 
     const search = await axios.post(
@@ -150,7 +235,87 @@ export default class Untappd {
     );
 
     const { data } = search;
-    return data.hits[0];
+    return data.hits ?? [];
+  }
+
+  /**
+   * Normalize a brewery name for matching/searching: drop leading emoji and
+   * other non-alphanumeric decoration that venues use (e.g. the 🌱 fresh-hop
+   * marker) and take the first segment of a collaboration.
+   */
+  normalizeBrewery(brewery: string | null | undefined): string {
+    let raw = brewery?.trim().split("/")[0].trim() ?? "";
+    raw = raw.replace(/\([^)]*\)/g, " ");
+    raw = raw.replace(/^[^\p{L}\p{N}]+/u, "").trim();
+    if (/leaked|cooler|see note/i.test(raw)) {
+      const tokens = raw.split(/\s+/).filter(Boolean);
+      raw = tokens[tokens.length - 1] ?? raw;
+    }
+    return raw.replace(/\s+/g, " ").trim();
+  }
+
+  /**
+   * Tokens of a beer name that are distinctive (not generic style words).
+   */
+  distinctiveTokens(value: string): string[] {
+    const stopWords = new Set([
+      "fresh",
+      "wet",
+      "hop",
+      "hops",
+      "ipa",
+      "iipa",
+      "diipa",
+      "dipa",
+      "hazy",
+      "ale",
+      "stout",
+      "porter",
+      "sour",
+      "lager",
+      "pils",
+      "pilsner",
+      "pale",
+      "tripel",
+      "nitro",
+      "cider",
+      "wc",
+      "west",
+      "coast",
+      "ddh",
+      "the",
+      "and",
+      "of",
+      "a",
+      "an",
+      "to",
+      "in",
+      "on",
+      "at",
+      "for",
+      "with",
+      "no",
+      "series",
+      "season",
+      "dark",
+      "mild",
+      "amber",
+      "extra",
+      "special",
+      "bitter",
+      "hard",
+      "non",
+      "alcoholic",
+      "bba",
+      "ba",
+      "imperial",
+      "double",
+      "single"
+    ]);
+    return value
+      .toLowerCase()
+      .split(/[^\p{L}\p{N}]+/u)
+      .filter((token) => token.length >= 3 && !stopWords.has(token));
   }
 
   /**
@@ -159,9 +324,13 @@ export default class Untappd {
    */
   clean(name: string): string {
     return name
+      .replace(/&/g, " ")
+      .replace(/^[\s'"\u2018\u2019]+/g, "")
       .replace(/(\(\s*)?\d+(\.\d+)?\s*oz(\s*\))?\s*$/gi, "")
       .replace(/\s+(pint|half\s+pint)\s*$/gi, "")
-      .replace(/\b(fresh\s*hop|fh)\b/gi, " ")
+      .replace(/\b(fresh\s*hop|wet\s*hop|fh)\b/gi, " ")
+      .replace(/\bextra special bitter\b/gi, "esb")
+      .replace(/\bextra special bitter\b/gi, "esb")
       .replace(/(\d{4})$/g, "")
       .replace(/\s+/g, " ")
       .replace(/^[\s(-]+/g, "")
@@ -174,7 +343,10 @@ export default class Untappd {
    */
   stripStyles(name: string): string {
     return name
-      .replace(/(\s+(?:hazy|ipa|ale|stout|pilsner|porter|sour|lager|pale|tripel|nitro|cider))+\s*$/gi, "")
+      .replace(
+        /(\s+(?:hazy|ipa|iipa|diipa|dipa|ale|stout|porter|sour|lager|pale|tripel|nitro|cider|pilsner|pils|wc|ddh|mosaic|citra|simcoe|cascade|amarillo|centennial|chinook|columbus|galaxy|nelson|hefeweizen|dunkel|bitter|mexican|dark|mild|fruh|früh|saison|extra|special|hard|honey|pub|modern|ginger|kombucha|seltzer|grapefruit|mojito))+\s*$/gi,
+        ""
+      )
       .trim();
   }
 }
