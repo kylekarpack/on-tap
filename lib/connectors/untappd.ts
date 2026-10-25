@@ -12,12 +12,39 @@ export default class Untappd {
     for (const query of this.queries(beer)) {
       const result = await this.search(query);
 
-      if (result) {
+      if (result && this.isMatch(beer, result)) {
         return Beer.fromAlgoliaBeer(result);
       }
     }
 
     return new Beer();
+  }
+
+  /**
+   * Whether an Algolia hit is a plausible match for the venue's beer.
+   *
+   * Guards against cross-brewery false positives: a loose query (e.g. a bare
+   * beer name) can otherwise resolve to a beer from a different brewery.
+   * Collab beers are exempt because the Untappd brewery may be either side of
+   * the collaboration.
+   */
+  isMatch(beer: Beer, result: AlgoliaBeer): boolean {
+    const inputBrewery = beer.brewery?.trim().split("/")[0].trim() ?? "";
+    if (!inputBrewery) {
+      return true;
+    }
+
+    const name = beer.beer ?? "";
+    const segments = name.split(" + ");
+    if (segments.length > 1) {
+      return true;
+    }
+
+    const resultBrewery = (result.brewery_name ?? "").toLowerCase();
+    const inputFirst = inputBrewery.split(" ")[0].toLowerCase();
+    const resultFirst = resultBrewery.split(" ")[0];
+
+    return resultBrewery.includes(inputFirst) || inputBrewery.toLowerCase().includes(resultFirst);
   }
 
   /**
@@ -74,11 +101,19 @@ export default class Untappd {
         if (breweryShort) {
           queries.add(`${breweryShort} ${cleanedCore}`.trim());
         }
-        queries.add(cleanedCore);
       }
 
       // Trailing style words Untappd may not carry in the beer name
-      queries.add(this.stripStyles(candidate).trim());
+      const stripped = this.stripStyles(candidate).trim();
+      if (brewery) {
+        queries.add(`${brewery} ${stripped}`.trim());
+      }
+      if (breweryShort) {
+        queries.add(`${breweryShort} ${stripped}`.trim());
+      }
+      if (!brewery) {
+        queries.add(stripped);
+      }
     }
 
     return Array.from(queries).filter((query) => query.trim().length > 0);
