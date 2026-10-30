@@ -2,8 +2,7 @@
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { nitro } from "nitro/vite";
-import { defineConfig, loadEnv } from "vite";
-import { lazyPlugins } from "vite-plus";
+import { defineConfig, lazyPlugins, loadEnv } from "vite-plus";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -65,10 +64,6 @@ export default defineConfig(({ mode }) => {
         ],
         "no-labels": "error",
         "vite-plus/prefer-vite-plus-imports": "error"
-      },
-      options: {
-        typeAware: true,
-        typeCheck: true
       },
       jsPlugins: [
         {

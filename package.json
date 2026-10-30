@@ -50,5 +50,8 @@
     "vitest": "catalog:",
     "vitest-sonar-reporter": "^3.0.0"
   },
+  "engines": {
+    "node": ">=26"
+  },
   "packageManager": "pnpm@12.15.0"
 }
