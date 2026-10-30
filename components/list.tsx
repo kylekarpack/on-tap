@@ -2,7 +2,7 @@ import { Alert, Card, Group, SimpleGrid, Skeleton, Stack, Text } from "@mantine/
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { orpc } from "lib/orpc/client";
 import { Beer, Sort, Venue } from "lib/types";
-import { sortTable } from "lib/utils";
+import { sortTable, vercelImage } from "lib/utils";
 import { Component, FunctionComponent, ReactNode, useMemo } from "react";
 import BeerLink from "./beerLink";
 import { CompactNumber, Percentage } from "./number";
@@ -104,8 +104,15 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
             <img
               width={48}
               height={48}
-              src={beer.labelImageUrl || "/badge-beer-default.png"}
+              loading="lazy"
+              decoding="async"
+              src={vercelImage(beer.labelImageUrl || "/badge-beer-default.png", 96)}
               alt={beer.beer ?? ""}
+              onError={(event) => {
+                const img = event.currentTarget;
+                img.src = beer.labelImageUrl || "/badge-beer-default.png";
+                img.onerror = null;
+              }}
               style={{
                 borderRadius: 12,
                 backgroundColor: "var(--mantine-color-default)",

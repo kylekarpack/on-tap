@@ -71,7 +71,15 @@ function Home() {
       <header className={styles.header}>
         <div className={styles.inner}>
           <div className={styles.brand}>
-            <img width={28} height={28} src="/icons/favicon-196.png" alt="Main logo" style={{ borderRadius: 8 }} />
+            <img
+              width={28}
+              height={28}
+              loading="eager"
+              decoding="async"
+              src="/icons/favicon-196.png"
+              alt="Main logo"
+              style={{ borderRadius: 8 }}
+            />
             <span className={styles.wordmark}>On Tap</span>
           </div>
           <div className={styles.controls}>
