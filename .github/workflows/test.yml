@@ -20,7 +20,7 @@ jobs:
       - name: Check
         run: vp check
       - name: Run Tests
-        run: pnpm test:coverage
+        run: vp test --coverage
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
