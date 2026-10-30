@@ -36,7 +36,8 @@ export const Route = createRootRoute({
       { rel: "apple-touch-icon", href: "/icons/apple-icon-180.png" }
     ]
   }),
-  component: RootComponent
+  component: RootComponent,
+  notFoundComponent: () => <p>Not Found</p>
 });
 
 function RootComponent() {
