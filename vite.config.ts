@@ -8,7 +8,25 @@ export default defineConfig(({ mode }) => {
   Object.assign(process.env, env);
 
   return {
-    plugins: [tanstackStart(), nitro(), viteReact()],
+    plugins: [
+      tanstackStart(),
+      nitro({
+        preset: "vercel",
+        vercel: {
+          config: {
+            images: {
+              sizes: [48, 64, 96, 128, 256, 384],
+              formats: ["image/avif", "image/webp"],
+              remotePatterns: [
+                { protocol: "https", hostname: "assets.untappd.com" },
+                { protocol: "https", hostname: "untappd.akamaized.net" }
+              ]
+            }
+          }
+        }
+      }),
+      viteReact()
+    ],
     resolve: {
       tsconfigPaths: true
     },
