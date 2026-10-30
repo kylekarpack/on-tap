@@ -2,7 +2,7 @@ import axios from "axios";
 import dotenv from "dotenv";
 import { AlgoliaBeer, Beer } from "lib/types";
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 /**
  * Main connector to query Untappd

@@ -1,6 +1,8 @@
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
+  logLevel: "warn",
+  envDir: false,
   resolve: {
     tsconfigPaths: true
   },
