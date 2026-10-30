@@ -6,5 +6,6 @@
     "ignoreCase": true,
     "order": "asc",
     "newlinesBetween": false
-  }
+  },
+  "ignorePatterns": ["src/routeTree.gen.ts"]
 }
