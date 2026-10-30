@@ -1,7 +1,7 @@
 import { ORPCError } from "@orpc/client";
 import { createRouterClient } from "@orpc/server";
 import axios from "axios";
-import { describe, expect, it, type Mocked } from "vitest";
+import { describe, expect, it, type Mocked } from "vite-plus/test";
 import { router } from "./router";
 
 // axios is auto-mocked globally in vitest.setup.ts

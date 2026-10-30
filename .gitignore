@@ -89,3 +89,9 @@ __snapshots__/
 test-report.xml
 
 .DS_Store
+
+# tanstack start
+dist/
+.output/
+.vitest/
+.env*

@@ -2,9 +2,8 @@ import { Alert, Card, Group, SimpleGrid, Skeleton, Stack, Text } from "@mantine/
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { orpc } from "lib/orpc/client";
 import { Beer, Sort, Venue } from "lib/types";
-import { sortTable } from "lib/utils";
-import Image from "next/image";
-import { Component, FunctionComponent, ReactNode, useMemo } from "react";
+import { sortTable, vercelImage } from "lib/utils";
+import { Component, FunctionComponent, ReactNode, useMemo, useState } from "react";
 import BeerLink from "./beerLink";
 import { CompactNumber, Percentage } from "./number";
 
@@ -92,6 +91,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
   // Memoize so re-sorting only recomputes when the sort or the data actually
   // change, instead of on every render of the (streamed) list.
   const listData: Beer[] = useMemo(() => sortTable(sort, data) ?? [], [sort, data]);
+  const [failedImages, setFailedImages] = useState<Set<string>>(() => new Set());
   return (
     <SimpleGrid data-testid="list" cols={{ base: 1, sm: 2 }} spacing="sm">
       {listData.length === 0 ? (
@@ -102,11 +102,25 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
       {listData.map((beer) => (
         <Card key={beer.guid} radius="lg" shadow="sm" padding="md">
           <Group wrap="nowrap" align="flex-start" gap="md">
-            <Image
+            <img
               width={48}
               height={48}
-              src={beer.labelImageUrl || "/badge-beer-default.png"}
+              loading="lazy"
+              decoding="async"
+              src={
+                failedImages.has(beer.guid)
+                  ? beer.labelImageUrl || "/badge-beer-default.png"
+                  : vercelImage(beer.labelImageUrl || "/badge-beer-default.png", 96)
+              }
               alt={beer.beer ?? ""}
+              onError={() => {
+                setFailedImages((prev) => {
+                  if (prev.has(beer.guid)) return prev;
+                  const next = new Set(prev);
+                  next.add(beer.guid);
+                  return next;
+                });
+              }}
               style={{
                 borderRadius: 12,
                 backgroundColor: "var(--mantine-color-default)",

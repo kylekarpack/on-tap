@@ -6,22 +6,22 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  sonarcloud:
-    name: SonarCloud
+  build:
+    name: Build & Test
     runs-on: ubuntu-latest
+    env:
+      VP_GIT_HOOKS: "0"
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: actions/setup-node@v4
+          fetch-depth: 0
+      - uses: voidzero-dev/setup-vp@v1.22.0
         with:
-          node-version: 20
-      - name: Install Packages
-        run: npm install --force
+          node-version: "26"
+          cache: true
+      - name: Check
+        run: vp check
       - name: Run Tests
-        run: npm run test:coverage -- --silent
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: vp test run --coverage
+      - name: Build
+        run: vp build

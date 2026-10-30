@@ -1,6 +1,8 @@
-import { defineConfig } from "vitest/config";
+import { defineConfig } from "vite-plus";
 
 export default defineConfig({
+  logLevel: "warn",
+  envDir: false,
   resolve: {
     tsconfigPaths: true
   },
