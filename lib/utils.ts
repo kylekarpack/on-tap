@@ -9,7 +9,12 @@ import { Beer, Sort } from "./types";
  * fall back to the original source and rely on `onError` to recover.
  */
 export const vercelImage = (src: string, width: number, quality = 75): string => {
-  if (src.startsWith("data:") || src.startsWith("blob:") || src.startsWith("/_vercel/image")) {
+  // Optimize in production builds, or when explicitly enabled (e.g. `VITE_VERCEL_IMAGE=1`
+  // in .env for testing Vercel image optimization under `vercel dev`).
+  if (!import.meta.env.PROD && import.meta.env.VITE_VERCEL_IMAGE !== "1") {
+    return src;
+  }
+  if (src.startsWith("data:") || src.startsWith("blob:")) {
     return src;
   }
   return `/_vercel/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
