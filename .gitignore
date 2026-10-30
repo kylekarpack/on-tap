@@ -93,3 +93,4 @@ test-report.xml
 # tanstack start
 dist/
 .output/
+.vitest/

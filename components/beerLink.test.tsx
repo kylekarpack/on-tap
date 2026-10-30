@@ -1,6 +1,6 @@
 import { MantineProvider } from "@mantine/core";
 import { fireEvent, render } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from "vite-plus/test";
 import BeerLink from "./beerLink";
 
 const beer = { id: 1, beer: "Test Beer Name" };

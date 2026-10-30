@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/vitest";
 import axios from "axios";
-import { vi, type Mock } from "vitest";
+import { vi, type Mock } from "vite-plus/test";
 
 vi.mock("axios");
 (axios.post as Mock).mockResolvedValue({

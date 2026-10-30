@@ -1,5 +1,5 @@
 import axios from "axios";
-import { describe, expect, it, type Mocked } from "vitest";
+import { describe, expect, it, type Mocked } from "vite-plus/test";
 import Chucks from "./chucks";
 
 // axios is auto-mocked globally in vitest.setup.ts
