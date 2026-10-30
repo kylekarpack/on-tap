@@ -1,0 +1,5 @@
+{
+  "devCommand": "vp dev --port $PORT",
+  "buildCommand": "vp build",
+  "installCommand": "pnpm install"
+}

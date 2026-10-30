@@ -3,7 +3,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { orpc } from "lib/orpc/client";
 import { Beer, Sort, Venue } from "lib/types";
 import { sortTable, vercelImage } from "lib/utils";
-import { Component, FunctionComponent, ReactNode, useMemo } from "react";
+import { Component, FunctionComponent, ReactNode, useMemo, useState } from "react";
 import BeerLink from "./beerLink";
 import { CompactNumber, Percentage } from "./number";
 
@@ -91,6 +91,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
   // Memoize so re-sorting only recomputes when the sort or the data actually
   // change, instead of on every render of the (streamed) list.
   const listData: Beer[] = useMemo(() => sortTable(sort, data) ?? [], [sort, data]);
+  const [failedImages, setFailedImages] = useState<Set<string>>(() => new Set());
   return (
     <SimpleGrid data-testid="list" cols={{ base: 1, sm: 2 }} spacing="sm">
       {listData.length === 0 ? (
@@ -106,12 +107,19 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
               height={48}
               loading="lazy"
               decoding="async"
-              src={vercelImage(beer.labelImageUrl || "/badge-beer-default.png", 96)}
+              src={
+                failedImages.has(beer.guid)
+                  ? beer.labelImageUrl || "/badge-beer-default.png"
+                  : vercelImage(beer.labelImageUrl || "/badge-beer-default.png", 96)
+              }
               alt={beer.beer ?? ""}
-              onError={(event) => {
-                const img = event.currentTarget;
-                img.src = beer.labelImageUrl || "/badge-beer-default.png";
-                img.onerror = null;
+              onError={() => {
+                setFailedImages((prev) => {
+                  if (prev.has(beer.guid)) return prev;
+                  const next = new Set(prev);
+                  next.add(beer.guid);
+                  return next;
+                });
               }}
               style={{
                 borderRadius: 12,

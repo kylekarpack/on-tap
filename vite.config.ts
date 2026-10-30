@@ -73,6 +73,34 @@ export default defineConfig(({ mode }) => {
       ]
     },
     plugins: lazyPlugins(() => [
+      {
+        name: "vercel-image-dev",
+        configureServer(server) {
+          server.middlewares.use(async (req, res, next) => {
+            const url = req.url || "";
+            if (!url.startsWith("/_vercel/image")) return next();
+            try {
+              const params = new URL(url, "http://localhost").searchParams;
+              const src = params.get("url");
+              if (!src) return next();
+              if (src.startsWith("/")) {
+                res.statusCode = 302;
+                res.setHeader("Location", src);
+                res.end();
+                return;
+              }
+              const upstream = await fetch(src);
+              if (!upstream.ok) return next();
+              const buf = Buffer.from(await upstream.arrayBuffer());
+              res.setHeader("Content-Type", upstream.headers.get("content-type") || "application/octet-stream");
+              res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+              res.end(buf);
+            } catch {
+              next();
+            }
+          });
+        }
+      },
       tanstackStart(),
       nitro({
         preset: "vercel",
