@@ -1,5 +1,8 @@
 import axios from "axios";
+import dotenv from "dotenv";
 import { AlgoliaBeer, Beer } from "lib/types";
+
+dotenv.config();
 
 /**
  * Main connector to query Untappd

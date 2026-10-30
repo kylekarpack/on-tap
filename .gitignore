@@ -89,3 +89,5 @@ __snapshots__/
 test-report.xml
 
 .DS_Store
+
+dist/

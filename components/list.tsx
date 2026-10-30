@@ -3,7 +3,6 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { orpc } from "lib/orpc/client";
 import { Beer, Sort, Venue } from "lib/types";
 import { sortTable } from "lib/utils";
-import Image from "next/image";
 import { Component, FunctionComponent, ReactNode, useMemo } from "react";
 import BeerLink from "./beerLink";
 import { CompactNumber, Percentage } from "./number";
@@ -102,7 +101,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
       {listData.map((beer) => (
         <Card key={beer.guid} radius="lg" shadow="sm" padding="md">
           <Group wrap="nowrap" align="flex-start" gap="md">
-            <Image
+            <img
               width={48}
               height={48}
               src={beer.labelImageUrl || "/badge-beer-default.png"}
