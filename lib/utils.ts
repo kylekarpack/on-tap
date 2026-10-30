@@ -9,10 +9,7 @@ import { Beer, Sort } from "./types";
  * fall back to the original source and rely on `onError` to recover.
  */
 export const vercelImage = (src: string, width: number, quality = 75): string => {
-  if (!import.meta.env.PROD) {
-    return src;
-  }
-  if (src.startsWith("data:") || src.startsWith("blob:")) {
+  if (src.startsWith("data:") || src.startsWith("blob:") || src.startsWith("/_vercel/image")) {
     return src;
   }
   return `/_vercel/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;

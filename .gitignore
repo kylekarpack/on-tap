@@ -94,3 +94,4 @@ test-report.xml
 dist/
 .output/
 .vitest/
+.env*
