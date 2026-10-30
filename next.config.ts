@@ -1,3 +1,4 @@
+import { withRedact } from "@tanstack/redact/next";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -19,4 +20,4 @@ const nextConfig: NextConfig = {
   }
 };
 
-export default nextConfig;
+export default withRedact(nextConfig);
