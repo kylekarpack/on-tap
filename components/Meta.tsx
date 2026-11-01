@@ -32,7 +32,7 @@ const Meta: FunctionComponent = () => (
     />
     <link
       rel="apple-touch-startup-image"
-      href="/icons/apple-splash-1179-2532.jpg"
+      href="/icons/apple-splash-1179-2556.jpg"
       media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
     />
     <link
