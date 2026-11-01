@@ -74,6 +74,16 @@ export default defineConfig(({ mode }) => {
     },
     plugins: lazyPlugins(() => [
       {
+        name: "suppress-mantine-use-client",
+        // Mantine's ESM output carries top-level "use client" directives; bundling them
+        // into shared chunks can't preserve the directive, but this build has no RSC
+        // compiler that would honor it anyway, so the warning is noise.
+        onLog(level, log) {
+          if (log.code === "MODULE_LEVEL_DIRECTIVE") return;
+          this[level](log);
+        }
+      },
+      {
         name: "vercel-image-dev",
         configureServer(server) {
           server.middlewares.use(async (req, res, next) => {
