@@ -63,11 +63,11 @@ export default class Untappd {
     };
 
     const inputYearMatch = (beer.beer ?? "").match(/\b(19|20)\d{2}\b/);
-    const inputYear = inputYearMatch ? parseInt(inputYearMatch[0], 10) : null;
+    const inputYear = inputYearMatch ? Number.parseInt(inputYearMatch[0], 10) : null;
 
     const resultYear = (result: AlgoliaBeer): number => {
       const m = (result.beer_name ?? "").match(/\b(19|20)\d{2}\b/);
-      return m ? parseInt(m[0], 10) : 0;
+      return m ? Number.parseInt(m[0], 10) : 0;
     };
 
     candidates.sort((a, b) => {

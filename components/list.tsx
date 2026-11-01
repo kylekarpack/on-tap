@@ -137,7 +137,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
                 {beer.rating ? (
                   <Stat label="Rating">
                     {beer.rating.toFixed(2)}
-                    {beer.ratings && (
+                    {Number.isInteger(beer.ratings) && (
                       <Text span fz="xs" fw={400} c="dimmed">
                         &nbsp; (<CompactNumber value={beer.ratings} />)
                       </Text>

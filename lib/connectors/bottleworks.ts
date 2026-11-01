@@ -63,7 +63,7 @@ export default class Bottleworks extends ConnectorBase {
         .trim();
 
       const abvMatch = text.match(/(\d+(\.\d+)?)%/);
-      const abv = abvMatch ? parseFloat(abvMatch[1]) : null;
+      const abv = abvMatch ? Number.parseFloat(abvMatch[1]) : null;
 
       // The beer name precedes the ABV when present; otherwise derive it from
       // the URL slug (e.g. "bizarre-zip-zinger-fresh-hop-table-beer-pint"),

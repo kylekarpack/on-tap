@@ -52,7 +52,7 @@ export default class Chucks extends ConnectorBase {
         beer: split.join(":").trim(),
         location: d.origin,
         style: d.type,
-        abv: parseFloat(d.abv) || null
+        abv: Number.parseFloat(d.abv) || null
       };
     });
   }

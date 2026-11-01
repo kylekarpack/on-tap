@@ -104,8 +104,8 @@ export default class Pinebox extends ConnectorBase {
           brewery: ($(el).find(".brewery").text() || "").trim(),
           style: ($(el).find(".item-category").text() || "").trim(),
           location: ($(el).find(".item-brewery-location").text() || "").trim(),
-          abv: parseFloat(($(el).find(".item-abv").text() || "").match(/[\d.]+/)?.[0] ?? "") || null,
-          ibu: parseInt($(el).find(".item-ibu").text(), 10) || null,
+          abv: Number.parseFloat(($(el).find(".item-abv").text() || "").match(/[\d.]+/)?.[0] ?? "") || null,
+          ibu: Number.parseInt($(el).find(".item-ibu").text(), 10) || null,
           details: details || null
         };
       });
