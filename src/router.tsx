@@ -8,7 +8,9 @@ export function getRouter() {
     // Keep search params as plain strings (no JSON quoting), so values like
     // venueId="1" don't get serialized as venueId="\"1\"" in the URL.
     parseSearch: (searchStr: string) => {
-      if (searchStr.startsWith("?")) searchStr = searchStr.slice(1);
+      if (searchStr.startsWith("?")) {
+        searchStr = searchStr.slice(1);
+      }
       const params = new URLSearchParams(searchStr);
       const result: Record<string, string> = {};
       params.forEach((value, key) => {

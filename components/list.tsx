@@ -116,7 +116,9 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
               alt={beer.beer ?? ""}
               onError={() => {
                 setFailedImages((prev) => {
-                  if (prev.has(beer.guid)) return prev;
+                  if (prev.has(beer.guid)) {
+                    return prev;
+                  }
                   const next = new Set(prev);
                   next.add(beer.guid);
                   return next;

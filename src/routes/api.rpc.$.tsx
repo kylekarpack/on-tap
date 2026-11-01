@@ -15,11 +15,7 @@ async function handle(request: Request): Promise<Response> {
 export const Route = createFileRoute("/api/rpc/$")({
   server: {
     handlers: {
-      GET: ({ request }) => handle(request),
-      POST: ({ request }) => handle(request),
-      PUT: ({ request }) => handle(request),
-      PATCH: ({ request }) => handle(request),
-      DELETE: ({ request }) => handle(request)
+      POST: ({ request }) => handle(request)
     }
   }
 });

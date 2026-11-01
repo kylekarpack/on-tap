@@ -19,7 +19,9 @@ export const Route = createFileRoute("/")({
 function resolveVenue(venue?: string, venueId?: string): Venue {
   if (venue) {
     const found = venues.find((el) => el.value === venue && (!venueId || el.params?.venueId === venueId));
-    if (found) return found;
+    if (found) {
+      return found;
+    }
   }
   return venues[0];
 }
@@ -27,7 +29,9 @@ function resolveVenue(venue?: string, venueId?: string): Venue {
 function resolveSort(sort?: string, dir?: "asc" | "desc"): Sort {
   if (sort) {
     const found = sorts.find((el) => el.field === sort && (dir == null || el.dir === dir));
-    if (found) return found;
+    if (found) {
+      return found;
+    }
   }
   return sorts[0];
 }
@@ -94,7 +98,9 @@ function Home() {
               data={venues.map((el) => ({ value: JSON.stringify(el), label: el.label }))}
               value={JSON.stringify(venue)}
               onChange={(value) => {
-                if (value) changeVenue(value);
+                if (value) {
+                  changeVenue(value);
+                }
               }}
               allowDeselect={false}
             />
@@ -109,7 +115,9 @@ function Home() {
               data={sorts.map((el) => ({ value: JSON.stringify(el), label: el.label ?? "" }))}
               value={JSON.stringify(sort)}
               onChange={(value) => {
-                if (value) changeSort(value);
+                if (value) {
+                  changeSort(value);
+                }
               }}
               allowDeselect={false}
             />

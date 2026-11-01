@@ -81,7 +81,8 @@ export default defineConfig(({ mode }) => {
           }
         ],
         "no-labels": "error",
-        "vite-plus/prefer-vite-plus-imports": "error"
+        "vite-plus/prefer-vite-plus-imports": "error",
+        curly: ["error", "all"]
       },
       overrides: [
         {
@@ -107,7 +108,9 @@ export default defineConfig(({ mode }) => {
         // into shared chunks can't preserve the directive, but this build has no RSC
         // compiler that would honor it anyway, so the warning is noise.
         onLog(level, log) {
-          if (log.code) return;
+          if (log.code) {
+            return;
+          }
           this[level](log);
         }
       },
@@ -116,11 +119,15 @@ export default defineConfig(({ mode }) => {
         configureServer(server) {
           server.middlewares.use(async (req, res, next) => {
             const url = req.url ?? "";
-            if (!url.startsWith("/_vercel/image")) return next();
+            if (!url.startsWith("/_vercel/image")) {
+              return next();
+            }
             try {
               const params = new URL(url, "http://localhost").searchParams;
               const src = params.get("url");
-              if (!src) return next();
+              if (!src) {
+                return next();
+              }
               if (src.startsWith("/")) {
                 res.statusCode = 302;
                 res.setHeader("Location", src);
@@ -128,7 +135,9 @@ export default defineConfig(({ mode }) => {
                 return;
               }
               const upstream = await fetch(src);
-              if (!upstream.ok) return next();
+              if (!upstream.ok) {
+                return next();
+              }
               const buf = Buffer.from(await upstream.arrayBuffer());
               res.setHeader("Content-Type", upstream.headers.get("content-type") ?? "application/octet-stream");
               res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
@@ -161,7 +170,9 @@ export default defineConfig(({ mode }) => {
         },
         rolldownConfig: {
           onwarn(warning, warn) {
-            if (!ignoredWarningCodes.has(warning.code ?? "")) warn(warning);
+            if (!ignoredWarningCodes.has(warning.code ?? "")) {
+              warn(warning);
+            }
           }
         },
         vercel: {
