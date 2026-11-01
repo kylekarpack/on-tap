@@ -1,5 +1,5 @@
 import { Alert, Card, Group, Loader, SimpleGrid, Skeleton, Stack, Text } from "@mantine/core";
-import { useSuspenseQuery,useQueryClient } from "@tanstack/react-query";
+import { useSuspenseQuery, useQueryClient } from "@tanstack/react-query";
 import { orpc } from "lib/orpc/client";
 import { Beer, Sort, Venue } from "lib/types";
 import { sortTable, vercelImage } from "lib/utils";
