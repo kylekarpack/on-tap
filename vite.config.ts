@@ -142,6 +142,23 @@ export default defineConfig(({ mode }) => {
       tanstackStart(),
       nitro({
         preset: "vercel",
+        hooks: {
+          "rollup:before": (_nitro, config) => {
+            // Nitro's codeSplitting group uses a function `name`, which makes
+            // rolldown warn that the timing report can't identify the group.
+            // Give it a stable debugName so the report (and the build) stay clean.
+            const groups = (
+              config as { output?: { codeSplitting?: { groups?: { name?: unknown; debugName?: string }[] } } }
+            )?.output?.codeSplitting?.groups;
+            if (Array.isArray(groups)) {
+              for (const group of groups) {
+                if (typeof group.name === "function" && group.debugName == null) {
+                  group.debugName = "node_modules";
+                }
+              }
+            }
+          }
+        },
         rolldownConfig: {
           onwarn(warning, warn) {
             if (!ignoredWarningCodes.has(warning.code ?? "")) warn(warning);
