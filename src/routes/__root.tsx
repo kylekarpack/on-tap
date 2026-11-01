@@ -13,6 +13,7 @@ import "@mantine/core/styles/Anchor.css";
 import "@mantine/core/styles/Card.css";
 import "@mantine/core/styles/Combobox.css";
 import "@mantine/core/styles/Group.css";
+import "@mantine/core/styles/Loader.css";
 import "@mantine/core/styles/Input.css";
 import "@mantine/core/styles/Popover.css";
 import "@mantine/core/styles/SimpleGrid.css";
@@ -24,7 +25,10 @@ export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" },
+      {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"
+      },
       { title: "On Tap Seattle" },
       { name: "theme-color", content: "#8bd7f8", media: "(prefers-color-scheme: light)" },
       { name: "theme-color", content: "#1a1b1e", media: "(prefers-color-scheme: dark)" },

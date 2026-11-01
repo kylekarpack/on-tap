@@ -1,10 +1,9 @@
-import { Alert, Card, Group, SimpleGrid, Skeleton, Stack, Text } from "@mantine/core";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { Alert, Card, Group, Loader, SimpleGrid, Skeleton, Stack, Text } from "@mantine/core";
+import { useSuspenseQuery,useQueryClient } from "@tanstack/react-query";
 import { orpc } from "lib/orpc/client";
 import { Beer, Sort, Venue } from "lib/types";
 import { sortTable, vercelImage } from "lib/utils";
 import { Component, FunctionComponent, ReactNode, useMemo, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import BeerLink from "./beerLink";
 import { CompactNumber, Percentage } from "./number";
@@ -178,8 +177,13 @@ const PullToRefreshWrapper: FunctionComponent<{ children: ReactNode }> = ({ chil
   const queryClient = useQueryClient();
   const handleRefresh = async () => {
     await queryClient.invalidateQueries();
+    await new Promise((resolve) => setTimeout(resolve, 400));
   };
-  return <PullToRefresh onRefresh={handleRefresh}>{children}</PullToRefresh>;
+  return (
+    <PullToRefresh onRefresh={handleRefresh} pullingContent="" refreshingContent={<Loader size="sm" />}>
+      {children}
+    </PullToRefresh>
+  );
 };
 
 /**
