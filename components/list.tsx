@@ -164,8 +164,8 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
  */
 export const ListSkeleton: FunctionComponent = () => (
   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-    {[...Array(6)].map((_, i) => (
-      <Skeleton key={i} h={96} radius="lg" />
+    {[...Array(12)].map((_, i) => (
+      <Skeleton key={i} h={128} radius="sm" />
     ))}
   </SimpleGrid>
 );
