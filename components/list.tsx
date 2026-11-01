@@ -92,7 +92,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
   // Memoize so re-sorting only recomputes when the sort or the data actually
   // change, instead of on every render of the (streamed) list.
   const listData: Beer[] = useMemo(() => sortTable(sort, data) ?? [], [sort, data]);
-  const [failedImages, setFailedImages] = useState<Set<string>>(() => new Set());
+  const [failedImages, setFailedImages] = useState<Set<string | undefined>>(() => new Set());
   return (
     <SimpleGrid data-testid="list" cols={{ base: 1, sm: 2 }} spacing="sm">
       {listData.length === 0 ? (
@@ -139,7 +139,7 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
                     {beer.rating.toFixed(2)}
                     {Number.isInteger(beer.ratings) && (
                       <Text span fz="xs" fw={400} c="dimmed">
-                        &nbsp; (<CompactNumber value={beer.ratings} />)
+                        &nbsp; (<CompactNumber value={beer.ratings ?? 0} />)
                       </Text>
                     )}
                   </Stat>

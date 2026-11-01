@@ -106,7 +106,7 @@ function Home() {
               className={styles.select}
               classNames={{ option: styles.selectOption }}
               label="Sort"
-              data={sorts.map((el) => ({ value: JSON.stringify(el), label: el.label }))}
+              data={sorts.map((el) => ({ value: JSON.stringify(el), label: el.label ?? "" }))}
               value={JSON.stringify(sort)}
               onChange={(value) => {
                 if (value) changeSort(value);

@@ -15,7 +15,7 @@ export class Beer {
   /**
    * Create a beer from an Algolia beer search result
    */
-  public static fromAlgoliaBeer?(source: AlgoliaBeer) {
+  public static fromAlgoliaBeer(source: AlgoliaBeer | null | undefined) {
     if (source == null) {
       return new Beer();
     }
@@ -25,7 +25,7 @@ export class Beer {
       beer: source.beer_name,
       brewery: source.brewery_name,
       style: source.type_name,
-      rating: Math.round(source.rating_score * 100) / 100 || null,
+      rating: Math.round((source.rating_score ?? 0) * 100) / 100 || null,
       ratings: Number(source.rating_count) || null,
       abv: source.beer_abv,
       labelImageUrl: source.beer_label?.replace("untappd.akamaized.net", "assets.untappd.com")
@@ -48,12 +48,12 @@ export class Beer {
   /**
    * The name of this beer
    */
-  public beer?: string = null;
+  public beer?: string | null = null;
 
   /**
    * The id of this beer in Untappd
    */
-  public id?: number = null;
+  public id?: number | null = null;
 
   /**
    * A unique ID for this beer
@@ -63,60 +63,60 @@ export class Beer {
   /**
    * The brewery for this beer
    */
-  public brewery?: string = null;
+  public brewery?: string | null = null;
 
   /**
    * The style of this beer
    */
-  public style?: string = null;
+  public style?: string | null = null;
 
   /**
    * The amount of this beer remaining at the given venue
    */
-  public amount?: number = null;
+  public amount?: number | null = null;
 
   /**
    * The location this beer was brewed
    */
-  public location?: string = null;
+  public location?: string | null = null;
 
   /**
    * The alcohol by volume percetage of this beer
    */
-  public abv?: number = null;
+  public abv?: number | null = null;
 
   /**
    * The international bitterness units measurement of this beer
    */
-  public ibu?: number = null;
+  public ibu?: number | null = null;
 
   /**
    * The Untapped rating of this beer
    */
-  public rating?: number = null;
+  public rating?: number | null = null;
 
   /**
    * The number of ratings received
    */
-  public ratings?: number = null;
+  public ratings?: number | null = null;
 
   /**
    * Any details or description of this beer
    */
-  public details?: string = null;
+  public details?: string | null = null;
 
   /**
    * The URL to the main image for this beer
    */
-  public labelImageUrl?: string = null;
+  public labelImageUrl?: string | null = null;
 
   /**
    * The position of this beer in the venue's menu, in fetch order
    */
-  public order?: number = null;
+  public order?: number | null = null;
 
   /**
    * Metadata properties for this beer
    */
-  public metadata?: AlgoliaBeer = null;
+  public metadata?: AlgoliaBeer | null = null;
 }

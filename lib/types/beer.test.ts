@@ -9,7 +9,7 @@ describe("beer object", () => {
 
   it("augments", () => {
     const beer = new Beer({ id: 1, abv: 5, brewery: "Old Brewery" });
-    beer.augment({
+    beer.augment?.({
       beer: "Beer Name",
       brewery: "New Brewery"
     });

@@ -18,7 +18,7 @@ describe("table sort functions", () => {
 
   it("handles error conditions", () => {
     expect(sortTable).toThrow(expect.anything());
-    expect(() => sortTable(defaultSort, null)).toThrow(expect.anything());
+    expect(() => sortTable(defaultSort, null as unknown as Beer[])).toThrow(expect.anything());
   });
 
   it("passes through array with no criteria", () => {

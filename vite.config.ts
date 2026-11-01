@@ -135,8 +135,10 @@ export default defineConfig(({ mode }) => {
         },
         vercel: {
           config: {
+            version: 3,
             images: {
               sizes: [48, 64, 96, 128, 256, 384],
+              domains: [],
               formats: ["image/avif", "image/webp"],
               remotePatterns: [
                 { protocol: "https", hostname: "assets.untappd.com" },

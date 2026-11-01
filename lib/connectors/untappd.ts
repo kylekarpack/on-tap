@@ -174,7 +174,7 @@ export default class Untappd {
       / (ipa|hazy|stout|porter|sour|hazy|iipa|diipa|dipa|pilsner|pils|brown|tripel|ale|lager|bba|nitro|cider|hefeweizen|dunkel|bitter|saison|modern|honey|pub|hard|extra|special|kombucha|seltzer)$/gi,
       ""
     );
-    name = name.trim().split(/\s+-/).shift().trim();
+    name = name.trim().split(/\s+-/).shift()?.trim() ?? "";
 
     // Separate the collaborating breweries: "BreakThru + Tall Trees Feasting
     // of Flowers" becomes "Feasting of Flowers"

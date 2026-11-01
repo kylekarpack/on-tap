@@ -48,7 +48,7 @@ export default class Chucks extends ConnectorBase {
       const split = d.beer.split(":");
 
       return {
-        brewery: split.shift().replace("_", ""),
+        brewery: split.shift()?.replace("_", "") ?? "",
         beer: split.join(":").trim(),
         location: d.origin,
         style: d.type,

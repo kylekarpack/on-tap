@@ -72,7 +72,8 @@ abstract class ConnectorBase implements Connector {
    * Process the beers array
    */
   protected process(data: unknown[]): Partial<Beer>[] {
-    return data;
+    // Default implementation passes raw data straight through
+    return data as Partial<Beer>[];
   }
 
   /**
@@ -83,7 +84,7 @@ abstract class ConnectorBase implements Connector {
       beers.map(async (beerData) => {
         const appendix = await this.untapped.getBeer(beerData);
         const beer = new Beer(beerData);
-        beer.augment(appendix);
+        beer.augment?.(appendix);
         return beer;
       })
     );

@@ -21,7 +21,7 @@ describe("beer link componenent tests", () => {
 
   beforeEach(() => {
     userAgent = vi.spyOn(window.navigator, "userAgent", "get");
-    delete window.location;
+    Reflect.deleteProperty(window, "location");
     (window as any).location = { assign: assignMock };
   });
 
