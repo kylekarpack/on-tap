@@ -3,8 +3,9 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { orpc } from "lib/orpc/client";
 import { Beer, Sort, Venue } from "lib/types";
 import { sortTable, vercelImage } from "lib/utils";
-import { Component, FunctionComponent, ReactNode, TouchEvent, useRef, useMemo, useState } from "react";
+import { Component, FunctionComponent, ReactNode, useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import PullToRefresh from "react-simple-pull-to-refresh";
 import BeerLink from "./beerLink";
 import { CompactNumber, Percentage } from "./number";
 
@@ -173,64 +174,12 @@ export const ListSkeleton: FunctionComponent = () => (
 /**
  * Pull-to-refresh wrapper for the tap list
  */
-const PullToRefresh: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
+const PullToRefreshWrapper: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
   const queryClient = useQueryClient();
-  const [pull, setPull] = useState(0);
-  const [refreshing, setRefreshing] = useState(false);
-  const startY = useRef<number | null>(null);
-  const threshold = 70;
-
-  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-    if (window.scrollY === 0) {
-      startY.current = event.touches[0]?.clientY ?? null;
-    }
+  const handleRefresh = async () => {
+    await queryClient.invalidateQueries();
   };
-
-  const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
-    if (startY.current == null) return;
-    const currentY = event.touches[0]?.clientY ?? startY.current;
-    const delta = currentY - startY.current;
-    if (delta > 0) {
-      setPull(Math.min(delta, 140));
-    }
-  };
-
-  const handleTouchEnd = async () => {
-    if (startY.current == null) return;
-    if (pull >= threshold && !refreshing) {
-      setRefreshing(true);
-      try {
-        await queryClient.invalidateQueries();
-      } finally {
-        setRefreshing(false);
-      }
-    }
-    setPull(0);
-    startY.current = null;
-  };
-
-  return (
-    <div
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      style={{ minHeight: "100%" }}
-    >
-      {(pull > 0 || refreshing) && (
-        <div
-          style={{
-            textAlign: "center",
-            padding: "8px 0",
-            color: "var(--mantine-color-dimmed)",
-            fontSize: 13
-          }}
-        >
-          {refreshing ? "Refreshing..." : pull >= threshold ? "Release to refresh" : "Pull to refresh"}
-        </div>
-      )}
-      {children}
-    </div>
-  );
+  return <PullToRefresh onRefresh={handleRefresh}>{children}</PullToRefresh>;
 };
 
 /**
@@ -238,9 +187,9 @@ const PullToRefresh: FunctionComponent<{ children: ReactNode }> = ({ children })
  */
 const BeerListWithBoundary: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort }) => (
   <ListErrorBoundary>
-    <PullToRefresh>
+    <PullToRefreshWrapper>
       <BeerList venue={venue} sort={sort} />
-    </PullToRefresh>
+    </PullToRefreshWrapper>
   </ListErrorBoundary>
 );
 
