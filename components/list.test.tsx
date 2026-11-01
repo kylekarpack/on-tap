@@ -56,7 +56,11 @@ class TestErrorBoundary extends Component<{ children: ReactNode }, { error?: unk
 
   render() {
     if (this.state.error !== undefined) {
-      return <div data-testid="boundary-error">{String(this.state.error)}</div>;
+      return (
+        <div data-testid="boundary-error">
+          {this.state.error instanceof Error ? this.state.error.message : JSON.stringify(this.state.error)}
+        </div>
+      );
     }
     return this.props.children;
   }

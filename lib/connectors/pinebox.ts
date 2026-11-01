@@ -50,7 +50,7 @@ export default class Pinebox extends ConnectorBase {
 
     const raw = script.slice(start + marker.length);
 
-    if (raw[0] !== '"') {
+    if (!raw.startsWith('"')) {
       throw new Error("Unexpected pinebox embed script!");
     }
 

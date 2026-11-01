@@ -38,6 +38,10 @@ export default defineConfig(({ mode }) => {
     },
     lint: {
       plugins: ["typescript", "unicorn", "import", "react", "jsdoc", "jest", "oxc"],
+      options: {
+        typeAware: true,
+        typeCheck: true
+      },
       categories: {
         correctness: "error"
       },
@@ -79,6 +83,16 @@ export default defineConfig(({ mode }) => {
         "no-labels": "error",
         "vite-plus/prefer-vite-plus-imports": "error"
       },
+      overrides: [
+        {
+          // vi.spyOn stores mocks as own properties, so referencing them by value
+          // (e.g. `expect(mockedAxios.get).toHaveBeenCalled()`) is bound-safe
+          files: ["**/*.test.ts", "**/*.test.tsx"],
+          rules: {
+            "typescript/unbound-method": "off"
+          }
+        }
+      ],
       jsPlugins: [
         {
           name: "vite-plus",
@@ -101,7 +115,7 @@ export default defineConfig(({ mode }) => {
         name: "vercel-image-dev",
         configureServer(server) {
           server.middlewares.use(async (req, res, next) => {
-            const url = req.url || "";
+            const url = req.url ?? "";
             if (!url.startsWith("/_vercel/image")) return next();
             try {
               const params = new URL(url, "http://localhost").searchParams;
@@ -116,7 +130,7 @@ export default defineConfig(({ mode }) => {
               const upstream = await fetch(src);
               if (!upstream.ok) return next();
               const buf = Buffer.from(await upstream.arrayBuffer());
-              res.setHeader("Content-Type", upstream.headers.get("content-type") || "application/octet-stream");
+              res.setHeader("Content-Type", upstream.headers.get("content-type") ?? "application/octet-stream");
               res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
               res.end(buf);
             } catch {
@@ -130,7 +144,7 @@ export default defineConfig(({ mode }) => {
         preset: "vercel",
         rolldownConfig: {
           onwarn(warning, warn) {
-            if (!ignoredWarningCodes.has(warning.code || "")) warn(warning);
+            if (!ignoredWarningCodes.has(warning.code ?? "")) warn(warning);
           }
         },
         vercel: {

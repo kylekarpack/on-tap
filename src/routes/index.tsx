@@ -42,7 +42,7 @@ function Home() {
   const changeVenue = (value: string): void => {
     const newVenue: Venue = JSON.parse(value);
     setVenue(newVenue);
-    navigate({
+    void navigate({
       search: (prev) => ({
         ...prev,
         venue: newVenue.value,
@@ -56,7 +56,7 @@ function Home() {
   const changeSort = (value: string): void => {
     const newSort: Sort = JSON.parse(value);
     setSort(newSort);
-    navigate({
+    void navigate({
       search: (prev) => ({
         ...prev,
         sort: newSort.field,

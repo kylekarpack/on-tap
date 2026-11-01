@@ -53,9 +53,7 @@ abstract class ConnectorBase implements Connector {
     // Number the beers in the order they were fetched so the tap list can be
     // restored to its menu order after sorting by other fields
     beers.forEach((beer, index) => {
-      if (beer.order == null) {
-        beer.order = index;
-      }
+      beer.order ??= index;
     });
 
     return this.compare(beers);

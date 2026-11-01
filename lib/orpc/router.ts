@@ -30,7 +30,7 @@ export const beers = os
   .input(type<BeersParams>())
   // Flatten the Beer class instances to plain objects so the handler output can
   // cross the RSC boundary without Next.js complaining about class prototypes
-  .output(type<Beer[]>((load) => load.map((beer) => ({ ...beer }))))
+  .output(type<Beer[]>((load) => load.map((beer) => Object.assign({}, beer))))
   .handler(async ({ input, errors }): Promise<Beer[]> => {
     const Constructor = connectors[input.venue];
 

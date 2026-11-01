@@ -110,8 +110,8 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
               decoding="async"
               src={
                 failedImages.has(beer.guid)
-                  ? beer.labelImageUrl || "/badge-beer-default.png"
-                  : vercelImage(beer.labelImageUrl || "/badge-beer-default.png", 96)
+                  ? (beer.labelImageUrl ?? "/badge-beer-default.png")
+                  : vercelImage(beer.labelImageUrl ?? "/badge-beer-default.png", 96)
               }
               alt={beer.beer ?? ""}
               onError={() => {
