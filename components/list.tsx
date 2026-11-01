@@ -165,7 +165,23 @@ const BeerList: FunctionComponent<{ venue: Venue; sort: Sort }> = ({ venue, sort
 export const ListSkeleton: FunctionComponent = () => (
   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
     {[...Array(12)].map((_, i) => (
-      <Skeleton key={i} h={128} radius="sm" />
+      <Card key={i} radius="lg" shadow="sm" padding="md" style={{ minHeight: 128 }}>
+        <Group wrap="nowrap" align="flex-start" gap="md">
+          <Skeleton height={48} width={48} radius={12} />
+          <Stack gap={6} style={{ minWidth: 0, flex: 1 }}>
+            <Skeleton height={20} width="60%" radius="sm" />
+            <Skeleton height={18} width="80%" radius="sm" />
+            <Group gap="xl" mt={2} wrap="wrap">
+              {[40, 32, 28].map((w, j) => (
+                <Stack key={j} gap={2}>
+                  <Skeleton height={14} width={w - 8} radius="sm" />
+                  <Skeleton height={21} width={w - 12} radius="sm" />
+                </Stack>
+              ))}
+            </Group>
+          </Stack>
+        </Group>
+      </Card>
     ))}
   </SimpleGrid>
 );
