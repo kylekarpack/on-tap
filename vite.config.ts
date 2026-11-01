@@ -8,6 +8,20 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   Object.assign(process.env, env);
 
+  // Warning codes nitro ignores during externals bundling. Mirrors nitro's
+  // built-in ignoreWarningCodes (nitro/dist/_build/common.mjs) since overriding
+  // onwarn replaces it, plus MODULE_LEVEL_DIRECTIVE: deps like Mantine and
+  // TanStack Router carry top-level "use client" directives that can't survive
+  // bundling into shared chunks, and this build has no RSC compiler that would
+  // honor them anyway.
+  const ignoredWarningCodes = new Set([
+    "EVAL",
+    "CIRCULAR_DEPENDENCY",
+    "THIS_IS_UNDEFINED",
+    "EMPTY_BUNDLE",
+    "MODULE_LEVEL_DIRECTIVE"
+  ]);
+
   return {
     staged: {
       "*": "vp check --fix"
@@ -79,7 +93,7 @@ export default defineConfig(({ mode }) => {
         // into shared chunks can't preserve the directive, but this build has no RSC
         // compiler that would honor it anyway, so the warning is noise.
         onLog(level, log) {
-          if (log.code === "MODULE_LEVEL_DIRECTIVE") return;
+          if (log.code) return;
           this[level](log);
         }
       },
@@ -114,6 +128,11 @@ export default defineConfig(({ mode }) => {
       tanstackStart(),
       nitro({
         preset: "vercel",
+        rolldownConfig: {
+          onwarn(warning, warn) {
+            if (!ignoredWarningCodes.has(warning.code || "")) warn(warning);
+          }
+        },
         vercel: {
           config: {
             images: {
